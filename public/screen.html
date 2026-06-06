@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Écran public · IANLP 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.3/src/wordcloud2.min.js"></script>
+  <style>
+    :root {
+      --ink:   #0d0c0b;
+      --paper: #f0ebe0;
+      --gold:  #b8955a;
+      --gold-lt:#d4b07a;
+      --dim:   #6b6560;
+      --line:  rgba(184,149,90,.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background: var(--ink); color: var(--paper);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: relative;
+    }
+
+    /* grain */
+    body::before { content:''; position:fixed; inset:0; z-index:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); opacity:.03; pointer-events:none; }
+
+    /* background grid lines */
+    #bg-canvas { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.35; }
+
+    .stage {
+      position: relative; z-index: 1;
+      width: 90vw; max-width: 1100px;
+      height: 90vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: space-between;
+      padding: 4vh 0;
+    }
+
+    /* ── Masthead ── */
+    .masthead { text-align: center; }
+    .masthead-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(.55rem, 1vw, .75rem);
+      letter-spacing: .25em; color: var(--gold);
+      text-transform: uppercase; margin-bottom: .6rem;
+    }
+    .masthead-title {
+      font-weight: 300;
+      font-size: clamp(1.4rem, 3.5vw, 2.8rem);
+      line-height: 1.2;
+      background: linear-gradient(135deg, var(--paper) 0%, var(--gold-lt) 60%, var(--paper) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .rule { width: 80px; height: 1px; background: linear-gradient(90deg,transparent,var(--gold),transparent); margin: 1rem auto 0; }
+
+    /* ── Synthesis card ── */
+    .synthesis-card {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-left: 2px solid var(--gold);
+      border-radius: 2px;
+      padding: clamp(1.5rem,3vh,2.5rem) clamp(1.5rem,4vw,3rem);
+      background: rgba(245,240,232,.03);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+    .synthesis-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+    .card-label {
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(.55rem,.9vw,.7rem);
+      letter-spacing: .2em; color: var(--gold);
+      text-transform: uppercase; margin-bottom: .8rem;
+    }
+    #synthesis-text {
+      font-weight: 300;
+      font-size: clamp(1.2rem, 2.5vw, 2rem);
+      line-height: 1.5;
+      color: var(--paper);
+      transition: opacity .5s, transform .5s;
+    }
+    #synthesis-text.fading { opacity: 0; transform: translateY(8px); }
+
+    /* ── Word cloud ── */
+    .cloud-wrap {
+      width: 100%;
+      flex: 1; min-height: 0;
+      max-height: 38vh;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: rgba(245,240,232,.02);
+      position: relative; overflow: hidden;
+    }
+    .cloud-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      border: 1px solid var(--line);
+      pointer-events: none;
+    }
+    #wordcloud-canvas { width: 100%; height: 100%; display: block; }
+
+    /* ── Footer ── */
+    .footer {
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(.5rem,.7vw,.65rem);
+      letter-spacing: .2em; color: var(--dim);
+      text-transform: uppercase; text-align: center;
+    }
+
+    /* ── Bannière Q&A ── */
+    .qa-banner {
+      position: fixed;
+      bottom: -120px;
+      left: 50%; transform: translateX(-50%);
+      width: 90%; max-width: 900px;
+      background: rgba(13,12,11,.92);
+      border: 1px solid var(--gold);
+      border-radius: 2px;
+      padding: 1rem 1.75rem;
+      display: flex; align-items: center; gap: 1.25rem;
+      backdrop-filter: blur(20px);
+      transition: bottom .6s cubic-bezier(.34,1.56,.64,1);
+      z-index: 50;
+      box-shadow: 0 -4px 40px rgba(184,149,90,.15);
+    }
+    .qa-banner.show { bottom: 2rem; }
+    .qa-banner-icon {
+      font-family: 'DM Mono', monospace;
+      font-size: .6rem; letter-spacing: .2em;
+      color: var(--gold); text-transform: uppercase;
+      white-space: nowrap; flex-shrink: 0;
+      border: 1px solid var(--gold);
+      padding: .35rem .7rem; border-radius: 2px;
+    }
+    .qa-banner-body { flex: 1; min-width: 0; }
+    .qa-banner-label {
+      font-family: 'DM Mono', monospace;
+      font-size: .55rem; letter-spacing: .18em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: .25rem;
+    }
+    .qa-banner-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-style: italic;
+      color: var(--paper); line-height: 1.4;
+      white-space: nowrap; overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .qa-banner-from {
+      font-family: 'DM Mono', monospace;
+      font-size: .58rem; letter-spacing: .1em;
+      color: var(--dim); margin-top: .2rem;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="stage">
+    <div class="masthead">
+      <p class="masthead-eyebrow">IANLP 2026 · Rabat — Synthèse en direct</p>
+      <h1 class="masthead-title">Conférence Internationale sur l'Intelligence Artificielle<br>et le Traitement Automatique du Langage Naturel</h1>
+      <div class="rule"></div>
+    </div>
+
+    <div class="synthesis-card">
+      <div class="card-label">Synthèse de l'intervention</div>
+      <div id="synthesis-text">En attente…</div>
+    </div>
+
+    <div class="cloud-wrap">
+      <canvas id="wordcloud-canvas"></canvas>
+    </div>
+
+    <div class="footer">Modérateur virtuel — Modrex &nbsp;·&nbsp; Propulsé par Anam AI &amp; Groq</div>
+  </div>
+
+  <script>
+    /* ── Grid bg ── */
+    (function(){
+      const c = document.getElementById('bg-canvas');
+      const ctx = c.getContext('2d');
+      function resize(){ c.width = innerWidth; c.height = innerHeight; draw(); }
+      function draw(){
+        ctx.clearRect(0,0,c.width,c.height);
+        ctx.strokeStyle='rgba(184,149,90,0.07)'; ctx.lineWidth=1;
+        const g=100;
+        for(let x=g;x<c.width;x+=g){ ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,c.height);ctx.stroke(); }
+        for(let y=g;y<c.height;y+=g){ ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(c.width,y);ctx.stroke(); }
+      }
+      addEventListener('resize',resize); resize();
+    })();
+  </script>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket  = io();
+    const synthEl = document.getElementById('synthesis-text');
+    const wWrap   = document.getElementById('wordcloud-container');
+
+    // ── On travaille sur un canvas STATIQUE pour WordCloud2
+    //    et un canvas ANIMÉ au-dessus pour les effets
+    const staticCanvas = document.getElementById('wordcloud-canvas');
+    staticCanvas.style.position = 'absolute';
+    staticCanvas.style.top = '0'; staticCanvas.style.left = '0';
+
+    // Canvas d'animation superposé (halo + shimmer)
+    const fxCanvas = document.createElement('canvas');
+    fxCanvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:3;';
+    wWrap.appendChild(fxCanvas);
+    const fxCtx = fxCanvas.getContext('2d');
+
+    const PALETTE = ['#d4b07a','#b8955a','#f0ebe0','#c9a87a','#e8d5b0','#ffffff','#d4c4a0'];
+    let currentKeywords = [];
+    let recolorTimer    = null;
+    let rafId           = null;
+    let startTime       = 0;
+
+    // ─── Resize helper ───
+    function syncSize() {
+      const W = wWrap.offsetWidth  || 900;
+      const H = wWrap.offsetHeight || 280;
+      staticCanvas.width  = W; staticCanvas.height = H;
+      staticCanvas.style.width  = W + 'px'; staticCanvas.style.height = H + 'px';
+      fxCanvas.width  = W; fxCanvas.height = H;
+    }
+
+    // ─── 1. Dessiner le nuage sur staticCanvas ───
+    function drawCloud(keywords) {
+      if (!keywords || !keywords.length) return;
+      currentKeywords = keywords;
+      syncSize();
+
+      const list = keywords.map((w, i) => [w, 30 + (i % 3) * 10]);
+      WordCloud(staticCanvas, {
+        list,
+        weightFactor    : 1.3,
+        color           : () => PALETTE[Math.floor(Math.random() * PALETTE.length)],
+        backgroundColor : 'transparent',
+        rotateRatio     : 0.3,
+        shape           : 'circle',
+        ellipticity     : 0.72,
+        clearCanvas     : true,
+        minSize         : 14,
+        gridSize        : 13,
+        fontFamily      : '"Cormorant Garamond", serif',
+        fontWeight      : '400',
+      });
+    }
+
+    // ─── 2. Boucle d'animation sur fxCanvas ───
+    function startFX() {
+      if (rafId) cancelAnimationFrame(rafId);
+      startTime = performance.now();
+
+      function loop(now) {
+        const t = (now - startTime) / 1000; // secondes
+        const W = fxCanvas.width;
+        const H = fxCanvas.height;
+        fxCtx.clearRect(0, 0, W, H);
+
+        // ── A. Halo doré pulsant au centre ──
+        const pulse   = 0.5 + 0.5 * Math.sin(t * 0.8);          // 0→1 lent
+        const radius  = (Math.min(W, H) * 0.55) * (0.85 + 0.15 * pulse);
+        const alpha   = 0.06 + 0.05 * pulse;
+        const radial  = fxCtx.createRadialGradient(W/2, H/2, 0, W/2, H/2, radius);
+        radial.addColorStop(0,   `rgba(212,176,122,${alpha})`);
+        radial.addColorStop(0.6, `rgba(184,149,90,${alpha * 0.3})`);
+        radial.addColorStop(1,   'rgba(0,0,0,0)');
+        fxCtx.fillStyle = radial;
+        fxCtx.fillRect(0, 0, W, H);
+
+        // ── B. Shimmer : bande de lumière qui traverse de gauche à droite ──
+        // Cycle : toutes les 7 s, pendant ~1.5 s
+        const cycle   = 7;
+        const phase   = (t % cycle) / cycle;          // 0→1 chaque cycle
+        const visible = phase < 0.22;                 // visible sur ~22% du cycle
+        if (visible) {
+          const progress = phase / 0.22;              // 0→1 pendant la traversée
+          const x = -W * 0.3 + W * 1.6 * progress;  // de -30% à +130%
+          const shimmer = fxCtx.createLinearGradient(x - 80, 0, x + 80, 0);
+          shimmer.addColorStop(0,    'rgba(212,176,122,0)');
+          shimmer.addColorStop(0.5,  'rgba(212,176,122,0.13)');
+          shimmer.addColorStop(1,    'rgba(212,176,122,0)');
+          fxCtx.fillStyle = shimmer;
+          fxCtx.fillRect(0, 0, W, H);
+        }
+
+        // ── C. Vignette fixe (bords sombres pour focus au centre) ──
+        const vignette = fxCtx.createRadialGradient(W/2, H/2, H*0.25, W/2, H/2, H*0.75);
+        vignette.addColorStop(0, 'rgba(13,12,11,0)');
+        vignette.addColorStop(1, 'rgba(13,12,11,0.35)');
+        fxCtx.fillStyle = vignette;
+        fxCtx.fillRect(0, 0, W, H);
+
+        rafId = requestAnimationFrame(loop);
+      }
+      rafId = requestAnimationFrame(loop);
+    }
+
+    // ─── 3. Apparition du nuage avec fondu CSS ───
+    function showCloud(keywords) {
+      // Masque le conteneur
+      wWrap.style.transition = 'opacity 0.4s ease';
+      wWrap.style.opacity    = '0';
+      setTimeout(() => {
+        drawCloud(keywords);
+        wWrap.style.opacity = '1';
+      }, 420);
+    }
+
+    // ─── 4. Recolorisation automatique toutes les 8 s ───
+    function startRecolor() {
+      if (recolorTimer) clearInterval(recolorTimer);
+      recolorTimer = setInterval(() => {
+        if (!currentKeywords.length) return;
+        wWrap.style.transition = 'opacity 0.5s ease';
+        wWrap.style.opacity = '0.3';
+        setTimeout(() => {
+          drawCloud(currentKeywords);
+          wWrap.style.opacity = '1';
+        }, 520);
+      }, 8000);
+    }
+
+    // ─── Synthèse texte ───
+    function updateSynthesis(text) {
+      synthEl.classList.add('fading');
+      setTimeout(() => {
+        synthEl.textContent = text || 'En attente…';
+        synthEl.classList.remove('fading');
+      }, 500);
+    }
+
+    // ─── Socket ───
+    socket.on('screen-update', data => {
+      updateSynthesis(data.synthesis);
+      const kw = Array.isArray(data.keywords) ? data.keywords
+        : (typeof data.keywords === 'string'
+            ? data.keywords.split(',').map(k => k.trim()).filter(Boolean)
+            : []);
+      if (kw.length) {
+        showCloud(kw);
+        startRecolor();
+      }
+    });
+
+    // ─── Démarrage ───
+    syncSize();
+    startFX();   // la boucle FX tourne toujours, même sans mots-clés
+    addEventListener('resize', () => { syncSize(); if(currentKeywords.length) drawCloud(currentKeywords); });
+  </script>
+
+  <!-- Bannière Q&A -->
+  <div class="qa-banner" id="qa-banner">
+    <div class="qa-banner-icon">Question</div>
+    <div class="qa-banner-body">
+      <div class="qa-banner-label">Question du public</div>
+      <div class="qa-banner-text" id="qa-banner-text"></div>
+      <div class="qa-banner-from" id="qa-banner-from"></div>
+    </div>
+  </div>
+
+</body>
+</html>

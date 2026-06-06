@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transcription · IANLP 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:    #0d0c0b;
+      --paper:  #f0ebe0;
+      --gold:   #b8955a;
+      --gold-lt:#d4b07a;
+      --dim:    #6b6560;
+      --line:   rgba(184,149,90,.15);
+      --line2:  rgba(245,240,232,.06);
+      --glass:  rgba(13,12,11,.6);
+      --rec:    #8b2e2e;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--ink); color: var(--paper); min-height: 100vh; }
+    body::before { content:''; position:fixed; inset:0; z-index:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); opacity:.025; pointer-events:none; }
+
+    .page { position:relative; z-index:1; max-width:720px; margin:0 auto; padding:3rem 2rem 4rem; display:flex; flex-direction:column; gap:1.75rem; }
+    header { text-align:center; }
+    .eyebrow { font-family:'DM Mono',monospace; font-size:.62rem; letter-spacing:.2em; color:var(--gold); text-transform:uppercase; margin-bottom:.6rem; }
+    h1 { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:2.2rem; color:var(--paper); }
+    .rule { width:50px; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:1rem auto 0; }
+
+    .status-bar { font-family:'DM Mono',monospace; font-size:.68rem; letter-spacing:.06em; color:var(--dim); text-align:center; min-height:1.2em; padding:.4rem; border-radius:2px; transition:color .3s, background .3s; }
+    .status-bar.active { color:var(--gold-lt); }
+    .status-bar.error  { color:#c0392b; background:rgba(192,57,43,.06); }
+
+    .controls { display:flex; flex-wrap:wrap; gap:.75rem; justify-content:center; }
+    .btn { padding:.65rem 1.6rem; border:1px solid var(--line); border-radius:2px; font-family:'DM Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:all .25s; background:transparent; }
+    .btn-start { background:var(--gold); color:var(--ink); border-color:var(--gold); }
+    .btn-start:hover:not(:disabled) { background:var(--gold-lt); box-shadow:0 0 18px rgba(184,149,90,.3); }
+    .btn-stop:hover:not(:disabled)  { color:#c0392b; border-color:#c0392b; background:rgba(192,57,43,.06); }
+    .btn-stop { color:var(--dim); }
+    .btn-send { color:var(--dim); }
+    .btn-send:hover:not(:disabled)  { color:var(--paper); border-color:rgba(245,240,232,.25); background:rgba(245,240,232,.05); }
+    .btn:disabled { opacity:.3; cursor:not-allowed; }
+
+    .panel { border:1px solid var(--line); border-radius:2px; background:rgba(245,240,232,.03); }
+    .panel-label { font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.18em; color:var(--gold); text-transform:uppercase; padding:.75rem 1.25rem .5rem; border-bottom:1px solid var(--line); }
+    .panel-body { padding:1rem 1.25rem; min-height:100px; max-height:220px; overflow-y:auto; white-space:pre-wrap; }
+    .panel-body::-webkit-scrollbar { width:2px; }
+    .panel-body::-webkit-scrollbar-thumb { background:var(--dim); }
+    #transcript-box { font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-style:italic; line-height:1.6; color:var(--paper); }
+    .synthesis-panel { border-left:2px solid var(--gold); }
+    #synthesis-box { font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-style:italic; line-height:1.6; color:var(--dim); }
+
+    /* Compteur de caractères */
+    .char-counter { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.08em; color:var(--dim); text-align:right; padding:.3rem 1.25rem; }
+    .char-counter.ready { color:var(--gold); }
+
+    .rec-indicator { display:none; align-items:center; gap:.5rem; justify-content:center; font-family:'DM Mono',monospace; font-size:.65rem; letter-spacing:.15em; color:var(--rec); text-transform:uppercase; }
+    .rec-indicator.show { display:flex; }
+    .rec-dot { width:7px; height:7px; border-radius:50%; background:var(--rec); animation:rec-pulse 1s ease-in-out infinite; }
+    @keyframes rec-pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+    /* Debug panel — visible si erreur */
+    #debug-panel { display:none; padding:.75rem 1.25rem; background:rgba(139,46,46,.08); border:1px solid rgba(139,46,46,.3); border-radius:2px; font-family:'DM Mono',monospace; font-size:.65rem; color:#c0392b; white-space:pre-wrap; }
+    #debug-panel.show { display:block; }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <p class="eyebrow">IANLP 2026</p>
+    <h1>Transcription en direct</h1>
+    <div class="rule"></div>
+  </header>
+
+  <div class="status-bar" id="status">Prêt à démarrer</div>
+  <div id="debug-panel"></div>
+
+  <div class="rec-indicator" id="rec-indicator">
+    <span class="rec-dot"></span> Écoute en cours
+  </div>
+
+  <div class="controls">
+    <button class="btn btn-start" id="start-btn">▶ Démarrer l'écoute</button>
+    <button class="btn btn-stop"  id="stop-btn"  disabled>⏹ Arrêter</button>
+    <button class="btn btn-send"  id="send-synthesis-btn" disabled>↑ Envoyer synthèse</button>
+  </div>
+
+  <div class="panel">
+    <div class="panel-label">Transcription brute</div>
+    <div class="panel-body" id="transcript-box"></div>
+    <div class="char-counter" id="char-counter">0 caractères</div>
+  </div>
+
+  <div class="panel synthesis-panel">
+    <div class="panel-label">Synthèse & idées clés</div>
+    <div class="panel-body" id="synthesis-box">En attente de données suffisantes…</div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  // ── Config ──
+  const LANGUAGE  = 'fr-FR';
+  const MIN_CHARS = 80;   // déclenchement synthèse après 80 caractères finaux
+  const DEBOUNCE  = 4000; // 4 s de silence
+
+  // ── Speech API ──
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+  if (recognition) {
+    recognition.continuous    = true;
+    recognition.interimResults = true;
+    recognition.lang           = LANGUAGE;
+  }
+
+  let isListening      = false;
+  let finalTranscript  = '';
+  let synthesisTimeout = null;
+  let lastSynthesized  = '';
+
+  // ── DOM ──
+  const startBtn      = document.getElementById('start-btn');
+  const stopBtn       = document.getElementById('stop-btn');
+  const sendBtn       = document.getElementById('send-synthesis-btn');
+  const transcriptBox = document.getElementById('transcript-box');
+  const synthesisBox  = document.getElementById('synthesis-box');
+  const statusDiv     = document.getElementById('status');
+  const recIndicator  = document.getElementById('rec-indicator');
+  const charCounter   = document.getElementById('char-counter');
+  const debugPanel    = document.getElementById('debug-panel');
+
+  // ── Socket ──
+  const socket = io();
+  socket.on('connect', () => socket.emit('register-transcription'));
+
+  // ── Helpers ──
+  function setStatus(txt, cls = '') {
+    statusDiv.textContent = txt;
+    statusDiv.className   = 'status-bar ' + cls;
+  }
+
+  function showDebug(msg) {
+    debugPanel.textContent = msg;
+    debugPanel.classList.add('show');
+  }
+  function clearDebug() { debugPanel.classList.remove('show'); }
+
+  function updateCounter(n) {
+    charCounter.textContent = n + ' caractères' + (n >= MIN_CHARS ? ' ✓' : ` (min. ${MIN_CHARS})`);
+    charCounter.className   = 'char-counter' + (n >= MIN_CHARS ? ' ready' : '');
+  }
+
+  // ── Appel backend Groq ──
+  async function callGroq(text) {
+    clearDebug();
+    setStatus('Appel API synthèse…', 'active');
+
+    let r;
+    try {
+      r = await fetch('/api/synthesize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      });
+    } catch (networkErr) {
+      showDebug('Erreur réseau : ' + networkErr.message + '\nVérifiez que le serveur est bien démarré.');
+      return null;
+    }
+
+    let body;
+    try {
+      body = await r.json();
+    } catch {
+      showDebug('Réponse non-JSON du serveur (statut ' + r.status + ').');
+      return null;
+    }
+
+    if (!r.ok) {
+      // Le serveur renvoie toujours { summary, keywords } même en erreur
+      showDebug('Serveur — HTTP ' + r.status + ' : ' + (body.summary || JSON.stringify(body)));
+      return null;
+    }
+
+    if (!body.summary) {
+      showDebug('Réponse inattendue du serveur : ' + JSON.stringify(body));
+      return null;
+    }
+
+    return body; // { summary, keywords }
+  }
+
+  // ── Planification de la synthèse ──
+  function scheduleSynthesis() {
+    if (synthesisTimeout) clearTimeout(synthesisTimeout);
+    synthesisTimeout = setTimeout(async () => {
+      if (finalTranscript.length < MIN_CHARS) return;
+      if (finalTranscript === lastSynthesized) return;
+
+      setStatus('Synthèse en cours…', 'active');
+      const result = await callGroq(finalTranscript);
+
+      if (result) {
+        window.currentSynthesis = result;
+        synthesisBox.textContent = result.summary;
+        lastSynthesized = finalTranscript;
+        sendBtn.disabled = false;
+        setStatus('Synthèse prête.', 'active');
+        clearDebug();
+      } else {
+        setStatus('Synthèse échouée — voir détails ci-dessus.', 'error');
+      }
+    }, DEBOUNCE);
+  }
+
+  // ── Événements Speech ──
+  if (!recognition) {
+    setStatus('Web Speech API non supportée — utilisez Chrome ou Edge.', 'error');
+  } else {
+    recognition.onresult = ev => {
+      let interim = '';
+      for (let i = ev.resultIndex; i < ev.results.length; i++) {
+        if (ev.results[i].isFinal) finalTranscript += ev.results[i][0].transcript + ' ';
+        else interim += ev.results[i][0].transcript;
+      }
+      const full = finalTranscript + interim;
+      transcriptBox.textContent = full;
+      updateCounter(finalTranscript.length);
+      socket.emit('transcription-update', full);
+      if (ev.results[ev.results.length - 1].isFinal) scheduleSynthesis();
+    };
+
+    recognition.onerror = ev => {
+      setStatus('Erreur microphone : ' + ev.error, 'error');
+      showDebug('Erreur Web Speech API : ' + ev.error);
+    };
+
+    recognition.onend = () => {
+      if (isListening) setTimeout(() => { if (isListening) recognition.start(); }, 150);
+      else setStatus('Écoute arrêtée.');
+    };
+  }
+
+  // ── Contrôles ──
+  startBtn.addEventListener('click', () => {
+    if (!recognition) return;
+    finalTranscript = ''; transcriptBox.textContent = '';
+    synthesisBox.textContent = 'En attente de données suffisantes…';
+    lastSynthesized = ''; sendBtn.disabled = true;
+    updateCounter(0); clearDebug();
+    recognition.start(); isListening = true;
+    startBtn.disabled = true; stopBtn.disabled = false;
+    recIndicator.classList.add('show');
+    setStatus('Écoute en cours…', 'active');
+  });
+
+  stopBtn.addEventListener('click', () => {
+    isListening = false; recognition.stop();
+    startBtn.disabled = false; stopBtn.disabled = true;
+    recIndicator.classList.remove('show');
+    if (synthesisTimeout) clearTimeout(synthesisTimeout);
+  });
+
+  sendBtn.addEventListener('click', () => {
+    if (window.currentSynthesis?.summary) {
+      socket.emit('synthesis-to-operator', window.currentSynthesis);
+      setStatus('Synthèse envoyée à l\'opérateur.', 'active');
+    }
+  });
+</script>
+</body>
+</html>

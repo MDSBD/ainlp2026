@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IANLP 2026 · Modrex</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:    #0d0c0b;
+      --paper:  #f5f0e8;
+      --gold:   #b8955a;
+      --gold-lt:#d4b07a;
+      --dim:    #6b6560;
+      --line:   rgba(184,149,90,.18);
+      --glass:  rgba(13,12,11,.55);
+      --r: 2px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ink);
+      color: var(--paper);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── Grain overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: .025;
+      pointer-events: none;
+    }
+
+    /* ── Ambient glow ── */
+    .glow {
+      position: fixed; border-radius: 50%;
+      filter: blur(120px); pointer-events: none; z-index: 0;
+    }
+    .glow-a { width: 600px; height: 600px; top: -200px; left: -200px; background: radial-gradient(circle, rgba(184,149,90,.08) 0%, transparent 70%); }
+    .glow-b { width: 500px; height: 500px; bottom: -150px; right: -150px; background: radial-gradient(circle, rgba(184,149,90,.05) 0%, transparent 70%); }
+
+    /* ── Canvas lignes ── */
+    #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .4; }
+
+    /* ── Layout ── */
+    .page {
+      position: relative; z-index: 1;
+      max-width: 780px; margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+      display: flex; flex-direction: column; align-items: center; gap: 2rem;
+    }
+
+    /* ── Header ── */
+    header { text-align: center; }
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: .65rem; letter-spacing: .2em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: .75rem;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300; font-size: clamp(1.8rem, 4.5vw, 3rem);
+      line-height: 1.2;
+      background: linear-gradient(135deg, var(--paper) 0%, var(--gold-lt) 60%, var(--paper) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .subtitle {
+      margin-top: .6rem;
+      font-family: 'DM Mono', monospace;
+      font-size: .7rem; letter-spacing: .15em;
+      color: var(--dim); text-transform: uppercase;
+    }
+    .rule {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 1.2rem auto 0;
+    }
+
+    /* ── Video ── */
+    .video-frame {
+      width: 100%; max-width: 640px;
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .video-frame::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 2;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+    /* corner ornaments */
+    .video-frame::after {
+      content: '';
+      position: absolute; z-index: 3;
+      top: 10px; left: 10px;
+      width: 20px; height: 20px;
+      border-top: 1px solid var(--gold);
+      border-left: 1px solid var(--gold);
+      pointer-events: none;
+    }
+    .corner-br {
+      position: absolute; z-index: 3;
+      bottom: 10px; right: 10px;
+      width: 20px; height: 20px;
+      border-bottom: 1px solid var(--gold);
+      border-right: 1px solid var(--gold);
+      pointer-events: none;
+    }
+    #persona-video {
+      width: 100%; display: block;
+      aspect-ratio: 4 / 3; object-fit: cover;
+      background: #0a0a09;
+    }
+
+    /* ── Status strip ── */
+    .status-strip {
+      width: 100%; max-width: 640px;
+      display: flex; align-items: center; gap: .75rem;
+      padding: .75rem 1.25rem;
+      background: var(--glass);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      backdrop-filter: blur(12px);
+      font-family: 'DM Mono', monospace;
+      font-size: .72rem; letter-spacing: .05em;
+      color: var(--dim);
+    }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+      background: #4a4540;
+      box-shadow: 0 0 0 2px rgba(74,69,64,.3);
+      transition: background .4s, box-shadow .4s;
+    }
+    .dot.on { background: var(--gold); box-shadow: 0 0 8px rgba(184,149,90,.5); animation: pulse-dot 2s ease-in-out infinite; }
+    @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+    /* ── Transcript live ── */
+    .transcript-box {
+      width: 100%; max-width: 640px;
+      padding: 1rem 1.5rem;
+      background: var(--glass);
+      border: 1px solid var(--line);
+      border-left: 2px solid var(--gold);
+      border-radius: var(--r);
+      backdrop-filter: blur(12px);
+      min-height: 52px;
+    }
+    .transcript-label {
+      font-family: 'DM Mono', monospace;
+      font-size: .62rem; letter-spacing: .15em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: .4rem;
+    }
+    #transcript-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-style: italic;
+      color: var(--paper); line-height: 1.5;
+      min-height: 1.5em;
+    }
+
+    /* ── Accordion history ── */
+    .accordion {
+      width: 100%; max-width: 640px;
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+    .acc-head {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .85rem 1.25rem;
+      cursor: pointer;
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      user-select: none;
+      transition: background .2s;
+    }
+    .acc-head:hover { background: rgba(184,149,90,.06); }
+    .acc-title {
+      font-family: 'DM Mono', monospace;
+      font-size: .68rem; letter-spacing: .15em;
+      color: var(--dim); text-transform: uppercase;
+    }
+    .acc-icon {
+      font-family: 'DM Mono', monospace;
+      font-size: .8rem; color: var(--gold);
+      transition: transform .3s;
+    }
+    .accordion.open .acc-icon { transform: rotate(180deg); }
+    .acc-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height .4s ease;
+      background: rgba(13,12,11,.7);
+    }
+    .accordion.open .acc-body { max-height: 320px; overflow-y: auto; }
+    .acc-inner { padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: .6rem; }
+    .msg {
+      padding: .65rem 1rem;
+      border-radius: var(--r);
+      font-size: .88rem; line-height: 1.5;
+    }
+    .msg.user { background: rgba(184,149,90,.08); border-left: 2px solid rgba(184,149,90,.4); color: var(--dim); }
+    .msg.persona { background: rgba(245,240,232,.04); border-left: 2px solid rgba(245,240,232,.12); color: var(--paper); font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; }
+    .msg strong { display: block; font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: .3rem; opacity: .6; font-style: normal; }
+
+    /* ── Last synthesis ── */
+    .synthesis-strip {
+      width: 100%; max-width: 640px;
+      padding: .9rem 1.25rem;
+      background: rgba(184,149,90,.05);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+    }
+    .synthesis-strip .transcript-label { margin-bottom: .35rem; }
+    #last-synthesis {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-style: italic;
+      color: var(--dim); line-height: 1.5;
+    }
+
+    /* ── Buttons ── */
+    .btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      padding: .75rem 2rem;
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      font-family: 'DM Mono', monospace;
+      font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+      cursor: pointer;
+      transition: all .25s;
+      backdrop-filter: blur(8px);
+    }
+    .btn-start {
+      background: var(--gold);
+      color: var(--ink);
+      border-color: var(--gold);
+    }
+    .btn-start:hover:not(:disabled) { background: var(--gold-lt); box-shadow: 0 0 20px rgba(184,149,90,.3); }
+    .btn-stop {
+      background: transparent;
+      color: var(--dim);
+    }
+    .btn-stop:hover:not(:disabled) { color: #c0392b; border-color: #c0392b; background: rgba(192,57,43,.06); }
+    .btn:disabled { opacity: .3; cursor: not-allowed; }
+
+    /* ── Scrollbar ── */
+    .acc-body::-webkit-scrollbar { width: 3px; }
+    .acc-body::-webkit-scrollbar-track { background: transparent; }
+    .acc-body::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; opacity: .5; }
+  </style>
+</head>
+<body>
+  <div class="glow glow-a"></div>
+  <div class="glow glow-b"></div>
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="page">
+    <header>
+      <p class="eyebrow">IANLP 2026 · Rabat</p>
+      <h1>Conférence Internationale sur<br>l'Intelligence Artificielle<br>et le TALN</h1>
+      <p class="subtitle">Modérateur virtuel — Modrex</p>
+      <div class="rule"></div>
+    </header>
+
+    <div class="video-frame">
+      <video id="persona-video" autoplay playsinline></video>
+      <div class="corner-br"></div>
+    </div>
+
+    <div class="status-strip">
+      <span class="dot" id="status-dot"></span>
+      <span id="status-text">En attente de connexion…</span>
+    </div>
+
+    <div class="transcript-box">
+      <div class="transcript-label">Modrex · en direct</div>
+      <div id="transcript-text"></div>
+    </div>
+
+    <div class="accordion" id="history-acc">
+      <div class="acc-head" id="acc-head">
+        <span class="acc-title">Historique des échanges</span>
+        <span class="acc-icon">▾</span>
+      </div>
+      <div class="acc-body">
+        <div class="acc-inner" id="chat-history">
+          <p style="color:var(--dim);font-size:.85rem;">Les échanges apparaîtront ici.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="synthesis-strip">
+      <div class="transcript-label">Dernière synthèse reçue</div>
+      <div id="last-synthesis">Aucune synthèse pour l'instant.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-start" id="start-button">▶ Démarrer la session</button>
+      <button class="btn btn-stop" id="stop-button" disabled>⏹ Arrêter</button>
+    </div>
+  </div>
+
+  <script>
+    /* ── Background lines ── */
+    (function(){
+      const c = document.getElementById('bg-canvas');
+      const ctx = c.getContext('2d');
+      function resize(){ c.width = innerWidth; c.height = innerHeight; }
+      addEventListener('resize', resize); resize();
+      function draw(){
+        ctx.clearRect(0,0,c.width,c.height);
+        ctx.strokeStyle = 'rgba(184,149,90,0.06)';
+        ctx.lineWidth = 1;
+        const gap = 80;
+        for(let x = gap; x < c.width; x += gap){
+          ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,c.height); ctx.stroke();
+        }
+        for(let y = gap; y < c.height; y += gap){
+          ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(c.width,y); ctx.stroke();
+        }
+      }
+      draw(); addEventListener('resize', draw);
+    })();
+  </script>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module">
+    import { createClient } from "https://esm.sh/@anam-ai/js-sdk@latest";
+    import { AnamEvent } from "https://esm.sh/@anam-ai/js-sdk@latest/dist/module/types";
+
+    const socket = io();
+    let anamClient = null;
+
+    const startBtn  = document.getElementById('start-button');
+    const stopBtn   = document.getElementById('stop-button');
+    const video     = document.getElementById('persona-video');
+    const statusTxt = document.getElementById('status-text');
+    const statusDot = document.getElementById('status-dot');
+    const history   = document.getElementById('chat-history');
+    const transcript= document.getElementById('transcript-text');
+    const acc       = document.getElementById('history-acc');
+    const accHead   = document.getElementById('acc-head');
+
+    accHead.addEventListener('click', () => acc.classList.toggle('open'));
+
+    function setStatus(txt, on=false){
+      statusTxt.textContent = txt;
+      statusDot.className = 'dot' + (on ? ' on' : '');
+    }
+
+    function updateHistory(msgs){
+      history.innerHTML = '';
+      if(!msgs?.length){ history.innerHTML = '<p style="color:var(--dim);font-size:.85rem;">Aucune conversation.</p>'; return; }
+      msgs.forEach(m=>{
+        const d = document.createElement('div');
+        d.className = 'msg ' + m.role;
+        const label = m.role==='user' ? 'Opérateur' : 'Modrex';
+        d.innerHTML = `<strong>${label}</strong>${m.content}`;
+        history.appendChild(d);
+      });
+      history.scrollTop = history.scrollHeight;
+    }
+
+    socket.on('stop-session', () => { if(anamClient) stopChat(); setStatus('Session suspendue par l\'opérateur.'); });
+    socket.on('start-session', () => { if(!anamClient) startChat(); });
+    socket.on('new-synthesis', data => { document.getElementById('last-synthesis').textContent = data.summary || '—'; });
+
+    async function startChat(){
+      try {
+        startBtn.disabled = true;
+        setStatus('Connexion en cours…');
+        const r = await fetch('/api/session-token', { method: 'POST' });
+        if(!r.ok) throw new Error('Token introuvable');
+        const { sessionToken } = await r.json();
+        setStatus('Initialisation de Modrex…');
+        anamClient = createClient(sessionToken);
+        anamClient.addListener(AnamEvent.SESSION_READY, () => {
+          setStatus('Session active — en attente de l\'opérateur.', true);
+          startBtn.disabled = true; stopBtn.disabled = false;
+          socket.emit('register-public');
+        });
+        anamClient.addListener(AnamEvent.MESSAGE_HISTORY_UPDATED, updateHistory);
+        anamClient.addListener(AnamEvent.MESSAGE_STREAM_EVENT_RECEIVED, ev => {
+          if(ev.role==='persona') transcript.textContent += ev.content;
+          else if(ev.role==='user') transcript.textContent = '';
+        });
+        anamClient.addListener(AnamEvent.CONNECTION_CLOSED, () => setStatus('Connexion fermée.'));
+        await anamClient.streamToVideoElement('persona-video');
+        setStatus('Streaming actif.', true);
+      } catch(e){
+        console.error(e); setStatus('Erreur : ' + e.message);
+        startBtn.disabled = false;
+      }
+    }
+
+    function stopChat(){
+      if(anamClient){ anamClient.stopStreaming(); anamClient = null; video.srcObject = null; }
+      updateHistory([]);
+      transcript.textContent = '';
+      setStatus('Session arrêtée.');
+      startBtn.disabled = false; stopBtn.disabled = true;
+    }
+
+    socket.on('command', async cmd => {
+      if(anamClient){
+        setStatus(`Commande reçue…`, true);
+        try { await anamClient.sendUserMessage(cmd); } catch(e){ console.error(e); }
+      }
+    });
+
+    startBtn.addEventListener('click', startChat);
+    stopBtn.addEventListener('click', stopChat);
+  </script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Questions · IANLP 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:    #0d0c0b;
+      --paper:  #f0ebe0;
+      --gold:   #b8955a;
+      --gold-lt:#d4b07a;
+      --dim:    #6b6560;
+      --line:   rgba(184,149,90,.18);
+      --success:#2d6e4e;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ink); color: var(--paper);
+      min-height: 100%; padding: 2rem 1.25rem 3rem;
+      display: flex; flex-direction: column; align-items: center;
+    }
+
+    /* grain */
+    body::before { content:''; position:fixed; inset:0; z-index:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity:.025; pointer-events:none; }
+
+    .page { position:relative; z-index:1; width:100%; max-width:480px; display:flex; flex-direction:column; gap:1.75rem; }
+
+    /* ── Header ── */
+    header { text-align:center; padding-top:.5rem; }
+    .eyebrow { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.2em; color:var(--gold); text-transform:uppercase; margin-bottom:.5rem; }
+    h1 { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:1.9rem; line-height:1.2; }
+    .sub { font-size:.82rem; color:var(--dim); margin-top:.4rem; line-height:1.5; }
+    .rule { width:40px; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:.9rem auto 0; }
+
+    /* ── Form card ── */
+    .card {
+      border:1px solid var(--line); border-radius:3px;
+      background:rgba(245,240,232,.03); padding:1.25rem;
+    }
+    .field-label {
+      font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.16em;
+      color:var(--gold); text-transform:uppercase; margin-bottom:.5rem; display:block;
+    }
+    .field-input {
+      display:block; width:100%;
+      padding:.7rem .9rem; margin-bottom:1rem;
+      border:1px solid var(--line); border-radius:2px;
+      background:rgba(245,240,232,.05); color:var(--paper);
+      font-family:'DM Sans',sans-serif; font-size:.92rem;
+      outline:none; transition:border-color .2s;
+      -webkit-appearance:none;
+    }
+    .field-input::placeholder { color:rgba(107,101,96,.6); }
+    .field-input:focus { border-color:var(--gold); }
+
+    textarea.field-input {
+      resize:none; height:110px; line-height:1.6;
+    }
+
+    /* Compteur */
+    .char-count {
+      font-family:'DM Mono',monospace; font-size:.58rem;
+      color:var(--dim); text-align:right; margin-top:-.7rem; margin-bottom:.9rem;
+    }
+    .char-count.warn { color:#c0392b; }
+
+    /* Submit */
+    .btn-submit {
+      width:100%; padding:.85rem;
+      background:var(--gold); color:var(--ink);
+      border:none; border-radius:2px;
+      font-family:'DM Mono',monospace; font-size:.72rem;
+      letter-spacing:.12em; text-transform:uppercase;
+      cursor:pointer; transition:all .25s;
+      font-weight:400;
+    }
+    .btn-submit:hover:not(:disabled) { background:var(--gold-lt); box-shadow:0 0 18px rgba(184,149,90,.3); }
+    .btn-submit:disabled { opacity:.4; cursor:not-allowed; }
+
+    /* ── Toast de confirmation ── */
+    .toast {
+      position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(80px);
+      background:rgba(45,110,78,.95); color:#fff;
+      padding:.75rem 1.5rem; border-radius:2px;
+      font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.08em;
+      transition:transform .4s cubic-bezier(.34,1.56,.64,1), opacity .4s;
+      opacity:0; white-space:nowrap; z-index:100;
+      border:1px solid rgba(255,255,255,.15);
+    }
+    .toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+
+    /* ── Questions déjà envoyées ── */
+    .sent-section { display:none; }
+    .sent-section.visible { display:block; }
+    .sent-label {
+      font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.18em;
+      color:var(--dim); text-transform:uppercase; margin-bottom:.75rem;
+      padding-bottom:.5rem; border-bottom:1px solid var(--line);
+    }
+    .sent-list { display:flex; flex-direction:column; gap:.6rem; }
+    .sent-item {
+      padding:.75rem 1rem; border-radius:2px;
+      background:rgba(245,240,232,.03); border:1px solid var(--line);
+      border-left:2px solid var(--gold);
+      font-family:'Cormorant Garamond',serif; font-size:1rem; font-style:italic;
+      color:var(--dim); line-height:1.5;
+    }
+    .sent-item .sent-name {
+      font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.1em;
+      color:var(--gold); font-style:normal; display:block; margin-bottom:.3rem;
+    }
+
+    /* ── Compteur de participants ── */
+    .audience-badge {
+      text-align:center;
+      font-family:'DM Mono',monospace; font-size:.62rem;
+      letter-spacing:.1em; color:var(--dim);
+    }
+    .audience-badge span { color:var(--gold-lt); }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <p class="eyebrow">IANLP 2026 · Rabat</p>
+    <h1>Posez votre question</h1>
+    <p class="sub">Votre question sera transmise à l'opérateur<br>qui pourra la soumettre à Modrex.</p>
+    <div class="rule"></div>
+  </header>
+
+  <div class="audience-badge" id="audience-badge">
+    <span id="q-count">0</span> question(s) reçue(s) cette session
+  </div>
+
+  <!-- Formulaire -->
+  <div class="card">
+    <label class="field-label" for="inp-name">Votre prénom (optionnel)</label>
+    <input class="field-input" id="inp-name" type="text" placeholder="ex : Karim" maxlength="40" autocomplete="off">
+
+    <label class="field-label" for="inp-question">Votre question</label>
+    <textarea class="field-input" id="inp-question" placeholder="Tapez votre question ici…" maxlength="300"></textarea>
+    <div class="char-count" id="char-count">0 / 300</div>
+
+    <button class="btn-submit" id="btn-submit" disabled>→ Envoyer la question</button>
+  </div>
+
+  <!-- Questions déjà soumises par cet utilisateur -->
+  <div class="sent-section" id="sent-section">
+    <div class="sent-label">Mes questions envoyées</div>
+    <div class="sent-list" id="sent-list"></div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">✓ Question envoyée à l'opérateur</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket    = io();
+  const inpName   = document.getElementById('inp-name');
+  const inpQ      = document.getElementById('inp-question');
+  const btnSubmit = document.getElementById('btn-submit');
+  const charCount = document.getElementById('char-count');
+  const toast     = document.getElementById('toast');
+  const sentSection = document.getElementById('sent-section');
+  const sentList    = document.getElementById('sent-list');
+  const qCountEl    = document.getElementById('q-count');
+
+  let totalQuestions = 0;
+
+  socket.on('connect', () => socket.emit('register-audience'));
+  socket.on('qa-count', n => { totalQuestions = n; qCountEl.textContent = n; });
+
+  // Compteur de caractères + validation
+  inpQ.addEventListener('input', () => {
+    const n = inpQ.value.length;
+    charCount.textContent = n + ' / 300';
+    charCount.className   = 'char-count' + (n > 270 ? ' warn' : '');
+    btnSubmit.disabled    = n < 5;
+  });
+
+  // Envoi
+  btnSubmit.addEventListener('click', () => {
+    const question = inpQ.value.trim();
+    const name     = inpName.value.trim() || 'Anonyme';
+    if (!question || question.length < 5) return;
+
+    socket.emit('audience-question', { name, question });
+
+    // Ajouter à "mes questions"
+    const item = document.createElement('div');
+    item.className = 'sent-item';
+    item.innerHTML = `<span class="sent-name">${name}</span>${question}`;
+    sentList.appendChild(item);
+    sentSection.classList.add('visible');
+
+    // Reset
+    inpQ.value = '';
+    charCount.textContent = '0 / 300';
+    btnSubmit.disabled = true;
+
+    // Toast
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  });
+
+  // Entrée clavier sur la textarea (Ctrl+Entrée)
+  inpQ.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') btnSubmit.click();
+  });
+</script>
+</body>
+</html>
