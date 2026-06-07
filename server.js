@@ -9,7 +9,40 @@ const server = http.createServer(app);
 const io     = new Server(server);
 
 app.use(express.json());
-app.use(express.static('public'));
+
+const path = require('path');
+const PUBLIC_DIR = path.join(__dirname, 'public');
+
+// Pages protégées — liste complète
+const PROTECTED_PAGES = [
+  '/operator.html',
+  '/transcription.html',
+  '/conference.html',
+  '/screen.html'
+  // /qa.html : publique — accessible via QR code sans login
+];
+
+// ── Middleware global : intercepte TOUTES les requêtes HTML protégées
+//    AVANT express.static
+app.use((req, res, next) => {
+  if (PROTECTED_PAGES.includes(req.path)) {
+    // Vérifie la session ici directement (getSession défini plus bas)
+    // On recopie la logique inline pour éviter le problème de hoisting
+    const raw   = req.headers.cookie || '';
+    const match = raw.match(/modrex_token=([^;]+)/);
+    const token = match ? match[1] : null;
+    const sess  = token ? _sessions.get(token) : null;
+    const valid = sess && sess.expires > Date.now();
+    if (!valid) {
+      if (token) _sessions.delete(token);
+      return res.redirect('/?unauthorized=1');
+    }
+  }
+  next();
+});
+
+// express.static après le middleware — ne verra jamais les pages protégées
+app.use(express.static(PUBLIC_DIR, { index: false }));
 
 // Sockets publics (Set pour gérer plusieurs onglets/écrans)
 const publicSockets = new Set();
@@ -27,6 +60,93 @@ function checkEnv() {
 }
 checkEnv();
 
+// Sessions en mémoire (token → { user, role, expires })
+const _sessions = new Map();
+
+function randomToken(len = 32) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let token = '';
+  for (let i = 0; i < len; i++) token += chars[Math.floor(Math.random() * chars.length)];
+  return token;
+}
+
+function getSession(req) {
+  const raw = req.headers.cookie || '';
+  const match = raw.match(/modrex_token=([^;]+)/);
+  if (!match) return null;
+  const s = _sessions.get(match[1]);
+  if (!s || s.expires < Date.now()) { _sessions.delete(match[1]); return null; }
+  return s;
+}
+
+// ── Route explicite pour index.html (page publique) ──
+app.get('/', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'index.html')));
+// qa.html : publique, pas de login requis
+app.get('/qa.html', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'qa.html')));
+
+// ── Routes protégées : vérification du cookie avant de servir le fichier ──
+PROTECTED_PAGES.forEach(page => {
+  app.get(page, (req, res) => {
+    if (!getSession(req)) return res.redirect('/?unauthorized=1');
+    res.sendFile(path.join(PUBLIC_DIR, page));
+  });
+});
+
+// ────────────────────────────────────────────────
+//  Route : login
+// ────────────────────────────────────────────────
+app.post('/api/login', (req, res) => {
+  const { username, password } = req.body;
+
+  // Credentials depuis .env
+  const users = {
+    [process.env.LOGIN_OPERATOR_USER || 'operateur']: {
+      pass    : process.env.LOGIN_OPERATOR_PASS || 'ianlp2026!',
+      redirect: '/operator.html',
+      role    : 'operator'
+    },
+    [process.env.LOGIN_TRANSCRIPTION_USER || 'transcription']: {
+      pass    : process.env.LOGIN_TRANSCRIPTION_PASS || 'ianlp2026!',
+      redirect: '/transcription.html',
+      role    : 'transcription'
+    },
+    [process.env.LOGIN_ADMIN_USER || 'admin']: {
+      pass    : process.env.LOGIN_ADMIN_PASS || 'modrex@admin',
+      redirect: '/operator.html',
+      role    : 'admin'
+    }
+  };
+
+  const user = users[username?.trim().toLowerCase()];
+  if (!user || user.pass !== password) {
+    return res.status(401).json({ error: 'Identifiants incorrects.' });
+  }
+
+  // Crée un token de session (24h)
+  const token   = randomToken();
+  const expires = Date.now() + 24 * 60 * 60 * 1000;
+  _sessions.set(token, { username, role: user.role, expires });
+
+  // Cookie HTTP-only (non accessible en JS)
+  res.setHeader('Set-Cookie',
+    `modrex_token=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=86400`
+  );
+
+  console.log(`[Login] "${username}" connecte (role: ${user.role})`);
+  return res.json({ redirect: user.redirect });
+});
+
+// ────────────────────────────────────────────────
+//  Route : logout
+// ────────────────────────────────────────────────
+app.post('/api/logout', (req, res) => {
+  const raw   = req.headers.cookie || '';
+  const match = raw.match(/modrex_token=([^;]+)/);
+  if (match) _sessions.delete(match[1]);
+  res.setHeader('Set-Cookie', 'modrex_token=; Path=/; HttpOnly; Max-Age=0');
+  res.json({ ok: true });
+});
+
 // ────────────────────────────────────────────────
 //  Route : token de session Anam
 // ────────────────────────────────────────────────
@@ -34,9 +154,9 @@ app.post('/api/session-token', async (req, res) => {
   try {
     const personaConfig = {
       name: "Modrex",
-      avatarId: "4ccba9ca-bc65-4b01-9f2e-19d0d548a3b7",
-      voiceId:  "8e67ed57-4fc0-11f1-84b0-52bacf74fa75",
-      llmId:    "a7cf662c-2ace-4de1-a21e-ef0fbf144bb7",
+      avatarId: process.env.ANAM_AVATAR_ID,
+      voiceId:  process.env.ANAM_VOICE_ID,
+      llmId:    process.env.ANAM_LLM_ID,
       systemPrompt: `Tu es Modrex, le modérateur virtuel professionnel de la Conférence Internationale sur l'Intelligence Artificielle et le Traitement Automatique du Langage Naturel (IANLP 2026). Ton rôle est d'animer la conférence avec élégance, dynamisme et précision.
 
 ## Principe de base

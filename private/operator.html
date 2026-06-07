@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operateur · IANLP 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:     #0d0c0b;
+      --ink2:    #141310;
+      --paper:   #f0ebe0;
+      --gold:    #b8955a;
+      --gold-lt: #d4b07a;
+      --dim:     #6b6560;
+      --dim2:    #4a4540;
+      --line:    rgba(184,149,90,.14);
+      --line2:   rgba(245,240,232,.06);
+      --danger:  #8b2e2e;
+      --sw: 240px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--ink); color: var(--paper); display: flex; overflow: hidden; }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sw); flex-shrink: 0;
+      background: var(--ink2); border-right: 1px solid var(--line);
+      display: flex; flex-direction: column;
+      padding: 2rem 1.25rem 1.5rem;
+      position: fixed; top: 0; left: 0; bottom: 0; z-index: 20; overflow-y: auto;
+    }
+    .sidebar-logo { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 1.05rem; color: var(--gold-lt); margin-bottom: .2rem; }
+    .sidebar-sub  { font-family: 'DM Mono', monospace; font-size: .58rem; letter-spacing: .18em; color: var(--dim); text-transform: uppercase; margin-bottom: 1.5rem; }
+    .rule-h { height: 1px; background: var(--line); margin: .75rem 0; }
+    .nav-label { font-family: 'DM Mono', monospace; font-size: .55rem; letter-spacing: .2em; color: var(--dim2); text-transform: uppercase; margin-bottom: .5rem; padding-left: .5rem; }
+    .nav-link { display: flex; align-items: center; gap: .6rem; padding: .55rem .75rem; border-radius: 2px; color: var(--dim); text-decoration: none; font-size: .82rem; transition: all .2s; margin-bottom: .2rem; border: 1px solid transparent; }
+    .nav-link:hover { color: var(--paper); background: rgba(184,149,90,.07); border-color: var(--line); }
+    .nav-icon { font-size: .85rem; width: 16px; text-align: center; }
+    .sidebar-status { margin-top: auto; padding-top: 1rem; display: flex; align-items: center; gap: .6rem; font-family: 'DM Mono', monospace; font-size: .62rem; letter-spacing: .08em; color: var(--dim); }
+    .sdot { width: 6px; height: 6px; border-radius: 50%; background: var(--dim2); flex-shrink: 0; }
+    .sdot.on { background: var(--gold); box-shadow: 0 0 6px rgba(184,149,90,.5); }
+    .sidebar-actions { margin-top: 1rem; display: flex; flex-direction: column; gap: .5rem; }
+
+    /* Main */
+    .main { margin-left: var(--sw); flex: 1; overflow-y: auto; padding: 2.5rem 2rem 3rem; }
+    .main::-webkit-scrollbar { width: 3px; }
+    .main::-webkit-scrollbar-thumb { background: var(--dim2); border-radius: 2px; }
+
+    /* Page header */
+    .page-header { margin-bottom: 2rem; }
+    .page-eyebrow { font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .2em; color: var(--gold); text-transform: uppercase; margin-bottom: .4rem; }
+    .page-title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 1.9rem; color: var(--paper); }
+    .page-status { margin-top: .5rem; font-family: 'DM Mono', monospace; font-size: .68rem; letter-spacing: .06em; color: var(--dim); }
+
+    /* Sections */
+    .section { margin-bottom: 2.25rem; }
+    .section-title { font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .2em; color: var(--gold); text-transform: uppercase; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: .5rem; }
+    .section-note { font-size: .78rem; color: var(--dim); margin-top: .6rem; line-height: 1.5; }
+
+    /* Button grid */
+    .btn-grid { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .cmd-btn { padding: .55rem 1.1rem; border: 1px solid var(--line2); border-radius: 2px; background: rgba(245,240,232,.03); color: var(--dim); font-family: 'DM Mono', monospace; font-size: .68rem; letter-spacing: .06em; cursor: pointer; transition: all .2s; }
+    .cmd-btn:hover { color: var(--paper); border-color: var(--gold); background: rgba(184,149,90,.07); }
+    .cmd-btn.primary { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+    .cmd-btn.primary:hover { background: var(--gold-lt); box-shadow: 0 0 16px rgba(184,149,90,.3); }
+    .cmd-btn.danger { border-color: rgba(139,46,46,.5); color: #c0392b; }
+    .cmd-btn.danger:hover { background: rgba(139,46,46,.1); border-color: var(--danger); }
+
+    /* Live panels */
+    .panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media(max-width:700px){ .panel-grid { grid-template-columns: 1fr; } }
+    .panel { background: rgba(245,240,232,.03); border: 1px solid var(--line); border-radius: 2px; padding: 1rem 1.25rem; }
+    .panel-label { font-family: 'DM Mono', monospace; font-size: .58rem; letter-spacing: .18em; color: var(--gold); text-transform: uppercase; margin-bottom: .75rem; }
+    .panel-content { max-height: 160px; overflow-y: auto; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; color: var(--dim); line-height: 1.6; white-space: pre-wrap; }
+    .panel-content::-webkit-scrollbar { width: 2px; }
+    .panel-content::-webkit-scrollbar-thumb { background: var(--dim2); }
+    .synthesis-panel { border-left: 2px solid var(--gold); padding-left: 1rem; }
+
+    /* Custom input */
+    .custom-row { display: flex; gap: .75rem; }
+    .custom-input { flex: 1; padding: .65rem 1rem; border: 1px solid var(--line); border-radius: 2px; background: rgba(245,240,232,.04); color: var(--paper); font-family: 'DM Mono', monospace; font-size: .75rem; outline: none; transition: border-color .2s; }
+    .custom-input::placeholder { color: var(--dim2); }
+    .custom-input:focus { border-color: var(--gold); }
+
+    /* Q&A */
+    .qa-badge { display: inline-flex; align-items: center; justify-content: center; background: var(--gold); color: var(--ink); font-family: 'DM Mono', monospace; font-size: .58rem; font-weight: bold; padding: .1rem .45rem; border-radius: 20px; min-width: 18px; }
+    .qa-list { display: flex; flex-direction: column; gap: .6rem; }
+    .qa-item { display: flex; align-items: flex-start; gap: .75rem; padding: .9rem 1rem; border-radius: 2px; background: rgba(245,240,232,.03); border: 1px solid var(--line2); transition: border-color .2s, opacity .3s; }
+    .qa-item:hover { border-color: rgba(184,149,90,.35); }
+    .qa-item.sent { opacity: .35; pointer-events: none; }
+    .qa-body { flex: 1; min-width: 0; }
+    .qa-name { font-family: 'DM Mono', monospace; font-size: .58rem; letter-spacing: .12em; color: var(--gold); text-transform: uppercase; margin-bottom: .3rem; }
+    .qa-text { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-style: italic; color: var(--paper); line-height: 1.5; }
+    .qa-actions { display: flex; flex-direction: column; gap: .35rem; flex-shrink: 0; }
+    .qa-send { padding: .45rem .85rem; background: var(--gold); color: var(--ink); border: none; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .06em; cursor: pointer; transition: background .2s; white-space: nowrap; }
+    .qa-send:hover { background: var(--gold-lt); }
+    .qa-del { padding: .4rem .85rem; background: transparent; color: var(--dim); border: 1px solid var(--line2); border-radius: 2px; font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .06em; cursor: pointer; transition: all .2s; }
+    .qa-del:hover { color: #c0392b; border-color: #c0392b; }
+    .qa-empty { font-family: 'DM Mono', monospace; font-size: .68rem; color: var(--dim2); letter-spacing: .06em; text-align: center; padding: 1.5rem 0; }
+
+    /* QR block */
+    .qr-block { display: flex; align-items: center; gap: 1rem; padding: .85rem 1rem; background: rgba(184,149,90,.04); border: 1px solid var(--line); border-radius: 2px; margin-bottom: 1rem; }
+    #qr-img { width: 72px; height: 72px; border-radius: 2px; flex-shrink: 0; image-rendering: pixelated; }
+    .qr-info { font-size: .78rem; color: var(--dim); line-height: 1.7; }
+    .qr-url { font-family: 'DM Mono', monospace; font-size: .65rem; color: var(--gold-lt); word-break: break-all; }
+  </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="sidebar-logo">Modrex</div>
+  <div class="sidebar-sub">IANLP 2026 · Dashboard</div>
+  <div class="nav-label">Pages</div>
+  <a class="nav-link" href="/conference.html" target="_blank"><span class="nav-icon">◈</span> Page publique</a>
+  <a class="nav-link" href="/transcription.html" target="_blank"><span class="nav-icon">◎</span> Transcription</a>
+  <a class="nav-link" href="/screen.html" target="_blank"><span class="nav-icon">▣</span> Ecran public</a>
+  <a class="nav-link" href="/qa.html" target="_blank"><span class="nav-icon">◉</span> Page Q&amp;A</a>
+  <div class="rule-h"></div>
+  <div class="nav-label">Session</div>
+  <div class="sidebar-actions">
+    <button class="cmd-btn primary" id="sb-start">&#9654; Relancer session</button>
+    <button class="cmd-btn danger"  id="sb-stop">&#9632; Arreter session</button>
+  </div>
+  <div class="sidebar-status">
+    <span class="sdot" id="sidebar-dot"></span>
+    <span id="sidebar-status-text">Non connecte</span>
+  </div>
+</nav>
+
+<!-- Main -->
+<main class="main">
+  <div class="page-header">
+    <p class="page-eyebrow">Interface operateur</p>
+    <h1 class="page-title">Controle de Modrex</h1>
+    <p class="page-status" id="status">Connexion au serveur...</p>
+  </div>
+
+  <!-- Ouverture -->
+  <div class="section">
+    <div class="section-title">Sequence d'ouverture</div>
+    <div class="btn-grid">
+      <button class="cmd-btn primary" onclick="envoyer('Commence la séquence d\'ouverture')">&#128640; Lancer l'ouverture complete</button>
+    </div>
+    <p class="section-note">Deroule automatiquement l'accueil, les discours du Doyen, Chef TIM, President AM2I, Chair, puis annonce la premiere pleniere.</p>
+  </div>
+
+  <!-- Plenières -->
+  <div class="section">
+    <div class="section-title">Conferences plenieres</div>
+    <div class="btn-grid">
+      <button class="cmd-btn" onclick="envoyer('Présente le conférencier plénier 1')">Pleniere 1 — Presenter</button>
+      <button class="cmd-btn" onclick="envoyer('Présente le conférencier plénier 2')">Pleniere 2 — Presenter</button>
+      <button class="cmd-btn" onclick="envoyer('Le conférencier a terminé')">&#10003; Fin de presentation</button>
+      <button class="cmd-btn" onclick="envoyer('Résume la présentation')">Resumer</button>
+      <button class="cmd-btn" onclick="envoyer('Lance la session de questions')">Questions du public</button>
+      <button class="cmd-btn" onclick="envoyer('Annonce qu\'il reste 5 minutes')">&#9201; Reste 5 min</button>
+      <button class="cmd-btn" onclick="envoyer('Clôture la session')">Clore la session</button>
+    </div>
+  </div>
+
+  <!-- Ponctuelles -->
+  <div class="section">
+    <div class="section-title">Commandes ponctuelles</div>
+    <div class="btn-grid">
+      <button class="cmd-btn" onclick="envoyer('Nous avons une question du public. Reformule-la et pose-la à l\'intervenant.')">Question publique (reformuler)</button>
+      <button class="cmd-btn" onclick="envoyer('Remercie l\'intervenant')">Remercier l'intervenant</button>
+      <button class="cmd-btn" onclick="envoyer('Annonce une pause')">&#9749; Pause</button>
+      <button class="cmd-btn danger" onclick="envoyer('Clôture la conférence')">Cloture finale</button>
+    </div>
+  </div>
+
+  <!-- Q&A public -->
+  <div class="section">
+    <div class="section-title">
+      Questions du public (Q&amp;A)
+      <span class="qa-badge" id="qa-badge">0</span>
+    </div>
+
+    <!-- QR Code -->
+    <div class="qr-block">
+      <img id="qr-img" src="" alt="QR Code">
+      <div class="qr-info">
+        Scannez pour poser une question depuis votre telephone<br>
+        <span class="qr-url" id="qr-url">generation...</span>
+      </div>
+    </div>
+
+    <!-- Liste des questions -->
+    <div class="qa-list" id="qa-list">
+      <div class="qa-empty" id="qa-empty">En attente des questions du public...</div>
+    </div>
+  </div>
+
+  <!-- Live panels -->
+  <div class="section">
+    <div class="section-title">Donnees en direct</div>
+    <div class="panel-grid">
+      <div class="panel">
+        <div class="panel-label">Transcription live</div>
+        <div class="panel-content" id="live-transcript">En attente de la transcription...</div>
+      </div>
+      <div class="panel synthesis-panel">
+        <div class="panel-label">Synthese recue</div>
+        <div class="panel-content" id="latest-synthesis">Aucune synthese recue.</div>
+        <div class="btn-grid" style="margin-top:.85rem;">
+          <button class="cmd-btn" onclick="pushToScreen()">&#8594; Ecran public</button>
+          <button class="cmd-btn" onclick="sendToModrex()">&#8594; Envoyer a Modrex</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom -->
+  <div class="section">
+    <div class="section-title">Commande personnalisee</div>
+    <div class="custom-row">
+      <input type="text" class="custom-input" id="custom-input" placeholder="Ecrivez votre instruction et appuyez sur Entree..." />
+      <button class="cmd-btn primary" id="custom-send">Envoyer</button>
+    </div>
+  </div>
+</main>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket      = io();
+  const statusDiv   = document.getElementById('status');
+  const sidebarDot  = document.getElementById('sidebar-dot');
+  const sidebarTxt  = document.getElementById('sidebar-status-text');
+  const qaList      = document.getElementById('qa-list');
+  const qaEmpty     = document.getElementById('qa-empty');
+  const qaBadge     = document.getElementById('qa-badge');
+
+  let qaCount = 0;
+
+  // ── Connexion ──
+  function setConnected(on, txt) {
+    statusDiv.textContent = txt;
+    sidebarDot.className  = 'sdot' + (on ? ' on' : '');
+    sidebarTxt.textContent = on ? 'Connecte' : 'Deconnecte';
+  }
+  socket.on('connect',    () => { setConnected(true,  'Connecte au serveur.'); socket.emit('register-operator'); });
+  socket.on('disconnect', () =>   setConnected(false, 'Deconnecte.'));
+  socket.on('registered', role => { if(role==='operator') statusDiv.textContent = 'Enregistre comme operateur.'; });
+  socket.on('error', msg => alert(msg));
+
+  socket.on('transcription-live', t => { document.getElementById('live-transcript').textContent = t; });
+  socket.on('new-synthesis', data => {
+    document.getElementById('latest-synthesis').textContent = data.summary;
+    window.currentSynthesis = data.summary;
+    window.currentKeywords  = data.keywords || [];
+  });
+
+  // -- Stockage questions en memoire (evite pb guillemets dans onclick)
+  const qaStore = {};
+
+  socket.on('new-audience-question', data => {
+    qaCount++;
+    qaBadge.textContent = qaCount;
+    qaEmpty.style.display = 'none';
+
+    const id = 'qa-' + Date.now();
+    qaStore[id] = { name: data.name, question: data.question };
+
+    const item     = document.createElement('div');
+    item.className = 'qa-item';
+    item.id        = id;
+
+    const body    = document.createElement('div'); body.className = 'qa-body';
+    const nameEl  = document.createElement('div'); nameEl.className = 'qa-name'; nameEl.textContent = data.name;
+    const textEl  = document.createElement('div'); textEl.className = 'qa-text'; textEl.textContent = data.question;
+    body.appendChild(nameEl); body.appendChild(textEl);
+
+    const actions = document.createElement('div'); actions.className = 'qa-actions';
+
+    const btnSend = document.createElement('button');
+    btnSend.className   = 'qa-send';
+    btnSend.textContent = '→ Envoyer a Modrex';
+    btnSend.addEventListener('click', () => sendQA(id));
+
+    const btnDel = document.createElement('button');
+    btnDel.className   = 'qa-del';
+    btnDel.textContent = 'Ignorer';
+    btnDel.addEventListener('click', () => deleteQA(id));
+
+    actions.appendChild(btnSend); actions.appendChild(btnDel);
+    item.appendChild(body); item.appendChild(actions);
+    qaList.insertBefore(item, qaList.firstChild);
+
+    // Bip discret
+    try {
+      const ctx = new AudioContext();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.value = 880;
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+      osc.start(); osc.stop(ctx.currentTime + 0.4);
+    } catch {}
+  });
+
+  window.sendQA = function(id) {
+    const stored = qaStore[id];
+    if (!stored) return;
+    const cmd = 'Question du public de ' + stored.name + ' : ' + stored.question + ' — Reformule cette question elegamment et pose-la a l\'intervenant.';
+    // Evenement dedie : envoie commande a Modrex + banniere sur l'ecran public
+    socket.emit('qa-to-modrex', { command: cmd, question: stored.question, name: stored.name });
+    const item = document.getElementById(id);
+    if (item) { item.classList.add('sent'); item.querySelector('.qa-send').textContent = 'Envoyee ✓'; }
+  };
+
+  window.deleteQA = function(id) {
+    delete qaStore[id];
+    const item = document.getElementById(id);
+    if (!item) return;
+    item.style.transition  = 'opacity .3s, max-height .4s';
+    item.style.opacity     = '0';
+    item.style.overflow    = 'hidden';
+    item.style.maxHeight   = item.offsetHeight + 'px';
+    setTimeout(() => item.style.maxHeight = '0', 50);
+    setTimeout(() => { item.remove(); if (!qaList.querySelector('.qa-item')) qaEmpty.style.display = ''; }, 420);
+    qaCount = Math.max(0, qaCount - 1);
+    qaBadge.textContent = qaCount;
+  };
+
+
+  // ── QR Code (via API gratuite) ──
+  function buildQRCode() {
+    const base = window.location.origin;
+    const url  = base + '/qa.html';
+    document.getElementById('qr-url').textContent = url;
+    document.getElementById('qr-img').src =
+      'https://api.qrserver.com/v1/create-qr-code/?size=72x72&color=b8955a&bgcolor=0d0c0b&data=' +
+      encodeURIComponent(url);
+  }
+  buildQRCode();
+
+  // ── Commandes ──
+  window.envoyer = cmd => { if(cmd?.trim()) socket.emit('operator-command', cmd.trim()); };
+  window.pushToScreen = () => { if(window.currentSynthesis) socket.emit('update-screen', { synthesis: window.currentSynthesis, keywords: window.currentKeywords||[] }); };
+  window.sendToModrex = () => { if(window.currentSynthesis) envoyer('Voici une synthese de l\'intervention : ' + window.currentSynthesis); else alert('Aucune synthese.'); };
+
+  document.getElementById('sb-stop').addEventListener('click', () => { if(confirm('Arreter la session Modrex ?')) socket.emit('stop-session'); });
+  document.getElementById('sb-start').addEventListener('click', () => socket.emit('start-session'));
+
+  const customInput = document.getElementById('custom-input');
+  document.getElementById('custom-send').addEventListener('click', () => { envoyer(customInput.value); customInput.value=''; });
+  customInput.addEventListener('keydown', e => { if(e.key==='Enter'){ envoyer(e.target.value); e.target.value=''; } });
+</script>
+</body>
+</html>
