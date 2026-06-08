@@ -1,0 +1,46 @@
+services:
+
+  modrex:
+    build: .
+    image: modrex:latest
+    container_name: modrex
+
+    restart: unless-stopped
+
+    ports:
+      - "3022:3022"
+
+    env_file:
+      - .env
+
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3022/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+    volumes:
+      - ./conference-data.json:/app/conference-data.json:ro
+
+    networks:
+      - modrex-net
+
+networks:
+  modrex-net:
+    driver: bridge

@@ -1,0 +1,28 @@
+# Dépendances (réinstallées dans le conteneur)
+node_modules/
+
+# Variables d'environnement — JAMAIS dans l'image
+.env
+.env.*
+!.env.example
+
+# Git
+.git/
+.gitignore
+.gitlab-ci.yml
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editeurs
+.vscode/
+.idea/
+
+# Docker lui-même
+Dockerfile
+.dockerignore
