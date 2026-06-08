@@ -277,8 +277,7 @@ COMITÉ D'ORGANISATION :
 - Doyen FSBM : ${data.comite.doyen}
 - Chef Département : ${data.comite.chef_departement}
 - Directeur LTIM : ${data.comite.directeur_ltim}
-- General Chair : ${data.comite.general_chair}
-- Co-Chairs : ${data.comite.co_chairs.join(' | ')}
+- Chairs : ${data.comite.chairs}
 - Responsable organisation : ${data.comite.responsable_organisation}
 
 ORGANISATEURS :
