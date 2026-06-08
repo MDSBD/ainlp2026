@@ -214,95 +214,78 @@ function loadConferenceData() {
 }
 
 function buildChatSystem(data) {
-  if (!data) return 'Tu es l\'assistant officiel de IANLP 2026. Réponds uniquement sur ce que tu sais.';
+  if (!data) {
+    return `Tu es l'assistant officiel de la conférence IANLP 2026.
+Tu DOIS répondre uniquement sur la base des informations dont tu disposes sur la conférence.
+Si une information n'est pas disponible, dis-le clairement sans inventer.`;
+  }
 
   const c = data.conference;
-  const di = data.dates_importantes;
-
   const prog = data.programme.map((p, i) => {
-    let line = `  ${i+1}. [${p.jour || ''} ${p.heure}] ${p.titre}`;
+    let line = `  ${i+1}. [${p.heure}] ${p.titre}`;
     if (p.conferencier) line += ` — ${p.conferencier}${p.affiliation ? ' ('+p.affiliation+')' : ''}`;
-    if (p.sujet && p.sujet !== 'À préciser') line += ` : "${p.sujet}"`;
-    if (p.description)  line += `\n     ${p.description}`;
+    if (p.sujet)        line += ` : "${p.sujet}"`;
+    if (p.description)  line += ` — ${p.description}`;
     return line;
   }).join('\n');
 
-  const speakers = data.intervenants.map(s =>
-    `  - ${s.nom} (${s.affiliation}) — ${s.type}`
-  ).join('\n');
-
-  const orgs = data.organisateurs.map(o => `  - ${o.sigle} : ${o.nom}`).join('\n');
+  const orgs  = data.organisateurs.map(o => `  - ${o.sigle} : ${o.nom}`).join('\n');
   const themes = data.appel_papiers.themes.map(t => `  - ${t}`).join('\n');
 
   return `Tu es l'assistant officiel de la conférence IANLP 2026.
 
-RÈGLE ABSOLUE : Tu réponds UNIQUEMENT sur la base des informations officielles ci-dessous.
-Si une information est absente ou marquée "À préciser", dis : "Cette information sera communiquée prochainement. Consultez ${c.site_web}"
-Tu ne dois JAMAIS inventer de noms, dates ou détails non présents dans cette base.
+RÈGLE ABSOLUE : Tu réponds UNIQUEMENT sur la base des informations ci-dessous.
+Si une information n'est pas dans cette base, réponds : "Je n'ai pas cette information pour le moment, veuillez contacter l'organisation."
+Tu ne dois JAMAIS inventer de noms, dates, lieux ou intervenants.
 
-=== INFORMATIONS OFFICIELLES IANLP 2026 ===
+=== INFORMATIONS OFFICIELLES DE LA CONFÉRENCE ===
 
 CONFÉRENCE :
-- Nom complet : ${c.nom}
+- Nom : ${c.nom}
 - Édition : ${c.edition}
-- Dates : ${c.dates}
 - Lieu : ${c.lieu}
-- Adresse : ${c.adresse}
+- Dates : ${c.dates}
 - Thème : ${c.theme}
-- Langues : ${c.langue}
-- Site officiel : ${c.site_web}
-- Contact : ${c.contact_email} — Tél : ${c.contact_tel}
-- Participants attendus : ${c.participants_attendus}
-- frais_inscription : ${c.frais_inscription}
-- rais de participation aux ateliers pratiques : ${c.frais_ateliers}
-
-Ateliers PRATIQUE : ${c.ateliers}
-
-PUBLICATION :
-- Éditeur : ${data.publication.editeur} — Série ${data.publication.serie}
-- Lien Springer : ${data.publication.lien_springer}
-- Journal partenaire (best papers) : ${data.publication.journal_partenaire}
-- Lien journal : ${data.publication.lien_journal}
-- Frais version étendue : ${data.publication.frais_extension}
-- Évaluation : ${data.publication.evaluation}
-
-DATES IMPORTANTES :
-- Soumission des articles : ${di.soumission}
-- Notification d'acceptation : ${di.notification}
-- Dates de la conférence : ${di.conference}
-- Lien soumission EasyChair : ${data.appel_papiers.lien_soumission}
-
-COMITÉ D'ORGANISATION :
-- Président UH2C : ${data.comite.president_universite}
-- Doyen FSBM : ${data.comite.doyen}
-- Chef Département : ${data.comite.chef_departement}
-- Directeur LTIM : ${data.comite.directeur_ltim}
-- General Chair : ${data.comite.general_chair}
-- Co-Chairs : ${data.comite.co_chairs.join(' | ')}
-- Responsable organisation : ${data.comite.responsable_organisation}
+- Langue : ${c.langue}
+- Site web : ${c.site_web}
+- Contact : ${c.contact}
 
 ORGANISATEURS :
 ${orgs}
 
-INTERVENANTS / SPEAKERS :
-${speakers}
-
-PROGRAMME :
-${prog}
-
-THÈMES DE SOUMISSION :
-${themes}
+COMITÉ :
+- Chair : ${data.comite.chair}
+- Doyen : ${data.comite.doyen}
+- Chef Labo TIM : ${data.comite.chef_labo_tim}
+- Président AM2I : ${data.comite.president_am2i}
 
 MODÉRATEUR VIRTUEL :
 - ${data.moderateur_virtuel.nom} : ${data.moderateur_virtuel.description}
 
+PROGRAMME :
+${prog}
+
+INSCRIPTION :
+- Lien : ${data.inscription.lien}
+- Tarifs : ${data.inscription.tarifs}
+- Date limite : ${data.inscription.date_limite}
+
+APPEL À COMMUNICATIONS :
+- Date soumission : ${data.appel_papiers.date_soumission}
+- Date notification : ${data.appel_papiers.date_notification}
+- Date camera-ready : ${data.appel_papiers.date_camera_ready}
+- Lien soumission : ${data.appel_papiers.lien_soumission}
+
+THÈMES DE LA CONFÉRENCE :
+${themes}
+
 === FIN DES INFORMATIONS OFFICIELLES ===
 
-Style :
-- Français par défaut, anglais si la question est posée en anglais
-- Concis, chaleureux, professionnel
-- Utilise le markdown (## titres, - listes, **gras**)
-- Renvoie vers ${c.site_web} pour toute info non disponible`;
+Style de réponse :
+- Réponds en français par défaut, en anglais si la question est en anglais
+- Sois concis, chaleureux et professionnel
+- Utilise le markdown pour structurer (titres ##, listes -, gras **)
+- Si l'info est marquée "À compléter", dis que l'information sera communiquée prochainement`;
 }
 
 app.post('/api/chat', async (req, res) => {
@@ -334,7 +317,7 @@ app.post('/api/chat', async (req, res) => {
           { role: 'system', content: systemPrompt },
           ...trimmed
         ],
-        temperature: 0,   // bas = peu créatif, reste factuel
+        temperature: 0.2,   // bas = peu créatif, reste factuel
         max_tokens: 600
       })
     });
