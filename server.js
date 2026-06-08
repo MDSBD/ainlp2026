@@ -254,7 +254,7 @@ CONFÉRENCE :
 - Contact : ${c.contact_email} — Tél : ${c.contact_tel}
 - Participants attendus : ${c.participants_attendus}
 - frais_inscription : ${c.frais_inscription}
-- rais de participation aux ateliers pratiques : ${c.frais_ateliers}
+- frais de participation aux ateliers pratiques : ${c.frais_ateliers}
 
 Ateliers PRATIQUE : ${c.ateliers}
 
