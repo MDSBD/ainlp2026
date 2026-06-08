@@ -218,7 +218,7 @@ function buildChatSystem(data) {
 
   const c = data.conference;
   const di = data.dates_importantes;
-
+const atelier=data.ateliers_pratiques;
   const prog = data.programme.map((p, i) => {
     let line = `  ${i+1}. [${p.jour || ''} ${p.heure}] ${p.titre}`;
     if (p.conferencier) line += ` — ${p.conferencier}${p.affiliation ? ' ('+p.affiliation+')' : ''}`;
@@ -236,7 +236,11 @@ function buildChatSystem(data) {
 
   return `Tu es l'assistant officiel de la conférence IANLP 2026.
 
-RÈGLE ABSOLUE : Tu réponds UNIQUEMENT sur la base des informations officielles ci-dessous.
+RÈGLE ABSOLUE : 
+1. Tu réponds UNIQUEMENT aux questions liées à IANLP 2026
+2. Si question hors sujet → phrase de refus fixe et rien d'autre
+3. Si info manque → "sera communiquée prochainement"
+4. Ne jamais inventer 
 Si une information est absente ou marquée "À préciser", dis : "Cette information sera communiquée prochainement. Consultez ${c.site_web}"
 Tu ne dois JAMAIS inventer de noms, dates ou détails non présents dans cette base.
 
@@ -256,7 +260,7 @@ CONFÉRENCE :
 - frais_inscription : ${c.frais_inscription}
 - frais de participation aux ateliers pratiques : ${c.frais_ateliers}
 
-Ateliers PRATIQUE : ${c.ateliers}
+Ateliers PRATIQUE : ${atelier.map(a => `  - ${a.titre}`).join('\n')}- description : ${atelier.map(a => `  - ${a.description}`).join('\n')}- animateurs : ${atelier.map(a => `  - ${a.animateurs.map(an => an.nom + ' (' + an.affiliation + ')').join(', ')}`).join('\n')}
 
 PUBLICATION :
 - Éditeur : ${data.publication.editeur} — Série ${data.publication.serie}
