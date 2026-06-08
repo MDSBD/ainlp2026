@@ -580,7 +580,8 @@ Ton rôle :
       addMessage('bot', reply);
     } catch(e) {
       setTyping(false);
-      addMessage('bot', 'Désolé, une erreur est survenue : ' + e.message + '. Veuillez réessayer.');
+      addMessage('bot', 'Je suis momentanément indisponible en raison d\'un volume élevé de requêtes. Veuillez patienter quelques instants et réessayer.');
+      //addMessage('bot', 'Désolé, une erreur est survenue : ' + e.message + '. Veuillez réessayer.');
     }
   }
 
