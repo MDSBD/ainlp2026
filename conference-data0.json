@@ -1,0 +1,247 @@
+{
+  "conference": {
+    "nom": "IANLP 2026 — 1st International Conference on Artificial Intelligence and Natural Language Processing",
+    "edition": "1ère édition",
+    "lieu": "Faculté des Sciences Ben M'Sick (FSBM), Université Hassan II de Casablanca, Maroc",
+    "adresse": "Boulevard Cdt Driss El Harti B.P 7955, Casablanca, Maroc",
+    "dates": "29, 30 juin et 1er juillet 2026 (3 jours)",
+    "ville": "Casablanca, Maroc",
+    "theme": "Artificial Intelligence, Intelligent Computing and Digital Transformation for a Smarter Future",
+    "langue": "Français / Anglais",
+    "site_web": "https://ianlp.am2i.ma/en/ianlp",
+    "contact_email": "omar.zahour@univh2c.ma",
+    "contact_tel": "0660082091",
+    "nature": "Congrès international",
+    "niveau": "International",
+    "public_cible": "Enseignants-chercheurs, chercheurs, doctorants, ingénieurs, étudiants",
+    "participants_attendus": "Environ 360 participants (300 nationaux + 60 étrangers)",
+    "frais_inscription": "600 MAD (60 euros) ",
+    "frais_ateliers":"200 MAD (20 euros) "
+  },
+"ateliers_pratiques":
+[
+  {
+    "titre": "Du Texte à la Vidéo : Fondements, Défis et Expérimentation des Systèmes de Génération Vidéo par IA", 
+    "description": "Cet atelier propose une introduction pratique à la génération de vidéos à partir de texte (Text-to-Video) à travers une approche à la fois conceptuelle et appliquée. Objectifs principaux :* Comprendre les principes de base de la génération de vidéos à partir de descriptions textuelles * Découvrir le fonctionnement général des systèmes d’IA générative de contenu vidéo * Identifier les principaux défis actuels :  cohérence temporelle -  alignement texte–vidéo - qualité visuelle et mouvement * Explorer les usages de cette technologie dans différents domaines (éducation, communication, médias) Partie pratique : * Utilisation d'un outil de génération vidéo en ligne * Transformation de textes en vidéos avec avatars parlants * Expérimentation de la génération de courtes vidéos à partir de scripts simples en Python * Analyse des résultats obtenus et discussion des limites Résultat attendu : * Être capable de comprendre le pipeline global de génération vidéo par IA * Générer une courte vidéo à partir d'un texte en utilisant un outil de génération accessible * Avoir une vision critique des capacités et limites actuelles des modèles Text-to-Video",
+      "animateurs": [
+      { 
+        "nom": "Mme . Salma Hannouni", 
+      "affiliation": "FSBM - Université Hassan II de Casablanca, Morocco" }
+    ]
+  },
+  {
+    "titre": "Practical LLMs Intensive:  Foundations, Architecture & Fine-Tuning with Hugging Face Ecosystem", 
+    "description": "Large Language Models (LLMs) have transformed the field of Artificial Intelligence, enabling systems capable of understanding, generating, and reasoning over natural language at unprecedented scales. This training provides a practical introduction to the foundations of modern LLMs, from tokenization and embeddings to self-attention, Transformer architectures, and text generation mechanisms. Participants will explore how contemporary models such as GPT, LLaMA, DeepSeek, Qwen, and Gemma are built and trained, gaining an intuitive understanding of concepts such as positional encoding, multi-head attention, context windows, and sampling strategies. Finally, the session covers the post-training pipeline used to adapt foundation models to real-world applications, namely Parameter-Efficient Fine-Tuning techniques such as LoRA. Through theoretical explanations and practical demonstrations using the Hugging Face ecosystem, participants will acquire the knowledge required to understand, use, and customize modern generative AI systems.",
+      "animateurs": [
+      { 
+        "nom": "Dr. Zouheir Banou", 
+      "affiliation": "FSBM - Université Hassan II de Casablanca, Morocco" }
+    ]
+  },
+  {
+    "titre": "No-Code AI Automation Lab: Building Intelligent Workflows with n8n & Google Opal", 
+      "description": "Objectif général Permettre aux participants de concevoir et déployer des workflows intelligents capables d’automatiser des tâches réelles à l’aide de n8n, Google Opal et des modèles d’IA générative. Objectifs spécifiques : Comprendre les principes de l’automatisation intelligente. Découvrir les bases de n8n et Google Opal. Concevoir un workflow IA de bout en bout. Intégrer des tâches de résumé, classification, extraction ou génération de contenu. Identifier des cas d’usage applicables à l’éducation, la recherche, l’entreprise et au domaine médical. Livrable final : Chaque participant repart avec un mini-workflow fonctionnel, par exemple un assistant de veille, un générateur de rapport, un assistant de réponse automatique ou un outil de synthèse de documents.",
+      "animateurs": [
+      { 
+        "nom": "Dr. Laila EL-Jiani", 
+      "affiliation": "FSBM - Université Hassan II de Casablanca, Morocco" 
+    }
+  
+  ]
+
+}
+],
+  "publication": {
+    "editeur": "Springer",
+    "serie": "ACSAR — Advances in Computer Science Applications and Research",
+    "lien_springer": "https://link.springer.com/series/60219",
+    "journal_partenaire": "Mathematical Modeling and Computing (indexé Scopus)",
+    "lien_journal": "https://science.lpnu.ua/mmc",
+    "frais_extension": "300 euros par article (pour version étendue dans le journal partenaire)",
+    "evaluation": "Chaque article évalué par au minimum 3 reviewers indépendants",
+    "note": "Articles originaux, non publiés et anonymisés"
+  },
+
+  "organisateurs": [
+    { "sigle": "LTIM", "nom": "Laboratoire de Technologie de l'Information et Modélisation" },
+    { "sigle": "FSBM", "nom": "Faculté des Sciences Ben M'Sick" },
+    { "sigle": "UH2C", "nom": "Université Hassan II de Casablanca" },
+    { "sigle": "AM2I", "nom": "Association Marocaine d'Intelligence Artificielle et d'Innovation" },
+    { "sigle": "DMI",  "nom": "Département de Mathématiques et Informatique, FSBM" }
+  ],
+
+  "comite": {
+    "president_universite": "Pr. Houssine Azeddoug",
+    "doyen": "Pr. Abdessalam El Bouari",
+    "chef_departement": "Pr. Khalid Adnaoui",
+    "directeur_ltim": "Pr. Mohamed Azzouazi",
+    "president_association marocaine d'intelligence artificielle et d'innovation": "Pr. El Habib Benlahmar",
+     
+    "chairs": [
+      "Pr. Omar Zahour (FSBM, Université Hassan II de Casablanca)",
+      "Pr. El Habib Benlahmar (FSBM, Université Hassan II de Casablanca)",
+
+      "Pr. Jaouad Dabounou (Sultan Moulay Slimane University, Morocco)",
+      "Pr. Fatima Zahra Fagroud (Chouaib Doukkali University, Morocco)",
+      "Pr. Hicham Toumi (Chouaib Doukkali University, Morocco)"
+    ],
+    "responsable_organisation": "Pr. Omar Zahour — omar.zahour@univh2c.ma / orzahour@gmail.com"
+  },
+
+  "moderateur_virtuel": {
+    "nom": "Modrex",
+    "description": "Avatar IA conçu par le Pr. El Habib Benlahmar pour animer la conférence IANLP 2026"
+  },
+
+  "intervenants": [
+    {
+      "nom": "Prof. Rada Mihalcea",
+      "titre": "Janice M. Jenkins Professor of Computer Science and Engineering",
+      "affiliation": "University of Michigan, USA",
+      "type": "Keynote speaker"
+    },
+    {
+      "nom": "Prof. Tawhid Chtioui",
+      "affiliation": "Aivancity, France",
+      "type": "Speaker"
+    },
+    {
+      "nom": "Prof. Pepa Atanasova",
+      "affiliation": "University of Copenhagen, Denmark",
+      "type": "Speaker"
+    },
+    {
+      "nom": "Prof. Jaouad Dabounou",
+      "affiliation": "Sultan Moulay Slimane University, Morocco",
+      "type": "Speaker"
+    },
+    {
+      "nom": "Pr. Omar Tanane",
+      "affiliation": "Université Hassan II de Casablanca, Morocco",
+      "type": "Speaker"
+    },
+    {
+      "nom": "Pr. Khadija Achtaich",
+      "affiliation": "Université Hassan II de Casablanca, Morocco",
+      "type": "Speaker"
+    }
+  ],
+
+  "programme": [
+    {
+      "jour": "Lundi 29 juin 2026",
+      "heure": "8h30 – 9h00",
+      "type": "accueil",
+      "titre": "Accueil des participants et inscription"
+    },
+    {
+      "jour": "Lundi 29 juin 2026",
+      "heure": "9h00 – 9h45",
+      "type": "ouverture",
+      "titre": "Cérémonie d'ouverture et mots institutionnels",
+      "description": "Mot du Président de l'UH2C (Pr. Houssine Azeddoug), mot du Doyen FSBM (Pr. Abdessalam El Bouari), mot du Chef de Département (Pr. Khalid Adnaoui), mot du Directeur LTIM (Pr. Mohamed Azzouazi), mot du General Chair (Pr. El Habib Benlahmar)"
+    },
+    {
+      "jour": "Lundi 29 juin 2026",
+      "heure": "À préciser",
+      "type": "pleniere",
+      "titre": "Conférence plénière 1",
+      "conferencier": "Prof. Rada Mihalcea",
+      "affiliation": "University of Michigan, USA",
+      "sujet": "À préciser"
+    },
+    {
+      "jour": "Lundi 29 juin 2026",
+      "heure": "À préciser",
+      "type": "pleniere",
+      "titre": "Conférence plénière 2",
+      "conferencier": "Prof. Tawhid Chtioui",
+      "affiliation": "Aivancity, France",
+      "sujet": "À préciser"
+    },
+    {
+      "jour": "À préciser",
+      "heure": "À préciser",
+      "type": "pleniere",
+      "titre": "Conférence plénière 3",
+      "conferencier": "Prof. Pepa Atanasova",
+      "affiliation": "University of Copenhagen, Denmark",
+      "sujet": "À préciser"
+    },
+    {
+      "jour": "À préciser",
+      "heure": "À préciser",
+      "type": "session",
+      "titre": "Sessions de présentations des articles",
+      "description": "Présentations des articles acceptés et évalués par le comité scientifique"
+    },
+    {
+      "jour": "1er juillet 2026",
+      "heure": "À préciser",
+      "type": "cloture",
+      "titre": "Cérémonie de clôture",
+      "description": "Remise des prix Best Paper, mot de clôture, perspectives IANLP 2027"
+    }
+  ],
+
+  "dates_importantes": {
+    "soumission": "13 juin 2026",
+    "notification": "20 juin 2026",
+    "conference": "29, 30 juin et 1er juillet 2026"
+  },
+
+  "inscription": {
+    "lien": "https://ianlp.am2i.ma/en/ianlp",
+    "tarifs": "À préciser",
+    "date_limite": "À préciser"
+  },
+
+  "appel_papiers": {
+    "date_soumission": "13 juin 2026",
+    "date_notification": "20 juin 2026",
+    "date_camera_ready": "À préciser",
+    "lien_soumission": "https://easychair.org/conferences/?conf=ianlp2026",
+    "themes": [
+      "Intelligence Artificielle (IA)",
+      "Traitement Automatique du Langage Naturel (TALN / NLP)",
+      "Grands Modèles de Langage (LLM)",
+      "IA Générative",
+      "Apprentissage Automatique (Machine Learning)",
+      "Apprentissage Profond (Deep Learning)",
+      "Recherche d'Information",
+      "Systèmes Conversationnels",
+      "IA Explicable (XAI)",
+      "IA Fiable et Responsable",
+      "Systèmes Multimodaux",
+      "IA Agentique",
+      "Applications de l'IA dans l'éducation",
+      "Applications de l'IA dans la santé",
+      "Applications de l'IA dans l'économie et l'industrie",
+      "Ressources Linguistiques et Évaluation des Modèles",
+      "NLP Arabe et Multilingue",
+      "Transformation Numérique"
+    ]
+  },
+
+  "comite_scientifique": [
+    { "nom": "Pr. Mohamed Azzouazi",      "institution": "FSBM - Université Hassan II de Casablanca, Morocco" },
+    { "nom": "Pr. Sanaa El Filali",       "institution": "FSBM - Université Hassan II de Casablanca, Morocco" },
+    { "nom": "Pr. El Habib Benlahmar",    "institution": "FSBM - Université Hassan II de Casablanca, Morocco" },
+    { "nom": "Pr. Omar Tanane",           "institution": "Université Hassan II de Casablanca, Morocco" },
+    { "nom": "Pr. Khadija Achtaich",      "institution": "FSBM - Université Hassan II de Casablanca, Morocco" },
+    { "nom": "Pr. Omar Zahour",           "institution": "FSBM - Université Hassan II de Casablanca, Morocco" },
+    { "nom": "Pr. Faouzia Benabbou",      "institution": "FSBM - Université Hassan II de Casablanca, Morocco" },
+    { "nom": "Pr. Anderson Rocha",        "institution": "UNICAMP, Brazil" },
+    { "nom": "Pr. Angel Ruiz Zafra",      "institution": "University of Granada, Spain" },
+    { "nom": "Prof. Pepa Atanasova",      "institution": "University of Copenhagen, Denmark" },
+    { "nom": "Prof. Tawhid Chtioui",      "institution": "Aivancity, France" },
+    { "nom": "Pr. Jaouad Dabounou",       "institution": "Université Hassan I, Morocco" },
+    { "nom": "Prof. Rada Mihalcea",       "institution": "University of Michigan, USA" },
+    { "nom": "Pr. Gaber Jaafar",          "institution": "Université de Technologie de Belfort-Montbéliard, France" },
+    { "nom": "Pr. Debauche Olivier",      "institution": "University of Liège, Belgium" },
+    { "nom": "Pr. Manuel Noguera Gracia", "institution": "Universidad de Granada, Espagne" },
+    { "nom": "Pr. Nawal Sael",            "institution": "FSBM - Université Hassan II de Casablanca, Morocco" },
+    { "nom": "Pr. Abdelaziz Marzak",      "institution": "FSBM - Université Hassan II de Casablanca, Morocco" },
+    { "nom": "Pr. Hicham Gueddah",        "institution": "ENS, Mohammed V University, Rabat, Morocco" }
+  ]
+}
