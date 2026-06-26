@@ -90,7 +90,7 @@
      {
       "order":1,
       "nom": "Prof. Jaouad Dabounou",
-      "affiliation": "Sultan Moulay Slimane University, Morocco",
+      "affiliation": "Hassan First University,Settat,  Morocco",
       "type": "Speaker",
       "biographie": {
         "en": "Prof. Jaouad Dabounou has been a Professor at Hassan First University, FST of Settat, Morocco, since 1994. He holds a doctorate in the modeling of solids and structures from UTC, France. His research focuses on applied mathematics and artificial intelligence, with particular interest in AI applications across multiple domains. He is Director of the Artificial Intelligence Research and Applications Laboratory (AIRA), coordinates projects related to territorial information systems, and is a member of the Iconomy Institute in Paris. He is also an AI expert for OneUp and ArcelorMittal. Prof. Jaouad Dabounou is President of the Association for the Development of Artificial Intelligence in Africa (AAIDA) and Chair of the International Conference on Artificial Intelligence Advanced Topics and Societal Innovation (AIATSI).",
@@ -128,7 +128,6 @@
       }
     },
     
-    
     {
       "order":5,
       "nom": "Prof. Ernesto Exposito",
@@ -137,6 +136,16 @@
       "biographie": {
         "en": "Ernesto Exposito has been a Full Professor at the University of Pau and the Adour Region (UPPA) since 2016, member of the LIUPPA research laboratory and Head of the SIGLIS and INDUSTRY 4.0 Master programs in Computer Science at the STEE Sciences College, Anglet campus. He previously served as Associate Professor at INSA Toulouse and researcher at LAAS/CNRS in Toulouse from 2006 to 2016, then as a researcher at NICTA, the National ICT Australia centre in Sydney, and Conjoint Lecturer at the School of Electrical Engineering and Telecommunications of the University of New South Wales from 2004 to 2005. He earned his Habilitation à Diriger des Recherches from Institut National Polytechnique de Toulouse in 2010 and his Ph.D. in Computer Science and Telecommunications from the same institution in 2003. His research interests center on the design and management of smart cyber-physical systems integrating artificial intelligence and applied to Industry 4.0 domains such as transportation, agriculture, and education. He has coordinated several actions in national and international research projects, authored more than 100 international publications, and serves on editorial boards and conference program committees in distributed systems. Since 2021, he has been Vice-President for International Relations at UPPA, leading the institution's international strategy and coordinating the European university alliance UNITA on behalf of UPPA.",
         "fr": "Ernesto Exposito est Professeur des Universités à l'Université de Pau et des Pays de l'Adour (UPPA) depuis 2016. Il est membre du laboratoire de recherche LIUPPA et responsable des masters SIGLIS et INDUSTRY 4.0 en informatique au Collège Sciences et Technologies pour l'Énergie et l'Environnement, campus d'Anglet. Il a auparavant été maître de conférences à l'INSA Toulouse et chercheur au LAAS/CNRS à Toulouse de 2006 à 2016, puis chercheur au centre NICTA (National ICT Australia) à Sydney et Conjoint Lecturer à la School of Electrical Engineering and Telecommunications de l'Université de New South Wales de 2004 à 2005. Il a obtenu son Habilitation à Diriger des Recherches à l'Institut National Polytechnique de Toulouse en 2010 et son doctorat en informatique et télécommunications dans le même établissement en 2003. Ses travaux portent sur la conception et la gestion de systèmes cyber-physiques intelligents intégrant l'intelligence artificielle, appliqués aux domaines de l'Industrie 4.0, notamment le transport, l'agriculture et l'éducation. Il a coordonné plusieurs actions dans des projets de recherche nationaux et internationaux, publié plus de 100 articles internationaux et participé à de nombreux comités éditoriaux et comités de programme dans le domaine des systèmes distribués. Depuis 2021, il est Vice-Président chargé des relations internationales à l'UPPA, où il pilote la stratégie internationale de l'établissement et coordonne l'alliance universitaire européenne UNITA pour le compte de l'UPPA."
+      }
+    },
+     {
+      "order":6,
+      "nom": "Prof. Pepa Atanasova",
+      "affiliation": "University of Copenhagen, Denmark",
+      "type": "Speaker",
+      "biographie": {
+        "en": "Dr. Pepa Atanasova is a tenure-track Assistant Professor in the AI Section at the University of Copenhagen, where she co-leads the NLP group CopeNLU. Her research focuses on making language models trustworthy, transparent, and accountable, investigating the internal mechanisms behind model outputs to steer them toward safer, more factual behaviour. She co-directs an interdisciplinary Trustworthy AI programme and leads a synergy project on trustworthy human-AI interaction, with particular attention to emergent deception in AI-mediated communication.",
+        "fr": "Dr. Pepa Atanasova est professeure assistante tenure-track au sein de la section Intelligence Artificielle de l'Université de Copenhague, où elle co-dirige le groupe de traitement automatique du langage naturel CopeNLU. Ses recherches visent à rendre les modèles de langage plus fiables, transparents et responsables, en étudiant les mécanismes internes qui expliquent leurs sorties afin de les orienter vers des comportements plus sûrs et plus factuels. Elle co-dirige un programme interdisciplinaire sur l'IA de confiance et pilote un projet de synergie consacré à l'interaction humain–IA de confiance, avec une attention particulière portée aux formes émergentes de tromperie dans la communication médiée par l'IA."
       }
     },
     {
@@ -149,18 +158,9 @@
         "en": "Rada Mihalcea is the Janice M. Jenkins Professor of Computer Science and Engineering at the University of Michigan and the Director of the Michigan Artificial Intelligence Lab. Her research spans natural language processing, large language and language-vision models, and computational social science, with a focus on cross-cultural and cross-lingual models, fairness, interpretability, and responsible AI deployment. She leads multiple interdisciplinary initiatives at the intersection of AI, health, education, and social impact, and has developed widely adopted datasets and computational methods. She served as Program Co-Chair for EMNLP 2009 and ACL 2011, General Chair for NAACL 2015 and *SEM 2019, and co-founded the ACL Mentorship Program, the TextGraphs workshop series, and the NLP for Positive Impact workshop series. She is an ACM Fellow, AAAI Fellow, ACL Fellow, AAA&S Fellow, and a former President of the ACL. She is a recipient of the Presidential Early Career Award for Scientists and Engineers awarded by President Obama.",
         "fr": "Rada Mihalcea est Janice M. Jenkins Professor of Computer Science and Engineering à l'Université du Michigan et Directrice du Michigan Artificial Intelligence Lab. Ses recherches couvrent le traitement automatique du langage naturel, les grands modèles de langage, les modèles langage–vision et la science sociale computationnelle, avec un intérêt particulier pour les modèles interculturels et multilingues, l'équité, l'interprétabilité et le déploiement responsable de l'intelligence artificielle. Elle dirige plusieurs initiatives interdisciplinaires à l'intersection de l'IA, de la santé, de l'éducation et de l'impact sociétal, et a développé des jeux de données et des méthodes computationnelles largement utilisés. Elle a été Program Co-Chair de EMNLP 2009 et ACL 2011, General Chair de NAACL 2015 et *SEM 2019, et a cofondé le programme de mentorat de l'ACL, la série d'ateliers TextGraphs ainsi que la série NLP for Positive Impact. Elle est ACM Fellow, AAAI Fellow, ACL Fellow, AAA&S Fellow et ancienne Présidente de l'ACL. Elle est également lauréate du Presidential Early Career Award for Scientists and Engineers, décerné par le Président Obama."
       }
-    },
-    
-    {
-      "order":6,
-      "nom": "Prof. Pepa Atanasova",
-      "affiliation": "University of Copenhagen, Denmark",
-      "type": "Speaker",
-      "biographie": {
-        "en": "Dr. Pepa Atanasova is a tenure-track Assistant Professor in the AI Section at the University of Copenhagen, where she co-leads the NLP group CopeNLU. Her research focuses on making language models trustworthy, transparent, and accountable, investigating the internal mechanisms behind model outputs to steer them toward safer, more factual behaviour. She co-directs an interdisciplinary Trustworthy AI programme and leads a synergy project on trustworthy human-AI interaction, with particular attention to emergent deception in AI-mediated communication.",
-        "fr": "Dr. Pepa Atanasova est professeure assistante tenure-track au sein de la section Intelligence Artificielle de l'Université de Copenhague, où elle co-dirige le groupe de traitement automatique du langage naturel CopeNLU. Ses recherches visent à rendre les modèles de langage plus fiables, transparents et responsables, en étudiant les mécanismes internes qui expliquent leurs sorties afin de les orienter vers des comportements plus sûrs et plus factuels. Elle co-dirige un programme interdisciplinaire sur l'IA de confiance et pilote un projet de synergie consacré à l'interaction humain–IA de confiance, avec une attention particulière portée aux formes émergentes de tromperie dans la communication médiée par l'IA."
-      }
     }
+    
+   
   ],
   "programme": [
     {
@@ -174,16 +174,16 @@
       "heure": "9h00 – 9h45",
       "type": "ouverture",
       "titre": "Cérémonie d'ouverture et mots institutionnels",
-      "description": "Mot du Président de l'UH2C (Pr. Houssine Azeddoug), mot du Doyen FSBM (Pr. Abdessalam El Bouari), mot du Chef de Département (Pr. Khalid Adnaoui), mot du Directeur LTIM (Pr. Mohamed Azzouazi), mot du General Chair (Pr. El Habib Benlahmar)"
+      "description": "Mot du Doyen FSBM (Pr. Abdessalam El Bouari), mot du Directeur LTIM (Pr. Mohamed Azzouazi), mot du General Chair (Pr. Omar Zahour)"
     },
     {
       "jour": "Lundi 29 juin 2026",
       "heure": "À préciser",
       "type": "pleniere",
       "titre": "Conférence plénière 1",
-      "conferencier": "Prof. Rada Mihalcea",
-      "affiliation": "University of Michigan, USA",
-      "sujet": "À préciser"
+      "conferencier": "Prof. Jaouad Dabounou",
+      "affiliation": "Université Hassan I, FST de Settat, Maroc",
+      "sujet": "From Language Models to Decision Models: Integrating LLMs, Deep Learning and World Models for Intelligent Enterprises"
     },
     {
       "jour": "Lundi 29 juin 2026",
@@ -192,16 +192,54 @@
       "titre": "Conférence plénière 2",
       "conferencier": "Prof. Tawhid Chtioui",
       "affiliation": "Aivancity, France",
-      "sujet": "À préciser"
+      "sujet": "A Human Being Is Not a Slower AI: Rethinking Intelligence in the Generative AI Era"
     },
     {
-      "jour": "À préciser",
+      "jour": "Lundi 29 juin 2026",
       "heure": "À préciser",
       "type": "pleniere",
       "titre": "Conférence plénière 3",
+      "conferencier": "Pr. Omar Tanane",
+      "affiliation": "Université Hassan II de Casablanca, Morocco",
+      "sujet": "Artificial Intelligence, Innovation and Patent Strategy for Sustainable Digital Transformation"
+    },
+    {
+      "jour": "Lundi 29 juin 2026",
+      "heure": "À préciser",
+      "type": "pleniere",
+      "titre": "Conférence plénière 3",
+      "conferencier": "Pr. Khadija Achtaich",
+      "affiliation": "Université Hassan II de Casablanca, Morocco",
+      "sujet": "Digital Sovereignty and Generative AI: For an AI that Reflects Cultural Diversity"
+    },
+    {
+      "jour": "Mardi 30 juin 2026",
+      "heure": "À préciser",
+      "type": "pleniere",
+      "titre": "Conférence plénière 5",
+      "conferencier": "Prof. Ernesto Exposito",
+      "affiliation": "Université de Pau et des Pays de l'Adour, France",
+      "sujet": "Intelligent Cyber-Physical Systems, Artificial Intelligence and Innovation for Industry 4.0"
+    },
+    
+      
+    {
+      "jour": "Mardi 30 juin 2026",
+      "heure": "À préciser",
+      "type": "pleniere",
+      "titre": "Conférence plénière 6",
       "conferencier": "Prof. Pepa Atanasova",
       "affiliation": "University of Copenhagen, Denmark",
-      "sujet": "À préciser"
+      "sujet": "When Explanations Lie: Testing and Improving Faithfulness in Model Reasoning"
+    },
+      {
+      "jour": "Mardi 30 juin 2026",
+      "heure": "À préciser",
+      "type": "pleniere",
+      "titre": "Conférence plénière 7",
+      "conferencier": "Prof. Rada Mihalcea",
+      "affiliation": "University of Michigan, USA",
+      "sujet": "Multi-Agent Systems and the Limits of Artificial General Intelligence"
     },
     {
       "jour": "À préciser",
