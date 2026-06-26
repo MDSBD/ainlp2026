@@ -87,60 +87,7 @@
     "description": "Avatar IA conçu par le Pr. El Habib Benlahmar pour animer la conférence IANLP 2026"
   },
   "intervenants": [
-     {
-      "order":1,
-      "nom": "Prof. Jaouad Dabounou",
-      "affiliation": "Sultan Moulay Slimane University, Morocco",
-      "type": "Speaker",
-      "biographie": {
-        "en": "Prof. Jaouad Dabounou has been a Professor at Hassan First University, FST of Settat, Morocco, since 1994. He holds a doctorate in the modeling of solids and structures from UTC, France. His research focuses on applied mathematics and artificial intelligence, with particular interest in AI applications across multiple domains. He is Director of the Artificial Intelligence Research and Applications Laboratory (AIRA), coordinates projects related to territorial information systems, and is a member of the Iconomy Institute in Paris. He is also an AI expert for OneUp and ArcelorMittal. Prof. Jaouad Dabounou is President of the Association for the Development of Artificial Intelligence in Africa (AAIDA) and Chair of the International Conference on Artificial Intelligence Advanced Topics and Societal Innovation (AIATSI).",
-        "fr": "Prof. Jaouad Dabounou est Professeur à l'Université Hassan I, FST de Settat, Maroc, depuis 1994. Il est titulaire d'un doctorat en modélisation des solides et des structures obtenu à l'UTC, France. Ses travaux de recherche portent sur les mathématiques appliquées et l'intelligence artificielle, avec un intérêt particulier pour les applications de l'IA dans plusieurs domaines. Il est Directeur du Laboratoire de Recherche et Applications en Intelligence Artificielle (AIRA), coordonne des projets liés aux systèmes d'information territoriaux, et est membre de l'Institut Iconomy à Paris. Il est également expert en intelligence artificielle auprès de OneUp et ArcelorMittal. Prof. Jaouad Dabounou est Président de l'Association du Développement de l'Intelligence Artificielle en Afrique (AAIDA) et Chair de la Conférence Internationale sur les Thématiques Avancées de l'Intelligence Artificielle et l'Innovation Sociétale (AIATSI)."
-      }
-    },
     {
-      "order":2,
-      "nom": "Prof. Tawhid Chtioui",
-      "affiliation": "Aivancity, France",
-      "type": "Speaker",
-      "biographie": {
-        "en": "Prof. Tawhid Chtioui is the Founder and President of aivancity School of AI & Data for Business & Society, a French higher education institution specializing in artificial intelligence and data science. His academic and institutional work lies at the intersection of artificial intelligence, digital transformation, management, innovation, and the societal challenges associated with emerging technologies. Through aivancity, he contributes to training profiles capable of understanding, designing, and leading AI projects while integrating the technological, managerial, ethical, and responsible dimensions of digital innovation.",
-        "fr": "Prof. Tawhid Chtioui est le fondateur et président d'aivancity School of AI & Data for Business & Society, un établissement d'enseignement supérieur français spécialisé en intelligence artificielle et en science des données. Son parcours académique et institutionnel s'inscrit à l'intersection de l'intelligence artificielle, de la transformation numérique, du management, de l'innovation et des enjeux sociétaux liés aux technologies émergentes. À travers aivancity, il contribue à la formation de profils capables de comprendre, concevoir et piloter des projets d'IA en intégrant les dimensions technologiques, managériales, éthiques et responsables de l'innovation numérique."
-      }
-    },
-    {
-      "order":3,
-      "nom": "Pr. Omar Tanane",
-      "affiliation": "Université Hassan II de Casablanca, Morocco",
-      "type": "Speaker",
-      "biographie": {
-        "en": "Professor Omar Tanane is a researcher and lecturer at Hassan II University in Casablanca, specializing in electrochemistry, chemical engineering, and environmental chemistry. Holding a Ph.D. in electrochemistry and a management degree from ISCAE Business School, he has contributed significantly to innovation, securing six patents related to corrosion inhibition, environmental protection, and materials recycling. His research spans artificial intelligence in materials science, exploring machine learning for material discovery and robotics, notably co-developing a robotic system for scorpion venom extraction. With twenty-four scientific publications, he was awarded the Best Paper Award in 2013. Since 1992, he has been a faculty member at Hassan II University, leading Technology and Innovation Support Centers (TISC) at the Moroccan Industrial and Commercial Property Office, with certifications from WIPO and GIPA. His work bridges academic research, intellectual property, and technological innovation.",
-        "fr": "Prof. Omar Tanane est enseignant-chercheur à l'Université Hassan II de Casablanca, spécialisé en électrochimie, génie chimique et chimie de l'environnement. Titulaire d'un doctorat en électrochimie et d'un diplôme en management de l'ISCAE Business School, il a contribué de manière significative à l'innovation, notamment à travers six brevets portant sur l'inhibition de la corrosion, la protection de l'environnement et le recyclage des matériaux. Ses recherches s'étendent à l'intelligence artificielle appliquée aux sciences des matériaux, avec des travaux sur l'apprentissage automatique pour la découverte de matériaux et la robotique, notamment la co-conception d'un système robotisé d'extraction du venin de scorpion. Auteur de vingt-quatre publications scientifiques, il a reçu le Best Paper Award en 2013. Depuis 1992, il est membre de l'Université Hassan II et dirige des Centres d'Appui à la Technologie et à l'Innovation (TISC) auprès de l'Office Marocain de la Propriété Industrielle et Commerciale, avec des certifications de l'OMPI et de GIPA. Ses travaux font le lien entre recherche académique, propriété intellectuelle et innovation technologique."
-      }
-    },
-    {
-      "order":4,
-      "nom": "Pr. Khadija Achtaich",
-      "affiliation": "Université Hassan II de Casablanca, Morocco",
-      "type": "Speaker",
-      "biographie": {
-        "en": "Prof. Khadija Achtaich is a researcher specializing in the application of artificial intelligence to heritage preservation and healthcare. Her work focuses on the development of intelligent solutions for medical diagnosis and the optimization of care pathways. She is actively committed to technological innovation and science communication, with a particular focus on improving health literacy and promoting digital inclusion.",
-        "fr": "Pr. Khadija Achtaich est une chercheuse spécialisée dans l'application de l'intelligence artificielle aux domaines de la préservation du patrimoine et de la santé. Ses travaux portent sur le développement de solutions intelligentes pour le diagnostic médical et l'optimisation des parcours de soins. Elle se consacre activement à l'innovation technologique et à la vulgarisation scientifique, avec un engagement particulier pour l'amélioration de la littératie en santé et l'inclusion numérique."
-      }
-    },
-    
-    
-    {
-      "order":5,
-      "nom": "Prof. Ernesto Exposito",
-      "affiliation": "Université de Pau et des Pays de l'Adour, France",
-      "type": "Speaker",
-      "biographie": {
-        "en": "Ernesto Exposito has been a Full Professor at the University of Pau and the Adour Region (UPPA) since 2016, member of the LIUPPA research laboratory and Head of the SIGLIS and INDUSTRY 4.0 Master programs in Computer Science at the STEE Sciences College, Anglet campus. He previously served as Associate Professor at INSA Toulouse and researcher at LAAS/CNRS in Toulouse from 2006 to 2016, then as a researcher at NICTA, the National ICT Australia centre in Sydney, and Conjoint Lecturer at the School of Electrical Engineering and Telecommunications of the University of New South Wales from 2004 to 2005. He earned his Habilitation à Diriger des Recherches from Institut National Polytechnique de Toulouse in 2010 and his Ph.D. in Computer Science and Telecommunications from the same institution in 2003. His research interests center on the design and management of smart cyber-physical systems integrating artificial intelligence and applied to Industry 4.0 domains such as transportation, agriculture, and education. He has coordinated several actions in national and international research projects, authored more than 100 international publications, and serves on editorial boards and conference program committees in distributed systems. Since 2021, he has been Vice-President for International Relations at UPPA, leading the institution's international strategy and coordinating the European university alliance UNITA on behalf of UPPA.",
-        "fr": "Ernesto Exposito est Professeur des Universités à l'Université de Pau et des Pays de l'Adour (UPPA) depuis 2016. Il est membre du laboratoire de recherche LIUPPA et responsable des masters SIGLIS et INDUSTRY 4.0 en informatique au Collège Sciences et Technologies pour l'Énergie et l'Environnement, campus d'Anglet. Il a auparavant été maître de conférences à l'INSA Toulouse et chercheur au LAAS/CNRS à Toulouse de 2006 à 2016, puis chercheur au centre NICTA (National ICT Australia) à Sydney et Conjoint Lecturer à la School of Electrical Engineering and Telecommunications de l'Université de New South Wales de 2004 à 2005. Il a obtenu son Habilitation à Diriger des Recherches à l'Institut National Polytechnique de Toulouse en 2010 et son doctorat en informatique et télécommunications dans le même établissement en 2003. Ses travaux portent sur la conception et la gestion de systèmes cyber-physiques intelligents intégrant l'intelligence artificielle, appliqués aux domaines de l'Industrie 4.0, notamment le transport, l'agriculture et l'éducation. Il a coordonné plusieurs actions dans des projets de recherche nationaux et internationaux, publié plus de 100 articles internationaux et participé à de nombreux comités éditoriaux et comités de programme dans le domaine des systèmes distribués. Depuis 2021, il est Vice-Président chargé des relations internationales à l'UPPA, où il pilote la stratégie internationale de l'établissement et coordonne l'alliance universitaire européenne UNITA pour le compte de l'UPPA."
-      }
-    },
-    {
-      "order":7,
       "nom": "Prof. Rada Mihalcea",
       "titre": "Janice M. Jenkins Professor of Computer Science and Engineering",
       "affiliation": "University of Michigan, USA",
@@ -150,15 +97,58 @@
         "fr": "Rada Mihalcea est Janice M. Jenkins Professor of Computer Science and Engineering à l'Université du Michigan et Directrice du Michigan Artificial Intelligence Lab. Ses recherches couvrent le traitement automatique du langage naturel, les grands modèles de langage, les modèles langage–vision et la science sociale computationnelle, avec un intérêt particulier pour les modèles interculturels et multilingues, l'équité, l'interprétabilité et le déploiement responsable de l'intelligence artificielle. Elle dirige plusieurs initiatives interdisciplinaires à l'intersection de l'IA, de la santé, de l'éducation et de l'impact sociétal, et a développé des jeux de données et des méthodes computationnelles largement utilisés. Elle a été Program Co-Chair de EMNLP 2009 et ACL 2011, General Chair de NAACL 2015 et *SEM 2019, et a cofondé le programme de mentorat de l'ACL, la série d'ateliers TextGraphs ainsi que la série NLP for Positive Impact. Elle est ACM Fellow, AAAI Fellow, ACL Fellow, AAA&S Fellow et ancienne Présidente de l'ACL. Elle est également lauréate du Presidential Early Career Award for Scientists and Engineers, décerné par le Président Obama."
       }
     },
-    
     {
-      "order":6,
+      "nom": "Prof. Tawhid Chtioui",
+      "affiliation": "Aivancity, France",
+      "type": "Speaker",
+      "biographie": {
+        "en": "Prof. Tawhid Chtioui is the Founder and President of aivancity School of AI & Data for Business & Society, a French higher education institution specializing in artificial intelligence and data science. His academic and institutional work lies at the intersection of artificial intelligence, digital transformation, management, innovation, and the societal challenges associated with emerging technologies. Through aivancity, he contributes to training profiles capable of understanding, designing, and leading AI projects while integrating the technological, managerial, ethical, and responsible dimensions of digital innovation.",
+        "fr": "Prof. Tawhid Chtioui est le fondateur et président d'aivancity School of AI & Data for Business & Society, un établissement d'enseignement supérieur français spécialisé en intelligence artificielle et en science des données. Son parcours académique et institutionnel s'inscrit à l'intersection de l'intelligence artificielle, de la transformation numérique, du management, de l'innovation et des enjeux sociétaux liés aux technologies émergentes. À travers aivancity, il contribue à la formation de profils capables de comprendre, concevoir et piloter des projets d'IA en intégrant les dimensions technologiques, managériales, éthiques et responsables de l'innovation numérique."
+      }
+    },
+    {
       "nom": "Prof. Pepa Atanasova",
       "affiliation": "University of Copenhagen, Denmark",
       "type": "Speaker",
       "biographie": {
         "en": "Dr. Pepa Atanasova is a tenure-track Assistant Professor in the AI Section at the University of Copenhagen, where she co-leads the NLP group CopeNLU. Her research focuses on making language models trustworthy, transparent, and accountable, investigating the internal mechanisms behind model outputs to steer them toward safer, more factual behaviour. She co-directs an interdisciplinary Trustworthy AI programme and leads a synergy project on trustworthy human-AI interaction, with particular attention to emergent deception in AI-mediated communication.",
         "fr": "Dr. Pepa Atanasova est professeure assistante tenure-track au sein de la section Intelligence Artificielle de l'Université de Copenhague, où elle co-dirige le groupe de traitement automatique du langage naturel CopeNLU. Ses recherches visent à rendre les modèles de langage plus fiables, transparents et responsables, en étudiant les mécanismes internes qui expliquent leurs sorties afin de les orienter vers des comportements plus sûrs et plus factuels. Elle co-dirige un programme interdisciplinaire sur l'IA de confiance et pilote un projet de synergie consacré à l'interaction humain–IA de confiance, avec une attention particulière portée aux formes émergentes de tromperie dans la communication médiée par l'IA."
+      }
+    },
+    {
+      "nom": "Prof. Jaouad Dabounou",
+      "affiliation": "Sultan Moulay Slimane University, Morocco",
+      "type": "Speaker",
+      "biographie": {
+        "en": "Prof. Jaouad Dabounou has been a Professor at Hassan First University, FST of Settat, Morocco, since 1994. He holds a doctorate in the modeling of solids and structures from UTC, France. His research focuses on applied mathematics and artificial intelligence, with particular interest in AI applications across multiple domains. He is Director of the Artificial Intelligence Research and Applications Laboratory (AIRA), coordinates projects related to territorial information systems, and is a member of the Iconomy Institute in Paris. He is also an AI expert for OneUp and ArcelorMittal. Prof. Jaouad Dabounou is President of the Association for the Development of Artificial Intelligence in Africa (AAIDA) and Chair of the International Conference on Artificial Intelligence Advanced Topics and Societal Innovation (AIATSI).",
+        "fr": "Prof. Jaouad Dabounou est Professeur à l'Université Hassan I, FST de Settat, Maroc, depuis 1994. Il est titulaire d'un doctorat en modélisation des solides et des structures obtenu à l'UTC, France. Ses travaux de recherche portent sur les mathématiques appliquées et l'intelligence artificielle, avec un intérêt particulier pour les applications de l'IA dans plusieurs domaines. Il est Directeur du Laboratoire de Recherche et Applications en Intelligence Artificielle (AIRA), coordonne des projets liés aux systèmes d'information territoriaux, et est membre de l'Institut Iconomy à Paris. Il est également expert en intelligence artificielle auprès de OneUp et ArcelorMittal. Prof. Jaouad Dabounou est Président de l'Association du Développement de l'Intelligence Artificielle en Afrique (AAIDA) et Chair de la Conférence Internationale sur les Thématiques Avancées de l'Intelligence Artificielle et l'Innovation Sociétale (AIATSI)."
+      }
+    },
+    {
+      "nom": "Pr. Omar Tanane",
+      "affiliation": "Université Hassan II de Casablanca, Morocco",
+      "type": "Speaker",
+      "biographie": {
+        "en": "Professor Omar Tanane is a researcher and lecturer at Hassan II University in Casablanca, specializing in electrochemistry, chemical engineering, and environmental chemistry. Holding a Ph.D. in electrochemistry and a management degree from ISCAE Business School, he has contributed significantly to innovation, securing six patents related to corrosion inhibition, environmental protection, and materials recycling. His research spans artificial intelligence in materials science, exploring machine learning for material discovery and robotics, notably co-developing a robotic system for scorpion venom extraction. With twenty-four scientific publications, he was awarded the Best Paper Award in 2013. Since 1992, he has been a faculty member at Hassan II University, leading Technology and Innovation Support Centers (TISC) at the Moroccan Industrial and Commercial Property Office, with certifications from WIPO and GIPA. His work bridges academic research, intellectual property, and technological innovation.",
+        "fr": "Prof. Omar Tanane est enseignant-chercheur à l'Université Hassan II de Casablanca, spécialisé en électrochimie, génie chimique et chimie de l'environnement. Titulaire d'un doctorat en électrochimie et d'un diplôme en management de l'ISCAE Business School, il a contribué de manière significative à l'innovation, notamment à travers six brevets portant sur l'inhibition de la corrosion, la protection de l'environnement et le recyclage des matériaux. Ses recherches s'étendent à l'intelligence artificielle appliquée aux sciences des matériaux, avec des travaux sur l'apprentissage automatique pour la découverte de matériaux et la robotique, notamment la co-conception d'un système robotisé d'extraction du venin de scorpion. Auteur de vingt-quatre publications scientifiques, il a reçu le Best Paper Award en 2013. Depuis 1992, il est membre de l'Université Hassan II et dirige des Centres d'Appui à la Technologie et à l'Innovation (TISC) auprès de l'Office Marocain de la Propriété Industrielle et Commerciale, avec des certifications de l'OMPI et de GIPA. Ses travaux font le lien entre recherche académique, propriété intellectuelle et innovation technologique."
+      }
+    },
+    {
+      "nom": "Pr. Khadija Achtaich",
+      "affiliation": "Université Hassan II de Casablanca, Morocco",
+      "type": "Speaker",
+      "biographie": {
+        "en": "Prof. Khadija Achtaich is a researcher specializing in the application of artificial intelligence to heritage preservation and healthcare. Her work focuses on the development of intelligent solutions for medical diagnosis and the optimization of care pathways. She is actively committed to technological innovation and science communication, with a particular focus on improving health literacy and promoting digital inclusion.",
+        "fr": "Pr. Khadija Achtaich est une chercheuse spécialisée dans l'application de l'intelligence artificielle aux domaines de la préservation du patrimoine et de la santé. Ses travaux portent sur le développement de solutions intelligentes pour le diagnostic médical et l'optimisation des parcours de soins. Elle se consacre activement à l'innovation technologique et à la vulgarisation scientifique, avec un engagement particulier pour l'amélioration de la littératie en santé et l'inclusion numérique."
+      }
+    },
+    {
+      "nom": "Prof. Ernesto Exposito",
+      "affiliation": "Université de Pau et des Pays de l'Adour, France",
+      "type": "Speaker",
+      "biographie": {
+        "en": "Ernesto Exposito has been a Full Professor at the University of Pau and the Adour Region (UPPA) since 2016, member of the LIUPPA research laboratory and Head of the SIGLIS and INDUSTRY 4.0 Master programs in Computer Science at the STEE Sciences College, Anglet campus. He previously served as Associate Professor at INSA Toulouse and researcher at LAAS/CNRS in Toulouse from 2006 to 2016, then as a researcher at NICTA, the National ICT Australia centre in Sydney, and Conjoint Lecturer at the School of Electrical Engineering and Telecommunications of the University of New South Wales from 2004 to 2005. He earned his Habilitation à Diriger des Recherches from Institut National Polytechnique de Toulouse in 2010 and his Ph.D. in Computer Science and Telecommunications from the same institution in 2003. His research interests center on the design and management of smart cyber-physical systems integrating artificial intelligence and applied to Industry 4.0 domains such as transportation, agriculture, and education. He has coordinated several actions in national and international research projects, authored more than 100 international publications, and serves on editorial boards and conference program committees in distributed systems. Since 2021, he has been Vice-President for International Relations at UPPA, leading the institution's international strategy and coordinating the European university alliance UNITA on behalf of UPPA.",
+        "fr": "Ernesto Exposito est Professeur des Universités à l'Université de Pau et des Pays de l'Adour (UPPA) depuis 2016. Il est membre du laboratoire de recherche LIUPPA et responsable des masters SIGLIS et INDUSTRY 4.0 en informatique au Collège Sciences et Technologies pour l'Énergie et l'Environnement, campus d'Anglet. Il a auparavant été maître de conférences à l'INSA Toulouse et chercheur au LAAS/CNRS à Toulouse de 2006 à 2016, puis chercheur au centre NICTA (National ICT Australia) à Sydney et Conjoint Lecturer à la School of Electrical Engineering and Telecommunications de l'Université de New South Wales de 2004 à 2005. Il a obtenu son Habilitation à Diriger des Recherches à l'Institut National Polytechnique de Toulouse en 2010 et son doctorat en informatique et télécommunications dans le même établissement en 2003. Ses travaux portent sur la conception et la gestion de systèmes cyber-physiques intelligents intégrant l'intelligence artificielle, appliqués aux domaines de l'Industrie 4.0, notamment le transport, l'agriculture et l'éducation. Il a coordonné plusieurs actions dans des projets de recherche nationaux et internationaux, publié plus de 100 articles internationaux et participé à de nombreux comités éditoriaux et comités de programme dans le domaine des systèmes distribués. Depuis 2021, il est Vice-Président chargé des relations internationales à l'UPPA, où il pilote la stratégie internationale de l'établissement et coordonne l'alliance universitaire européenne UNITA pour le compte de l'UPPA."
       }
     }
   ],
