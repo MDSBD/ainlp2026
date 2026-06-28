@@ -63,6 +63,9 @@ function checkEnv() {
   const missing = [];
   if (!process.env.ANAM_API_KEY) missing.push('ANAM_API_KEY');
   if (!process.env.GROQ_API_KEY) missing.push('GROQ_API_KEY');
+  if (!process.env.RESEARCH_AVATAR_ID) missing.push('RESEARCH_AVATAR_ID');   // ← AJOUTÉ
+  if (!process.env.RESEARCH_VOICE_ID)  missing.push('RESEARCH_VOICE_ID');   // ← AJOUTÉ
+  if (!process.env.RESEARCH_LLM_ID)    missing.push('RESEARCH_LLM_ID');     // ← AJOUTÉ
   if (missing.length) {
     console.warn('\n⚠️  Variables manquantes dans .env :', missing.join(', '));
     console.warn('   Créez un fichier .env à la racine du projet.\n');
@@ -385,6 +388,10 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
+// Debug : affiche les IDs reellement utilises (masques) pour diagnostiquer un 404
+console.log('[Research] avatarId:', process.env.RESEARCH_AVATAR_ID ? process.env.RESEARCH_AVATAR_ID.slice(0,8)+'...' : 'MANQUANT');
+console.log('[Research] voiceId :', process.env.RESEARCH_VOICE_ID  ? process.env.RESEARCH_VOICE_ID.slice(0,8)+'...'  : 'MANQUANT');
+console.log('[Research] llmId   :', process.env.RESEARCH_LLM_ID    ? process.env.RESEARCH_LLM_ID.slice(0,8)+'...'    : 'MANQUANT');
 
 app.post('/api/research-session-token', async (req, res) => {
   try {
@@ -394,10 +401,7 @@ app.post('/api/research-session-token', async (req, res) => {
       voiceId:  process.env.RESEARCH_VOICE_ID,
       llmId:    process.env.RESEARCH_LLM_ID,
       skipGreeting: false,
-      uninterruptibleGreeting: true,
-      initialMessage: "...", // texte complet du discours (8-10 min)
-      systemPrompt: "..."     // les 5 blocs Personality/Environment/Tone/Goal/Guardrails pour le Q&A
-    };
+          };
 
     const response = await fetch("https://api.anam.ai/v1/auth/session-token", {
       method: "POST",
