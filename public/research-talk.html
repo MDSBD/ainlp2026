@@ -296,6 +296,154 @@
     .qa-input::placeholder { color: var(--dim2); }
     .qa-input:focus { border-color: var(--gold); }
 
+
+    /* ── Mode presentation : avatar en medaillon + slides ── */
+    .presentation-wrap {
+      width: 100%; max-width: 980px;
+      position: relative;
+      display: none;
+    }
+    .presentation-wrap.active { display: block; }
+
+    .slides-stage {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #0a0908;
+      border: 1px solid var(--line);
+    }
+    .slides-stage::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 5;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    .slide {
+      position: absolute; inset: 0;
+      opacity: 0; visibility: hidden;
+      transition: opacity .6s ease;
+      display: flex; flex-direction: column;
+      padding: clamp(1.5rem, 4vw, 3.5rem);
+    }
+    .slide.active { opacity: 1; visibility: visible; }
+
+    .slide-bgcanvas { position: absolute; inset: 0; z-index: 0; opacity: .5; }
+
+    .slide-eyebrow {
+      position: relative; z-index: 1;
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(.55rem, 1vw, .68rem);
+      letter-spacing: .25em; color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: .75rem;
+    }
+    .slide-title {
+      position: relative; z-index: 1;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.3rem, 3.2vw, 2.4rem);
+      line-height: 1.2;
+      color: var(--paper);
+      margin-bottom: clamp(1rem, 3vh, 2rem);
+      max-width: 80%;
+    }
+    .slide-title em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .slide-body {
+      position: relative; z-index: 1;
+      flex: 1;
+      display: flex; align-items: center;
+      gap: clamp(1rem, 3vw, 2.5rem);
+    }
+
+    .slide-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.2vw, 1.6rem);
+      line-height: 1.55;
+      color: var(--paper);
+      border-left: 2px solid var(--gold);
+      padding-left: clamp(1rem, 2vw, 1.75rem);
+      max-width: 560px;
+    }
+    .slide-quote-author {
+      display: block; margin-top: .75rem;
+      font-family: 'DM Mono', monospace;
+      font-style: normal;
+      font-size: clamp(.55rem, .9vw, .7rem);
+      letter-spacing: .12em; color: var(--gold-lt);
+      text-transform: uppercase;
+    }
+
+    .apples-demo { display: flex; flex-direction: column; gap: clamp(.75rem, 2vh, 1.5rem); flex: 1; }
+    .apples-row { display: flex; gap: clamp(.4rem, 1vw, .7rem); align-items: center; flex-wrap: wrap; }
+    .apple-icon { width: clamp(20px, 3vw, 32px); height: clamp(20px, 3vw, 32px); flex-shrink: 0; }
+    .apples-op { font-family: 'DM Mono', monospace; font-size: clamp(.8rem, 1.6vw, 1.1rem); color: var(--gold-lt); margin: 0 .3rem; }
+    .apples-result { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(.85rem, 1.6vw, 1.15rem); color: var(--dim); margin-top: .5rem; }
+    .apples-result strong { color: var(--gold-lt); font-style: normal; }
+
+    .system-compare { display: flex; gap: clamp(.75rem, 2vw, 1.5rem); flex: 1; }
+    .system-card { flex: 1; padding: clamp(.85rem, 2vw, 1.5rem); border-radius: 3px; border: 1px solid var(--line); background: rgba(245,240,232,.03); }
+    .system-card.symbolic { border-color: rgba(184,149,90,.35); background: rgba(184,149,90,.05); }
+    .system-card-label { font-family: 'DM Mono', monospace; font-size: clamp(.55rem, .9vw, .65rem); letter-spacing: .15em; color: var(--gold); text-transform: uppercase; margin-bottom: .5rem; }
+    .system-card-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(.95rem, 1.8vw, 1.3rem); color: var(--paper); margin-bottom: .4rem; }
+    .system-card-desc { font-size: clamp(.65rem, 1.1vw, .8rem); color: var(--dim); line-height: 1.5; }
+
+    .arch-flow { display: flex; align-items: center; justify-content: space-between; flex: 1; gap: clamp(.5rem, 1.5vw, 1rem); }
+    .arch-node { flex: 1; padding: clamp(.75rem, 1.8vw, 1.25rem); border-radius: 3px; border: 1px solid var(--line); background: rgba(245,240,232,.03); text-align: center; }
+    .arch-node.neural { border-color: rgba(180,160,220,.35); }
+    .arch-node.symbolic { border-color: rgba(184,149,90,.4); background: rgba(184,149,90,.06); }
+    .arch-node.result { border-color: rgba(120,180,140,.4); background: rgba(120,180,140,.05); }
+    .arch-node-icon { font-size: clamp(1.2rem, 2.5vw, 1.8rem); margin-bottom: .5rem; display: block; }
+    .arch-node-label { font-family: 'DM Mono', monospace; font-size: clamp(.5rem, .85vw, .62rem); letter-spacing: .1em; color: var(--gold); text-transform: uppercase; margin-bottom: .3rem; }
+    .arch-node-desc { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(.65rem, 1.15vw, .85rem); color: var(--paper); line-height: 1.4; }
+    .arch-arrow { font-size: clamp(1rem, 2vw, 1.5rem); color: var(--gold); flex-shrink: 0; }
+
+    .compare-table { flex: 1; display: flex; flex-direction: column; gap: clamp(.5rem, 1.2vh, .85rem); }
+    .compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(.5rem, 1.5vw, 1rem); }
+    .compare-cell { padding: clamp(.6rem, 1.3vw, .95rem); border-radius: 3px; font-size: clamp(.62rem, 1.05vw, .8rem); line-height: 1.45; }
+    .compare-cell.jepa { background: rgba(120,150,200,.07); border-left: 2px solid rgba(120,150,200,.5); color: var(--dim); }
+    .compare-cell.symbolic { background: rgba(184,149,90,.07); border-left: 2px solid var(--gold); color: var(--paper); }
+    .compare-header { font-family: 'DM Mono', monospace; font-size: clamp(.55rem, .9vw, .68rem); letter-spacing: .12em; text-transform: uppercase; margin-bottom: .25rem; display: block; }
+    .compare-header.jepa-h { color: #94a8d4; }
+    .compare-header.symbolic-h { color: var(--gold-lt); }
+
+    .conclusion-stage { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: clamp(1rem, 2.5vh, 1.75rem); }
+    .conclusion-quote { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(1.1rem, 2.6vw, 1.9rem); line-height: 1.4; color: var(--paper); max-width: 640px; }
+    .conclusion-quote em { background: linear-gradient(135deg, var(--gold-lt), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-style: italic; }
+    .conclusion-tag { font-family: 'DM Mono', monospace; font-size: clamp(.55rem, .95vw, .7rem); letter-spacing: .2em; color: var(--gold); text-transform: uppercase; }
+
+    .slide-dots { position: absolute; bottom: clamp(.75rem, 2vh, 1.25rem); left: 50%; transform: translateX(-50%); z-index: 6; display: flex; gap: .5rem; }
+    .slide-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(245,240,232,.2); transition: background .4s, width .4s; }
+    .slide-dot.active { background: var(--gold); width: 18px; border-radius: 3px; }
+
+    .avatar-medallion {
+      position: absolute; bottom: clamp(.75rem, 2vh, 1.25rem); right: clamp(.75rem, 2vw, 1.25rem);
+      z-index: 7;
+      width: clamp(90px, 14vw, 150px); height: clamp(90px, 14vw, 150px);
+      border-radius: 50%; overflow: hidden;
+      border: 2px solid var(--gold);
+      box-shadow: 0 8px 28px rgba(0,0,0,.5), 0 0 0 4px rgba(184,149,90,.12);
+      transition: all .8s cubic-bezier(.34,1.56,.64,1);
+      background: #0a0a09;
+      opacity: 0; transform: scale(.6);
+    }
+    .avatar-medallion.show { opacity: 1; transform: scale(1); }
+    .avatar-medallion video, .avatar-medallion img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .avatar-medallion.pulsing { animation: medallion-pulse 2.4s ease-in-out infinite; }
+    @keyframes medallion-pulse {
+      0%,100% { box-shadow: 0 8px 28px rgba(0,0,0,.5), 0 0 0 4px rgba(184,149,90,.12); }
+      50%     { box-shadow: 0 8px 28px rgba(0,0,0,.5), 0 0 0 8px rgba(184,149,90,.22); }
+    }
+
+
     /* Scrollbar */
     ::-webkit-scrollbar { width: 3px; }
     ::-webkit-scrollbar-track { background: transparent; }
@@ -315,13 +463,147 @@
       <div class="rule"></div>
     </header>
 
-    <div class="video-frame">
+    <div class="video-frame" id="solo-frame">
       <video id="persona-video" autoplay playsinline style="display:none;"></video>
       <img id="frozen-avatar" src="/research-avatar-idle.jpg" alt="Avatar conférencier" style="display:block;">
       <div class="corner-br"></div>
       <div class="timer-badge" id="timer-badge" style="display:none;">
         <span class="timer-dot"></span>
         <span id="timer-text">00:00</span>
+      </div>
+    </div>
+
+    <!-- Mode presentation : slides + avatar en medaillon -->
+    <div class="presentation-wrap" id="presentation-wrap">
+      <div class="slides-stage">
+
+        <!-- SLIDE 1 — Introduction -->
+        <div class="slide active" data-slide="0">
+          <canvas class="slide-bgcanvas" data-bg="neuro"></canvas>
+          <div class="slide-eyebrow">IANLP 2026 · Session de recherche</div>
+          <div class="slide-title">Au-delà du <em>perroquet stochastique</em></div>
+          <div class="slide-body">
+            <div class="slide-quote">
+              Il répète les motifs, mais il ne comprend pas l'état du monde.
+              <span class="slide-quote-author">— sur les grands modèles de langage</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 2 — Le probleme -->
+        <div class="slide" data-slide="1">
+          <canvas class="slide-bgcanvas" data-bg="neuro"></canvas>
+          <div class="slide-eyebrow">Le problème</div>
+          <div class="slide-title">La brique manquante du <em>raisonnement</em></div>
+          <div class="slide-body" style="flex-direction:column; align-items:flex-start; gap:1.5rem;">
+            <div class="apples-demo">
+              <div class="apples-row">
+                <svg class="apple-icon" viewBox="0 0 24 24" fill="none"><path d="M12 8c-3 0-5 2.5-5 6s2 7 5 7 5-4 5-7-2-6-5-6z" stroke="#b8955a" stroke-width="1.2"/><path d="M12 8c0-2 1-3.5 2.5-4" stroke="#6b6560" stroke-width="1.2" stroke-linecap="round"/></svg>
+                <svg class="apple-icon" viewBox="0 0 24 24" fill="none"><path d="M12 8c-3 0-5 2.5-5 6s2 7 5 7 5-4 5-7-2-6-5-6z" stroke="#b8955a" stroke-width="1.2"/><path d="M12 8c0-2 1-3.5 2.5-4" stroke="#6b6560" stroke-width="1.2" stroke-linecap="round"/></svg>
+                <svg class="apple-icon" viewBox="0 0 24 24" fill="none"><path d="M12 8c-3 0-5 2.5-5 6s2 7 5 7 5-4 5-7-2-6-5-6z" stroke="#b8955a" stroke-width="1.2"/><path d="M12 8c0-2 1-3.5 2.5-4" stroke="#6b6560" stroke-width="1.2" stroke-linecap="round"/></svg>
+                <svg class="apple-icon" viewBox="0 0 24 24" fill="none"><path d="M12 8c-3 0-5 2.5-5 6s2 7 5 7 5-4 5-7-2-6-5-6z" stroke="#b8955a" stroke-width="1.2"/><path d="M12 8c0-2 1-3.5 2.5-4" stroke="#6b6560" stroke-width="1.2" stroke-linecap="round"/></svg>
+                <svg class="apple-icon" viewBox="0 0 24 24" fill="none"><path d="M12 8c-3 0-5 2.5-5 6s2 7 5 7 5-4 5-7-2-6-5-6z" stroke="#b8955a" stroke-width="1.2"/><path d="M12 8c0-2 1-3.5 2.5-4" stroke="#6b6560" stroke-width="1.2" stroke-linecap="round"/></svg>
+                <span class="apples-op">− 2 + 3 × 0 =</span>
+              </div>
+              <div class="apples-result">Réponse correcte : <strong>5 pommes</strong> — l'opération était mentale.</div>
+            </div>
+            <div class="system-compare">
+              <div class="system-card">
+                <div class="system-card-label">Système 1</div>
+                <div class="system-card-title">Intuition statistique</div>
+                <div class="system-card-desc">Réflexe rapide. "Le ciel est..." → "bleu". C'est ce que font les Transformers.</div>
+              </div>
+              <div class="system-card symbolic">
+                <div class="system-card-label">Système 2</div>
+                <div class="system-card-title">Raisonnement logique</div>
+                <div class="system-card-desc">Déduction lente, déterministe, traçable. Ce qui manque aux LLM purs.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 3 — Solution neuro-symbolique -->
+        <div class="slide" data-slide="2">
+          <canvas class="slide-bgcanvas" data-bg="neuro"></canvas>
+          <div class="slide-eyebrow">La solution</div>
+          <div class="slide-title">L'architecture <em>neuro-symbolique</em></div>
+          <div class="slide-body">
+            <div class="arch-flow">
+              <div class="arch-node neural">
+                <span class="arch-node-icon">◉</span>
+                <div class="arch-node-label">Module neuronal</div>
+                <div class="arch-node-desc">Lit le dossier patient, capte le langage naturel</div>
+              </div>
+              <span class="arch-arrow">→</span>
+              <div class="arch-node symbolic">
+                <span class="arch-node-icon">▣</span>
+                <div class="arch-node-label">Module symbolique</div>
+                <div class="arch-node-desc">Applique les règles logiques formelles</div>
+              </div>
+              <span class="arch-arrow">→</span>
+              <div class="arch-node result">
+                <span class="arch-node-icon">✓</span>
+                <div class="arch-node-label">Résultat</div>
+                <div class="arch-node-desc">Zéro hallucination — déduction auditable</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 4 — JEPA vs Neuro-symbolique -->
+        <div class="slide" data-slide="3">
+          <canvas class="slide-bgcanvas" data-bg="neuro"></canvas>
+          <div class="slide-eyebrow">Confrontation scientifique</div>
+          <div class="slide-title">JEPA <em>et</em> neuro-symbolique</div>
+          <div class="slide-body">
+            <div class="compare-table">
+              <div class="compare-row">
+                <div class="compare-cell jepa"><span class="compare-header jepa-h">JEPA (LeCun)</span>Espace latent continu — idéal pour la perception, la physique, le monde réel.</div>
+                <div class="compare-cell symbolic"><span class="compare-header symbolic-h">Neuro-symbolique</span>Symboles discrets — idéal pour le langage, la logique, le droit, la médecine.</div>
+              </div>
+              <div class="compare-row">
+                <div class="compare-cell jepa">Excelle pour piloter un drone.</div>
+                <div class="compare-cell symbolic">Excelle pour valider un diagnostic médical.</div>
+              </div>
+              <div class="compare-row">
+                <div class="compare-cell jepa" style="grid-column: 1 / -1; border-left-color: var(--gold); text-align:center; font-style:italic; font-family:'Cormorant Garamond',serif; font-size:clamp(.75rem,1.3vw,.95rem);">
+                  Ce n'est pas une guerre — c'est une division du travail cognitif.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 5 — Conclusion -->
+        <div class="slide" data-slide="4">
+          <canvas class="slide-bgcanvas" data-bg="neuro"></canvas>
+          <div class="slide-eyebrow">Conclusion</div>
+          <div class="slide-title">Vers une IA qui <em>raisonne</em></div>
+          <div class="slide-body">
+            <div class="conclusion-stage">
+              <div class="conclusion-quote">
+                Il est temps de passer à une IA qui ne se contente plus de <em>répéter</em> notre monde, mais qui commence, enfin, à le <em>comprendre</em>.
+              </div>
+              <div class="conclusion-tag">À vos marques, prêts, raisonnez !</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dots de progression -->
+        <div class="slide-dots" id="slide-dots">
+          <span class="slide-dot active"></span>
+          <span class="slide-dot"></span>
+          <span class="slide-dot"></span>
+          <span class="slide-dot"></span>
+          <span class="slide-dot"></span>
+        </div>
+
+        <!-- Avatar medaillon -->
+        <div class="avatar-medallion" id="avatar-medallion">
+          <video id="medallion-video" autoplay playsinline style="display:none;"></video>
+          <img id="medallion-frozen" src="/research-avatar-idle.jpg" alt="Avatar">
+        </div>
+
       </div>
     </div>
 
@@ -424,6 +706,58 @@
       statusDot.className = 'dot' + (on ? ' on' : '');
     }
 
+    // ── Phases avec slide associee ──
+    const PHASES = [
+      { until: 90,  label: 'Introduction',               slide: 0 },
+      { until: 210, label: 'Le problème',                slide: 1 },
+      { until: 360, label: 'Solution neuro-symbolique',  slide: 2 },
+      { until: 495, label: 'Confrontation JEPA',          slide: 3 },
+      { until: Infinity, label: 'Conclusion',            slide: 4 }
+    ];
+
+    const soloFrame       = document.getElementById('solo-frame');
+    const presentationWrap= document.getElementById('presentation-wrap');
+    const medallion        = document.getElementById('avatar-medallion');
+    const medallionVideo   = document.getElementById('medallion-video');
+    const medallionFrozen  = document.getElementById('medallion-frozen');
+    const slideDots        = document.querySelectorAll('.slide-dot');
+    const slideEls          = document.querySelectorAll('.slide');
+
+    const PRESENTATION_DELAY = 8; // secondes avant bascule slides
+    let presentationStarted = false;
+    let currentSlide = -1;
+
+    function showSlide(idx){
+      if(idx === currentSlide) return;
+      currentSlide = idx;
+      slideEls.forEach(el => el.classList.toggle('active', Number(el.dataset.slide) === idx));
+      slideDots.forEach((d,i) => d.classList.toggle('active', i === idx));
+    }
+
+    function enterPresentationMode(){
+      if(presentationStarted) return;
+      presentationStarted = true;
+      soloFrame.style.transition = 'opacity .5s ease';
+      soloFrame.style.opacity = '0';
+      setTimeout(() => {
+        soloFrame.style.display = 'none';
+        presentationWrap.classList.add('active');
+        // Clone le flux video vers le medaillon
+        if(video.srcObject){ medallionVideo.srcObject = video.srcObject; medallionVideo.style.display = 'block'; medallionFrozen.style.display = 'none'; }
+        requestAnimationFrame(() => medallion.classList.add('show', 'pulsing'));
+        showSlide(0);
+      }, 500);
+    }
+
+    function exitPresentationMode(){
+      presentationStarted = false;
+      currentSlide = -1;
+      presentationWrap.classList.remove('active');
+      medallion.classList.remove('show', 'pulsing');
+      soloFrame.style.display = 'block';
+      soloFrame.style.opacity = '1';
+    }
+
     function setPhase(label){
       phaseTag.textContent = label;
       phaseLabel.textContent = label;
@@ -440,27 +774,77 @@
         timerText.textContent = `${m}:${s}`;
         const pct = Math.min(100, (talkSeconds / TALK_DURATION) * 100);
         timelineFill.style.width = pct + '%';
+
+        if(talkSeconds === PRESENTATION_DELAY) enterPresentationMode();
+
         if(talkSeconds >= TALK_DURATION){
           setPhase('Exposé terminé — Q&A');
           clearInterval(talkTimer);
-        } else if(talkSeconds < 90){
-          setPhase('Introduction');
-        } else if(talkSeconds < 210){
-          setPhase('Le problème');
-        } else if(talkSeconds < 360){
-          setPhase('Solution neuro-symbolique');
-        } else if(talkSeconds < 495){
-          setPhase('Confrontation JEPA');
-        } else {
-          setPhase('Conclusion');
+          return;
         }
+
+        const phase = PHASES.find(p => talkSeconds < p.until);
+        setPhase(phase.label);
+        if(presentationStarted) showSlide(phase.slide);
       }, 1000);
     }
 
     function stopTimer(){
       if(talkTimer) clearInterval(talkTimer);
       timerBadge.style.display = 'none';
+      exitPresentationMode();
     }
+
+    /* ── Fond canvas neuro-symbolique pour chaque slide ── */
+    (function initSlideBackgrounds(){
+      document.querySelectorAll('canvas.slide-bgcanvas').forEach(canvas => {
+        function resize(){
+          const r = canvas.parentElement.getBoundingClientRect();
+          canvas.width = r.width; canvas.height = r.height;
+        }
+        const ctx = canvas.getContext('2d');
+        const nodes = [];
+        function build(){
+          nodes.length = 0;
+          const count = Math.floor((canvas.width * canvas.height) / 24000);
+          for(let i=0;i<count;i++){
+            nodes.push({
+              x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+              vx: (Math.random()-.5)*.15, vy: (Math.random()-.5)*.15,
+              r: Math.random()*1.3+.4
+            });
+          }
+        }
+        let t = 0;
+        function draw(){
+          ctx.clearRect(0,0,canvas.width,canvas.height);
+          t += .003;
+          for(let i=0;i<nodes.length;i++){
+            for(let j=i+1;j<nodes.length;j++){
+              const dx = nodes[i].x-nodes[j].x, dy = nodes[i].y-nodes[j].y;
+              const d = Math.sqrt(dx*dx+dy*dy);
+              if(d < 110){
+                ctx.strokeStyle = `rgba(184,149,90,${(1-d/110)*.12})`;
+                ctx.lineWidth = .5;
+                ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.stroke();
+              }
+            }
+          }
+          nodes.forEach(n => {
+            n.x += n.vx; n.y += n.vy;
+            if(n.x<0||n.x>canvas.width) n.vx*=-1;
+            if(n.y<0||n.y>canvas.height) n.vy*=-1;
+            const pulse = .5+.5*Math.sin(t*2+n.x*.01);
+            ctx.beginPath(); ctx.arc(n.x,n.y,n.r*pulse,0,Math.PI*2);
+            ctx.fillStyle = `rgba(184,149,90,${.35*pulse})`;
+            ctx.fill();
+          });
+          requestAnimationFrame(draw);
+        }
+        resize(); build(); draw();
+        new ResizeObserver(() => { resize(); build(); }).observe(canvas.parentElement);
+      });
+    })();
 
     async function startTalk(){
       try {
