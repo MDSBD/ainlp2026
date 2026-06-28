@@ -23,8 +23,11 @@ const PROTECTED_PAGES = [
   '/operator.html',
   '/transcription.html',
   '/conference.html',
-  '/screen.html'
-  // /qa.html : publique — accessible via QR code sans login
+  '/screen.html',
+  // /qa.html : publique — accessible via QR code sans login,
+   '/research-talk.html',
+     '/research-operator.html' 
+
 ];
 
 // ── Middleware global : intercepte TOUTES les requêtes HTML protégées
@@ -52,6 +55,8 @@ app.use(express.static(PUBLIC_DIR, { index: false }));
 // Sockets publics (Set pour gérer plusieurs onglets/écrans)
 const publicSockets = new Set();
 let qaCount = 0;
+
+const researchSockets = new Set();   // pour talk research
 
 // ── Vérification des clés au démarrage ──
 function checkEnv() {
@@ -381,6 +386,37 @@ app.post('/api/chat', async (req, res) => {
 });
 
 
+app.post('/api/research-session-token', async (req, res) => {
+  try {
+    const personaConfig = {
+      name: "Conférencier IA",
+      avatarId: process.env.RESEARCH_AVATAR_ID,
+      voiceId:  process.env.RESEARCH_VOICE_ID,
+      llmId:    process.env.RESEARCH_LLM_ID,
+      skipGreeting: false,
+      uninterruptibleGreeting: true,
+      initialMessage: "...", // texte complet du discours (8-10 min)
+      systemPrompt: "..."     // les 5 blocs Personality/Environment/Tone/Goal/Guardrails pour le Q&A
+    };
+
+    const response = await fetch("https://api.anam.ai/v1/auth/session-token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.ANAM_API_KEY}`
+      },
+      body: JSON.stringify({ personaConfig })
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || 'Erreur Anam API');
+    res.json({ sessionToken: data.sessionToken });
+  } catch(e) {
+    console.error('[Anam Research] Erreur token:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // ────────────────────────────────────────────────
 //  Route : synthèse Groq — clé protégée côté serveur
 // ────────────────────────────────────────────────
@@ -525,6 +561,27 @@ io.on('connection', socket => {
   socket.on('stop-session',  () => io.emit('stop-session'));
   socket.on('start-session', () => io.emit('start-session'));
 
+
+  // ── Avatar conférencier (research-talk.html) — Set séparé d'Aïda ──
+socket.on('register-research', () => {
+  researchSockets.add(socket.id);
+  socket.emit('registered', 'research');
+  console.log(`[research] +${socket.id} (total: ${researchSockets.size})`);
+});
+
+socket.on('research-start-session', () => io.emit('research-start-session'));
+socket.on('research-stop-session',  () => io.emit('research-stop-session'));
+
+// Question (en ligne ou orale transcrite) → avatar de recherche
+socket.on('research-question', data => {
+  if (researchSockets.size > 0) {
+    researchSockets.forEach(id => io.to(id).emit('research-command', data.question));
+    console.log(`[research-cmd] "${data.question.slice(0,60)}..." → ${researchSockets.size} écran(s)`);
+  } else {
+    socket.emit('error', 'Aucune session de recherche active.');
+  }
+});
+
   socket.on('transcription-update', text => socket.broadcast.emit('transcription-live', text));
   socket.on('synthesis-to-operator', data => socket.broadcast.emit('new-synthesis', data));
   socket.on('update-screen', data => io.emit('screen-update', data));
@@ -552,7 +609,8 @@ io.on('connection', socket => {
 
   socket.on('disconnect', () => {
     publicSockets.delete(socket.id);
-    console.log(`[-] ${socket.id} (publics restants: ${publicSockets.size})`);
+    researchSockets.delete(socket.id);   // ← AJOUTÉ
+  console.log(`[-] ${socket.id} (publics restants: ${publicSockets.size}, research: ${researchSockets.size})`);  // ← modifié
   });
 });
 

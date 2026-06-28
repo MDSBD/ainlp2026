@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Controle Session Recherche · IANLP 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:     #0d0c0b; --ink2: #141310;
+      --paper:   #f0ebe0; --gold: #b8955a; --gold-lt: #d4b07a;
+      --dim:     #6b6560; --dim2: #4a4540;
+      --line:    rgba(184,149,90,.14); --line2: rgba(245,240,232,.06);
+      --danger:  #8b2e2e; --rec: #8b2e2e;
+      --sw: 240px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--ink); color: var(--paper); display: flex; overflow: hidden; }
+
+    /* Sidebar */
+    .sidebar { width: var(--sw); flex-shrink:0; background: var(--ink2); border-right:1px solid var(--line); display:flex; flex-direction:column; padding:2rem 1.25rem 1.5rem; position:fixed; top:0; left:0; bottom:0; z-index:20; overflow-y:auto; }
+    .sidebar-logo { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:1.05rem; color:var(--gold-lt); margin-bottom:.2rem; }
+    .sidebar-sub  { font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.18em; color:var(--dim); text-transform:uppercase; margin-bottom:1.5rem; }
+    .rule-h { height:1px; background:var(--line); margin:.75rem 0; }
+    .nav-label { font-family:'DM Mono',monospace; font-size:.55rem; letter-spacing:.2em; color:var(--dim2); text-transform:uppercase; margin-bottom:.5rem; padding-left:.5rem; }
+    .nav-link { display:flex; align-items:center; gap:.6rem; padding:.55rem .75rem; border-radius:2px; color:var(--dim); text-decoration:none; font-size:.82rem; transition:all .2s; margin-bottom:.2rem; border:1px solid transparent; }
+    .nav-link:hover { color:var(--paper); background:rgba(184,149,90,.07); border-color:var(--line); }
+    .nav-icon { font-size:.85rem; width:16px; text-align:center; }
+    .sidebar-status { margin-top:auto; padding-top:1rem; display:flex; align-items:center; gap:.6rem; font-family:'DM Mono',monospace; font-size:.62rem; color:var(--dim); }
+    .sdot { width:6px; height:6px; border-radius:50%; background:var(--dim2); flex-shrink:0; }
+    .sdot.on { background:var(--gold); box-shadow:0 0 6px rgba(184,149,90,.5); }
+
+    /* Main */
+    .main { margin-left:var(--sw); flex:1; overflow-y:auto; padding:2.5rem 2rem 3rem; }
+    .main::-webkit-scrollbar { width:3px; }
+    .main::-webkit-scrollbar-thumb { background:var(--dim2); border-radius:2px; }
+
+    .page-header { margin-bottom:2rem; }
+    .page-eyebrow { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.2em; color:var(--gold); text-transform:uppercase; margin-bottom:.4rem; }
+    .page-title { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:1.9rem; }
+    .page-status { margin-top:.5rem; font-family:'DM Mono',monospace; font-size:.68rem; color:var(--dim); }
+
+    .section { margin-bottom:2.25rem; }
+    .section-title { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.2em; color:var(--gold); text-transform:uppercase; margin-bottom:1rem; padding-bottom:.5rem; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:.5rem; }
+
+    /* Session control */
+    .session-block {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      background: rgba(184,149,90,.05);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+    }
+    .session-status-text { flex: 1; font-family:'DM Mono',monospace; font-size:.72rem; color: var(--dim); }
+    .btn-grid { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .cmd-btn { padding: .55rem 1.1rem; border: 1px solid var(--line2); border-radius: 2px; background: rgba(245,240,232,.03); color: var(--dim); font-family: 'DM Mono', monospace; font-size: .68rem; letter-spacing: .06em; cursor: pointer; transition: all .2s; }
+    .cmd-btn:hover { color: var(--paper); border-color: var(--gold); background: rgba(184,149,90,.07); }
+    .cmd-btn.primary { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+    .cmd-btn.primary:hover { background: var(--gold-lt); box-shadow: 0 0 16px rgba(184,149,90,.3); }
+    .cmd-btn.danger { border-color: rgba(139,46,46,.5); color: #c0392b; }
+    .cmd-btn.danger:hover { background: rgba(139,46,46,.1); border-color: var(--danger); }
+    .cmd-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+    /* Live transcription panel */
+    .panel { background: rgba(245,240,232,.03); border: 1px solid var(--line); border-radius: 2px; padding: 1rem 1.25rem; }
+    .panel-label { font-family: 'DM Mono', monospace; font-size: .58rem; letter-spacing: .18em; color: var(--gold); text-transform: uppercase; margin-bottom: .75rem; display: flex; align-items: center; gap: .5rem; }
+    .panel-content { max-height: 160px; overflow-y: auto; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; color: var(--paper); line-height: 1.6; white-space: pre-wrap; }
+    .panel-content::-webkit-scrollbar { width: 2px; }
+    .panel-content::-webkit-scrollbar-thumb { background: var(--dim2); }
+
+    .rec-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--rec); animation: rec-pulse 1s ease-in-out infinite; }
+    @keyframes rec-pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+    .mic-controls { display: flex; gap: .6rem; margin-top: .85rem; }
+
+    /* Q&A list */
+    .qa-badge { display: inline-flex; align-items: center; justify-content: center; background: var(--gold); color: var(--ink); font-family: 'DM Mono', monospace; font-size: .58rem; font-weight: bold; padding: .1rem .45rem; border-radius: 20px; min-width: 18px; }
+    .qa-list { display: flex; flex-direction: column; gap: .6rem; }
+    .qa-item { display: flex; align-items: flex-start; gap: .75rem; padding: .9rem 1rem; border-radius: 2px; background: rgba(245,240,232,.03); border: 1px solid var(--line2); transition: border-color .2s, opacity .3s; }
+    .qa-item:hover { border-color: rgba(184,149,90,.35); }
+    .qa-item.sent { opacity: .35; pointer-events: none; }
+    .qa-body { flex: 1; min-width: 0; }
+    .qa-name { font-family: 'DM Mono', monospace; font-size: .58rem; letter-spacing: .12em; color: var(--gold); text-transform: uppercase; margin-bottom: .3rem; }
+    .qa-text { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-style: italic; color: var(--paper); line-height: 1.5; }
+    .qa-actions { display: flex; flex-direction: column; gap: .35rem; flex-shrink: 0; }
+    .qa-send { padding: .45rem .85rem; background: var(--gold); color: var(--ink); border: none; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .06em; cursor: pointer; transition: background .2s; white-space: nowrap; }
+    .qa-send:hover { background: var(--gold-lt); }
+    .qa-del { padding: .4rem .85rem; background: transparent; color: var(--dim); border: 1px solid var(--line2); border-radius: 2px; font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .06em; cursor: pointer; transition: all .2s; }
+    .qa-del:hover { color: #c0392b; border-color: #c0392b; }
+    .qa-empty { font-family: 'DM Mono', monospace; font-size: .68rem; color: var(--dim2); letter-spacing: .06em; text-align: center; padding: 1.5rem 0; }
+
+    /* Custom input */
+    .custom-row { display: flex; gap: .75rem; }
+    .custom-input { flex: 1; padding: .65rem 1rem; border: 1px solid var(--line); border-radius: 2px; background: rgba(245,240,232,.04); color: var(--paper); font-family: 'DM Mono', monospace; font-size: .75rem; outline: none; transition: border-color .2s; }
+    .custom-input::placeholder { color: var(--dim2); }
+    .custom-input:focus { border-color: var(--gold); }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Recherche</div>
+  <div class="sidebar-sub">IANLP 2026 · Controle</div>
+  <div class="nav-label">Pages</div>
+  <a class="nav-link" href="/research-talk.html" target="_blank"><span class="nav-icon">◆</span> Vue avatar</a>
+  <a class="nav-link" href="/operator.html" target="_blank"><span class="nav-icon">◈</span> Operateur Aida</a>
+  <a class="nav-link" href="/qa.html" target="_blank"><span class="nav-icon">◉</span> Page Q&amp;A</a>
+  <div class="rule-h"></div>
+  <div class="sidebar-status">
+    <span class="sdot" id="sidebar-dot"></span>
+    <span id="sidebar-status-text">Non connecte</span>
+  </div>
+</nav>
+
+<main class="main">
+  <div class="page-header">
+    <p class="page-eyebrow">Session de recherche</p>
+    <h1 class="page-title">Controle — Au-dela du perroquet stochastique</h1>
+    <p class="page-status" id="status">Connexion au serveur...</p>
+  </div>
+
+  <!-- Controle session -->
+  <div class="section">
+    <div class="section-title">Session</div>
+    <div class="session-block">
+      <span class="session-status-text" id="session-status">Session non demarree.</span>
+      <button class="cmd-btn primary" id="btn-start">&#9654; Lancer l'exposé</button>
+      <button class="cmd-btn danger" id="btn-stop" disabled>&#9632; Arreter</button>
+    </div>
+  </div>
+
+  <!-- Transcription micro salle -->
+  <div class="section">
+    <div class="section-title">
+      Question orale (micro de la salle)
+    </div>
+    <div class="panel">
+      <div class="panel-label">
+        <span class="rec-dot" id="rec-dot" style="display:none;"></span>
+        Transcription en direct
+      </div>
+      <div class="panel-content" id="mic-transcript">En attente...</div>
+      <div class="mic-controls">
+        <button class="cmd-btn primary" id="mic-start">&#127908; Demarrer l'ecoute</button>
+        <button class="cmd-btn danger" id="mic-stop" disabled>Arreter l'ecoute</button>
+        <button class="cmd-btn" id="mic-send" disabled>&#8594; Envoyer a l'avatar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q&A public en ligne -->
+  <div class="section">
+    <div class="section-title">
+      Questions du public en ligne
+      <span class="qa-badge" id="qa-badge">0</span>
+    </div>
+    <div class="qa-list" id="qa-list">
+      <div class="qa-empty" id="qa-empty">En attente des questions du public...</div>
+    </div>
+  </div>
+
+  <!-- Commande personnalisee -->
+  <div class="section">
+    <div class="section-title">Question personnalisee</div>
+    <div class="custom-row">
+      <input type="text" class="custom-input" id="custom-input" placeholder="Tapez une question et appuyez sur Entree..." />
+      <button class="cmd-btn primary" id="custom-send">Envoyer</button>
+    </div>
+  </div>
+
+</main>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  const statusDiv  = document.getElementById('status');
+  const sidebarDot = document.getElementById('sidebar-dot');
+  const sidebarTxt = document.getElementById('sidebar-status-text');
+  const sessionStatus = document.getElementById('session-status');
+  const btnStart   = document.getElementById('btn-start');
+  const btnStop    = document.getElementById('btn-stop');
+  const qaList     = document.getElementById('qa-list');
+  const qaEmpty    = document.getElementById('qa-empty');
+  const qaBadge    = document.getElementById('qa-badge');
+
+  let qaCount = 0;
+  let sessionActive = false;
+
+  // ── Connexion ──
+  function setConnected(on, txt) {
+    statusDiv.textContent  = txt;
+    sidebarDot.className   = 'sdot' + (on ? ' on' : '');
+    sidebarTxt.textContent = on ? 'Connecte' : 'Deconnecte';
+  }
+  socket.on('connect',    () => { setConnected(true, 'Connecte au serveur.'); socket.emit('register-operator'); });
+  socket.on('disconnect', () =>  setConnected(false, 'Deconnecte.'));
+  socket.on('error', msg => alert(msg));
+
+  // ── Controle de session ──
+  btnStart.addEventListener('click', () => {
+    socket.emit('research-start-session');
+    sessionActive = true;
+    sessionStatus.textContent = 'Session active.';
+    btnStart.disabled = true;
+    btnStop.disabled  = false;
+  });
+  btnStop.addEventListener('click', () => {
+    socket.emit('research-stop-session');
+    sessionActive = false;
+    sessionStatus.textContent = 'Session arretee.';
+    btnStart.disabled = false;
+    btnStop.disabled  = true;
+  });
+
+  // ── Transcription micro (Web Speech API) ──
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+  if (recognition) {
+    recognition.continuous     = true;
+    recognition.interimResults = true;
+    recognition.lang           = 'fr-FR';
+  }
+  let isListening = false;
+  let micFinal = '';
+
+  const micTranscript = document.getElementById('mic-transcript');
+  const micStart = document.getElementById('mic-start');
+  const micStop  = document.getElementById('mic-stop');
+  const micSend  = document.getElementById('mic-send');
+  const recDot   = document.getElementById('rec-dot');
+
+  if (!recognition) {
+    micTranscript.textContent = 'Web Speech API non supportee — utilisez Chrome ou Edge.';
+    micStart.disabled = true;
+  } else {
+    recognition.onresult = ev => {
+      let interim = '';
+      for (let i = ev.resultIndex; i < ev.results.length; i++) {
+        if (ev.results[i].isFinal) micFinal += ev.results[i][0].transcript + ' ';
+        else interim += ev.results[i][0].transcript;
+      }
+      micTranscript.textContent = micFinal + interim;
+      micSend.disabled = micFinal.trim().length < 5;
+    };
+    recognition.onerror = ev => console.error('Erreur micro:', ev.error);
+    recognition.onend = () => {
+      if (isListening) setTimeout(() => { if (isListening) recognition.start(); }, 150);
+    };
+  }
+
+  micStart.addEventListener('click', () => {
+    if (!recognition) return;
+    micFinal = ''; micTranscript.textContent = '';
+    micSend.disabled = true;
+    recognition.start(); isListening = true;
+    micStart.disabled = true; micStop.disabled = false;
+    recDot.style.display = 'inline-block';
+  });
+
+  micStop.addEventListener('click', () => {
+    isListening = false; recognition.stop();
+    micStart.disabled = false; micStop.disabled = true;
+    recDot.style.display = 'none';
+  });
+
+  micSend.addEventListener('click', () => {
+    const q = micFinal.trim();
+    if (!q) return;
+    socket.emit('research-question', { question: q });
+    micFinal = ''; micTranscript.textContent = 'Question envoyee.';
+    micSend.disabled = true;
+  });
+
+  // ── Q&A public en ligne (partage avec Aida — Option A) ──
+  const qaStore = {};
+  socket.on('new-audience-question', data => {
+    qaCount++;
+    qaBadge.textContent = qaCount;
+    qaEmpty.style.display = 'none';
+
+    const id = 'qa-' + Date.now();
+    qaStore[id] = { name: data.name, question: data.question };
+
+    const item = document.createElement('div');
+    item.className = 'qa-item'; item.id = id;
+
+    const body   = document.createElement('div'); body.className = 'qa-body';
+    const nameEl = document.createElement('div'); nameEl.className = 'qa-name'; nameEl.textContent = data.name;
+    const textEl = document.createElement('div'); textEl.className = 'qa-text'; textEl.textContent = data.question;
+    body.appendChild(nameEl); body.appendChild(textEl);
+
+    const actions = document.createElement('div'); actions.className = 'qa-actions';
+    const btnSend = document.createElement('button'); btnSend.className = 'qa-send'; btnSend.textContent = '→ Avatar';
+    btnSend.addEventListener('click', () => sendQA(id));
+    const btnDel = document.createElement('button'); btnDel.className = 'qa-del'; btnDel.textContent = 'Ignorer';
+    btnDel.addEventListener('click', () => deleteQA(id));
+
+    actions.appendChild(btnSend); actions.appendChild(btnDel);
+    item.appendChild(body); item.appendChild(actions);
+    qaList.insertBefore(item, qaList.firstChild);
+  });
+
+  window.sendQA = id => {
+    const s = qaStore[id]; if (!s) return;
+    socket.emit('research-question', { question: s.question, name: s.name });
+    const item = document.getElementById(id);
+    if (item) { item.classList.add('sent'); item.querySelector('.qa-send').textContent = 'Envoyee'; }
+  };
+
+  window.deleteQA = id => {
+    delete qaStore[id];
+    const item = document.getElementById(id); if (!item) return;
+    item.style.transition = 'opacity .3s, max-height .4s';
+    item.style.opacity = '0'; item.style.overflow = 'hidden';
+    item.style.maxHeight = item.offsetHeight + 'px';
+    setTimeout(() => item.style.maxHeight = '0', 50);
+    setTimeout(() => { item.remove(); if (!qaList.querySelector('.qa-item')) qaEmpty.style.display = ''; }, 420);
+    qaCount = Math.max(0, qaCount - 1);
+    qaBadge.textContent = qaCount;
+  };
+
+  // ── Commande personnalisee ──
+  const customInput = document.getElementById('custom-input');
+  document.getElementById('custom-send').addEventListener('click', () => {
+    const q = customInput.value.trim();
+    if (!q) return;
+    socket.emit('research-question', { question: q });
+    customInput.value = '';
+  });
+  customInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const q = e.target.value.trim();
+      if (!q) return;
+      socket.emit('research-question', { question: q });
+      e.target.value = '';
+    }
+  });
+</script>
+</body>
+</html>

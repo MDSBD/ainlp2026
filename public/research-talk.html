@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session de recherche · IANLP 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:    #0d0c0b;
+      --paper:  #f5f0e8;
+      --gold:   #b8955a;
+      --gold-lt:#d4b07a;
+      --dim:    #6b6560;
+      --line:   rgba(184,149,90,.18);
+      --glass:  rgba(13,12,11,.55);
+      --r: 2px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ink);
+      color: var(--paper);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: .025;
+      pointer-events: none;
+    }
+
+    .glow {
+      position: fixed; border-radius: 50%;
+      filter: blur(120px); pointer-events: none; z-index: 0;
+    }
+    .glow-a { width: 600px; height: 600px; top: -200px; left: -200px; background: radial-gradient(circle, rgba(184,149,90,.08) 0%, transparent 70%); }
+    .glow-b { width: 500px; height: 500px; bottom: -150px; right: -150px; background: radial-gradient(circle, rgba(184,149,90,.05) 0%, transparent 70%); }
+
+    #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .4; }
+
+    .page {
+      position: relative; z-index: 1;
+      max-width: 820px; margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+      display: flex; flex-direction: column; align-items: center; gap: 1.75rem;
+    }
+
+    /* Header */
+    header { text-align: center; }
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: .62rem; letter-spacing: .2em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: .75rem;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300; font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+      line-height: 1.3;
+      background: linear-gradient(135deg, var(--paper) 0%, var(--gold-lt) 60%, var(--paper) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .session-sub {
+      margin-top: .6rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: .95rem;
+      color: var(--dim);
+    }
+    .rule {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 1.1rem auto 0;
+    }
+
+    /* Video */
+    .video-frame {
+      width: 100%; max-width: 640px;
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .video-frame::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 2;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+    .video-frame::after {
+      content: '';
+      position: absolute; z-index: 3;
+      top: 10px; left: 10px;
+      width: 20px; height: 20px;
+      border-top: 1px solid var(--gold);
+      border-left: 1px solid var(--gold);
+      pointer-events: none;
+    }
+    .corner-br {
+      position: absolute; z-index: 3;
+      bottom: 10px; right: 10px;
+      width: 20px; height: 20px;
+      border-bottom: 1px solid var(--gold);
+      border-right: 1px solid var(--gold);
+      pointer-events: none;
+    }
+    #persona-video {
+      width: 100%; display: block;
+      aspect-ratio: 4 / 3; object-fit: cover;
+      background: #0a0a09;
+    }
+    #frozen-avatar {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+
+    /* Timer ring overlay on video */
+    .timer-badge {
+      position: absolute; top: 10px; right: 10px; z-index: 4;
+      display: flex; align-items: center; gap: .4rem;
+      padding: .35rem .7rem;
+      background: rgba(13,12,11,.7);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      font-family: 'DM Mono', monospace;
+      font-size: .65rem; letter-spacing: .05em;
+      color: var(--gold-lt);
+    }
+    .timer-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #c0392b;
+      animation: rec-pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes rec-pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* Progress bar (session timeline) */
+    .timeline {
+      width: 100%; max-width: 640px;
+      padding: .9rem 1.25rem;
+      background: var(--glass);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      backdrop-filter: blur(12px);
+    }
+    .timeline-label {
+      font-family: 'DM Mono', monospace;
+      font-size: .58rem; letter-spacing: .15em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: .6rem;
+      display: flex; justify-content: space-between;
+    }
+    .timeline-track {
+      width: 100%; height: 3px;
+      background: rgba(245,240,232,.08);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+    .timeline-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-lt));
+      border-radius: 2px;
+      transition: width 1s linear;
+    }
+    .timeline-markers {
+      display: flex; justify-content: space-between;
+      margin-top: .5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: .55rem; color: var(--dim);
+    }
+
+    /* Status strip */
+    .status-strip {
+      width: 100%; max-width: 640px;
+      display: flex; align-items: center; gap: .75rem;
+      padding: .75rem 1.25rem;
+      background: var(--glass);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      backdrop-filter: blur(12px);
+      font-family: 'DM Mono', monospace;
+      font-size: .72rem; letter-spacing: .05em;
+      color: var(--dim);
+    }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+      background: #4a4540;
+      box-shadow: 0 0 0 2px rgba(74,69,64,.3);
+      transition: background .4s, box-shadow .4s;
+    }
+    .dot.on { background: var(--gold); box-shadow: 0 0 8px rgba(184,149,90,.5); animation: pulse-dot 2s ease-in-out infinite; }
+    @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+    /* Transcript */
+    .transcript-box {
+      width: 100%; max-width: 640px;
+      padding: 1rem 1.5rem;
+      background: var(--glass);
+      border: 1px solid var(--line);
+      border-left: 2px solid var(--gold);
+      border-radius: var(--r);
+      backdrop-filter: blur(12px);
+      min-height: 52px;
+    }
+    .transcript-label {
+      font-family: 'DM Mono', monospace;
+      font-size: .62rem; letter-spacing: .15em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: .4rem;
+    }
+    #transcript-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-style: italic;
+      color: var(--paper); line-height: 1.5;
+      min-height: 1.5em;
+      max-height: 150px; overflow-y: auto;
+    }
+    #transcript-text::-webkit-scrollbar { width: 2px; }
+    #transcript-text::-webkit-scrollbar-thumb { background: var(--gold); }
+
+    /* Phase indicator */
+    .phase-tag {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .4rem .9rem;
+      border: 1px solid var(--gold);
+      border-radius: 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: .62rem; letter-spacing: .1em;
+      color: var(--gold-lt); text-transform: uppercase;
+      background: rgba(184,149,90,.06);
+    }
+
+    /* Buttons */
+    .btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      padding: .75rem 2rem;
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      font-family: 'DM Mono', monospace;
+      font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+      cursor: pointer;
+      transition: all .25s;
+      backdrop-filter: blur(8px);
+    }
+    .btn-start {
+      background: var(--gold);
+      color: var(--ink);
+      border-color: var(--gold);
+    }
+    .btn-start:hover:not(:disabled) { background: var(--gold-lt); box-shadow: 0 0 20px rgba(184,149,90,.3); }
+    .btn-stop {
+      background: transparent;
+      color: var(--dim);
+    }
+    .btn-stop:hover:not(:disabled) { color: #c0392b; border-color: #c0392b; background: rgba(192,57,43,.06); }
+    .btn-qa {
+      background: transparent;
+      color: var(--gold-lt);
+      border-color: rgba(184,149,90,.4);
+    }
+    .btn-qa:hover:not(:disabled) { background: rgba(184,149,90,.08); }
+    .btn:disabled { opacity: .3; cursor: not-allowed; }
+
+    /* Q&A panel (operator side, hidden until session ready) */
+    .qa-panel {
+      width: 100%; max-width: 640px;
+      display: none;
+    }
+    .qa-panel.show { display: block; }
+    .qa-input-row {
+      display: flex; gap: .75rem;
+      margin-top: .75rem;
+    }
+    .qa-input {
+      flex: 1;
+      padding: .65rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      background: rgba(245,240,232,.04);
+      color: var(--paper);
+      font-family: 'DM Mono', monospace;
+      font-size: .75rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .qa-input::placeholder { color: var(--dim2); }
+    .qa-input:focus { border-color: var(--gold); }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; opacity: .5; }
+  </style>
+</head>
+<body>
+  <div class="glow glow-a"></div>
+  <div class="glow glow-b"></div>
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="page">
+    <header>
+      <p class="eyebrow">IANLP 2026 · Session de recherche</p>
+      <h1>Au-delà du perroquet stochastique</h1>
+      <p class="session-sub">L'alliance du neurone et du symbole pour un NLP qui raisonne vraiment</p>
+      <div class="rule"></div>
+    </header>
+
+    <div class="video-frame">
+      <video id="persona-video" autoplay playsinline style="display:none;"></video>
+      <img id="frozen-avatar" src="/research-avatar-idle.jpg" alt="Avatar conférencier" style="display:block;">
+      <div class="corner-br"></div>
+      <div class="timer-badge" id="timer-badge" style="display:none;">
+        <span class="timer-dot"></span>
+        <span id="timer-text">00:00</span>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-label">
+        <span>Progression de l'exposé</span>
+        <span id="phase-label">En attente</span>
+      </div>
+      <div class="timeline-track">
+        <div class="timeline-fill" id="timeline-fill"></div>
+      </div>
+      <div class="timeline-markers">
+        <span>0:00</span>
+        <span>2:30</span>
+        <span>5:00</span>
+        <span>7:30</span>
+        <span>10:00</span>
+      </div>
+    </div>
+
+    <div class="status-strip">
+      <span class="dot" id="status-dot"></span>
+      <span id="status-text">En attente de connexion…</span>
+    </div>
+
+    <div class="transcript-box">
+      <div class="transcript-label">En direct</div>
+      <div id="transcript-text"></div>
+    </div>
+
+    <div style="display:flex; justify-content:center;">
+      <span class="phase-tag" id="phase-tag">Exposé non démarré</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-start" id="start-button">▶ Démarrer l'exposé</button>
+      <button class="btn btn-qa" id="qa-button" disabled>💬 Ouvrir la session questions</button>
+      <button class="btn btn-stop" id="stop-button" disabled>⏹ Arrêter</button>
+    </div>
+
+    <!-- Panel opérateur pour envoyer des questions pendant le Q&A -->
+    <div class="qa-panel" id="qa-panel">
+      <div class="timeline-label" style="margin-bottom:.5rem;">
+        <span>Poser une question à l'avatar</span>
+      </div>
+      <div class="qa-input-row">
+        <input type="text" class="qa-input" id="qa-input" placeholder="Tapez ou collez la question du public ici…">
+        <button class="btn btn-start" id="qa-send" style="padding:.65rem 1.5rem;">Envoyer →</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── Background lines ── */
+    (function(){
+      const c = document.getElementById('bg-canvas');
+      const ctx = c.getContext('2d');
+      function resize(){ c.width = innerWidth; c.height = innerHeight; draw(); }
+      function draw(){
+        ctx.clearRect(0,0,c.width,c.height);
+        ctx.strokeStyle = 'rgba(184,149,90,0.06)';
+        ctx.lineWidth = 1;
+        const gap = 80;
+        for(let x = gap; x < c.width; x += gap){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,c.height); ctx.stroke(); }
+        for(let y = gap; y < c.height; y += gap){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(c.width,y); ctx.stroke(); }
+      }
+      addEventListener('resize', resize); resize();
+    })();
+  </script>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module">
+    import { createClient } from "https://esm.sh/@anam-ai/js-sdk@latest";
+    import { AnamEvent } from "https://esm.sh/@anam-ai/js-sdk@latest/dist/module/types";
+
+    let anamClient = null;
+    let talkTimer   = null;
+    let talkSeconds = 0;
+    const TALK_DURATION = 10 * 60; // 10 minutes max pour la barre de progression
+
+    const startBtn   = document.getElementById('start-button');
+    const stopBtn     = document.getElementById('stop-button');
+    const qaBtn       = document.getElementById('qa-button');
+    const video       = document.getElementById('persona-video');
+    const frozenImg   = document.getElementById('frozen-avatar');
+    const statusTxt   = document.getElementById('status-text');
+    const statusDot   = document.getElementById('status-dot');
+    const transcript  = document.getElementById('transcript-text');
+    const timerBadge  = document.getElementById('timer-badge');
+    const timerText   = document.getElementById('timer-text');
+    const timelineFill= document.getElementById('timeline-fill');
+    const phaseLabel  = document.getElementById('phase-label');
+    const phaseTag    = document.getElementById('phase-tag');
+    const qaPanel     = document.getElementById('qa-panel');
+    const qaInput     = document.getElementById('qa-input');
+    const qaSend      = document.getElementById('qa-send');
+
+    function setStatus(txt, on=false){
+      statusTxt.textContent = txt;
+      statusDot.className = 'dot' + (on ? ' on' : '');
+    }
+
+    function setPhase(label){
+      phaseTag.textContent = label;
+      phaseLabel.textContent = label;
+    }
+
+    function startTimer(){
+      talkSeconds = 0;
+      timerBadge.style.display = 'flex';
+      if(talkTimer) clearInterval(talkTimer);
+      talkTimer = setInterval(() => {
+        talkSeconds++;
+        const m = String(Math.floor(talkSeconds/60)).padStart(2,'0');
+        const s = String(talkSeconds%60).padStart(2,'0');
+        timerText.textContent = `${m}:${s}`;
+        const pct = Math.min(100, (talkSeconds / TALK_DURATION) * 100);
+        timelineFill.style.width = pct + '%';
+        if(talkSeconds >= TALK_DURATION){
+          setPhase('Exposé terminé — Q&A');
+          clearInterval(talkTimer);
+        } else if(talkSeconds < 90){
+          setPhase('Introduction');
+        } else if(talkSeconds < 210){
+          setPhase('Le problème');
+        } else if(talkSeconds < 360){
+          setPhase('Solution neuro-symbolique');
+        } else if(talkSeconds < 495){
+          setPhase('Confrontation JEPA');
+        } else {
+          setPhase('Conclusion');
+        }
+      }, 1000);
+    }
+
+    function stopTimer(){
+      if(talkTimer) clearInterval(talkTimer);
+      timerBadge.style.display = 'none';
+    }
+
+    async function startTalk(){
+      try {
+        startBtn.disabled = true;
+        setStatus('Connexion en cours…');
+        const r = await fetch('/api/research-session-token', { method: 'POST' });
+        if(!r.ok) throw new Error('Token introuvable');
+        const { sessionToken } = await r.json();
+        setStatus('Initialisation de l\'avatar…');
+        anamClient = createClient(sessionToken);
+
+        anamClient.addListener(AnamEvent.SESSION_READY, () => {
+          setStatus('Session active — exposé en cours.', true);
+          frozenImg.style.display = 'none';
+          video.style.display = 'block';
+          stopBtn.disabled = false;
+          qaBtn.disabled = false;
+          startTimer();
+          setPhase('Introduction');
+        });
+
+        anamClient.addListener(AnamEvent.MESSAGE_STREAM_EVENT_RECEIVED, ev => {
+          if(ev.role==='persona') transcript.textContent += ev.content;
+          else if(ev.role==='user') transcript.textContent = '';
+        });
+
+        anamClient.addListener(AnamEvent.CONNECTION_CLOSED, () => {
+          setStatus('Connexion fermée.');
+          stopTimer();
+        });
+
+        await anamClient.streamToVideoElement('persona-video');
+
+      } catch(e){
+        console.error(e);
+        setStatus('Erreur : ' + e.message);
+        startBtn.disabled = false;
+      }
+    }
+
+    function stopTalk(){
+      if(anamClient){ anamClient.stopStreaming(); anamClient = null; video.srcObject = null; }
+      video.style.display = 'none';
+      frozenImg.style.display = 'block';
+      stopTimer();
+      transcript.textContent = '';
+      setStatus('Session arrêtée.');
+      setPhase('Exposé non démarré');
+      timelineFill.style.width = '0%';
+      startBtn.disabled = false;
+      stopBtn.disabled = true;
+      qaBtn.disabled = true;
+      qaPanel.classList.remove('show');
+    }
+
+    function openQA(){
+      qaPanel.classList.add('show');
+      setPhase('Session questions / réponses');
+      qaInput.focus();
+    }
+
+    async function sendQuestion(){
+      const q = qaInput.value.trim();
+      if(!q || !anamClient) return;
+      qaInput.value = '';
+      setStatus('Question envoyée — réponse en cours…', true);
+      try { await anamClient.sendUserMessage(q); } catch(e){ console.error(e); }
+    }
+
+    startBtn.addEventListener('click', startTalk);
+    stopBtn.addEventListener('click', stopTalk);
+    qaBtn.addEventListener('click', openQA);
+    qaSend.addEventListener('click', sendQuestion);
+    qaInput.addEventListener('keydown', e => { if(e.key === 'Enter') sendQuestion(); });
+
+    // ── Pilotage à distance depuis research-operator.html ──
+    const socket = io();
+    socket.on('connect', () => socket.emit('register-research'));
+
+    socket.on('research-start-session', () => { if(!anamClient) startTalk(); });
+    socket.on('research-stop-session',  () => { if(anamClient) stopTalk(); });
+
+    socket.on('research-command', async question => {
+      if (!anamClient) return;
+      if (qaPanel.classList.contains('show') === false) openQA();
+      setStatus('Question reçue — réponse en cours…', true);
+      try { await anamClient.sendUserMessage(question); } catch(e){ console.error(e); }
+    });
+  </script>
+</body>
+</html>
