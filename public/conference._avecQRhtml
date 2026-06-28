@@ -86,7 +86,8 @@
 
     /* ── Video ── */
     .video-frame {
-      width: 100%; max-width: 640px;
+      width: 100%; max-width: 560px;
+      flex: 1;
       position: relative;
       border-radius: 4px;
       overflow: hidden;
@@ -252,6 +253,46 @@
     .btn-stop:hover:not(:disabled) { color: #c0392b; border-color: #c0392b; background: rgba(192,57,43,.06); }
     .btn:disabled { opacity: .3; cursor: not-allowed; }
 
+    /* ── Zone vidéo + QR côte à côte ── */
+    .stage-row {
+      width: 100%; max-width: 780px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 1.5rem;
+    }
+    .qa-side {
+      flex-shrink: 0;
+      display: flex; flex-direction: column; align-items: center;
+      gap: .6rem;
+      padding: 1rem .9rem;
+      background: var(--glass);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      backdrop-filter: blur(14px);
+    }
+    .qa-side img {
+      width: 84px; height: 84px;
+      border-radius: 2px;
+      display: block;
+    }
+    .qa-side-label {
+      font-family: 'DM Mono', monospace;
+      font-size: .56rem; letter-spacing: .14em;
+      color: var(--gold); text-transform: uppercase;
+      text-align: center;
+    }
+    .qa-side-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .8rem; font-style: italic;
+      color: var(--dim); text-align: center;
+      line-height: 1.35; max-width: 100px;
+    }
+    @media (max-width: 760px) {
+      .stage-row { flex-direction: column; }
+      .qa-side { flex-direction: row; padding: .75rem 1rem; }
+      .qa-side img { width: 56px; height: 56px; }
+      .qa-side-sub { max-width: none; text-align: left; }
+    }
+
     /* ── Scrollbar ── */
     .acc-body::-webkit-scrollbar { width: 3px; }
     .acc-body::-webkit-scrollbar-track { background: transparent; }
@@ -271,10 +312,18 @@
       <div class="rule"></div>
     </header>
 
-    <div class="video-frame">
-      <video id="persona-video" autoplay playsinline style="display:none;"></video>
-      <img id="frozen-avatar" src="/aida-idle.jpg" alt="Aida" style="display:block; width:100%; height:100%; object-fit:cover;">
-      <div class="corner-br"></div>
+    <div class="stage-row">
+      <div class="video-frame">
+        <video id="persona-video" autoplay playsinline style="display:none;"></video>
+        <img id="frozen-avatar" src="/aida-idle.jpg" alt="Aida" style="display:block; width:100%; height:100%; object-fit:cover;">
+        <div class="corner-br"></div>
+      </div>
+
+      <div class="qa-side">
+        <img id="qa-qr-img" src="" alt="QR Code Questions">
+        <div class="qa-side-label">Posez une question</div>
+        <div class="qa-side-sub">Scannez pour interagir avec Aïda</div>
+      </div>
     </div>
 
     <div class="status-strip">
@@ -311,6 +360,14 @@
   </div>
 
   <script>
+    /* ── QR Code Q&A ── */
+    (function() {
+      const url = window.location.origin + '/qa.html';
+      document.getElementById('qa-qr-img').src =
+        'https://api.qrserver.com/v1/create-qr-code/?size=64x64&color=b8955a&bgcolor=0d0c0b&data=' +
+        encodeURIComponent(url);
+    })();
+
     /* ── Background lines ── */
     (function(){
       const c = document.getElementById('bg-canvas');

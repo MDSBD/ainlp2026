@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questions · IANLP 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:    #0d0c0b;
+      --paper:  #f5f0e8;
+      --gold:   #b8955a;
+      --gold-lt:#d4b07a;
+      --dim:    #6b6560;
+      --line:   rgba(184,149,90,.2);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: 'DM Mono', monospace;
+      background: var(--ink);
+      color: var(--paper);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+
+    /* grain */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: .025; pointer-events: none;
+    }
+
+    /* halo */
+    .glow {
+      position: fixed; width: 900px; height: 900px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,149,90,.07) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* background lines */
+    #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .35; }
+
+    .stage {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center;
+      gap: clamp(1.5rem, 3vh, 3rem);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-size: clamp(.7rem, 1vw, .95rem);
+      letter-spacing: .3em; color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.15;
+      background: linear-gradient(135deg, var(--paper) 0%, var(--gold-lt) 55%, var(--paper) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .rule {
+      width: 90px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* QR card */
+    .qr-card {
+      position: relative;
+      padding: clamp(2rem, 4vw, 3.5rem);
+      background: rgba(245,240,232,.03);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      backdrop-filter: blur(10px);
+    }
+    .qr-card::before,
+    .qr-card::after {
+      content: '';
+      position: absolute;
+      width: 28px; height: 28px;
+    }
+    .qr-card::before { top: 14px; left: 14px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+    .qr-card::after  { bottom: 14px; right: 14px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+
+    #qr-img {
+      width: clamp(260px, 32vw, 460px);
+      height: clamp(260px, 32vw, 460px);
+      display: block;
+      border-radius: 4px;
+      image-rendering: pixelated;
+    }
+
+    .instructions {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+      color: var(--paper);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    .steps {
+      display: flex; gap: clamp(1.5rem, 4vw, 3.5rem);
+      flex-wrap: wrap; justify-content: center;
+    }
+    .step {
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      max-width: 160px;
+    }
+    .step-num {
+      width: 38px; height: 38px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--gold-lt);
+    }
+    .step-text {
+      font-size: clamp(.7rem, 1vw, .85rem);
+      letter-spacing: .05em;
+      color: var(--dim); text-transform: uppercase;
+      line-height: 1.5;
+    }
+
+    .footer-url {
+      font-size: clamp(.65rem, .9vw, .85rem);
+      letter-spacing: .1em; color: var(--gold-lt);
+    }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="stage">
+    <p class="eyebrow">IANLP 2026 · FSBM Casablanca</p>
+    <h1>Pour posez votre question</h1>
+    <div class="rule"></div>
+
+    <div class="qr-card">
+      <img id="qr-img" src="" alt="QR Code Questions">
+    </div>
+
+    <p class="instructions">Scannez ce code avec l'appareil photo de votre téléphone pour soumettre votre question directement à l'équipe de modération.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Scannez le QR code</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Tapez votre question</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Elle sera transmise à Aïda</div>
+      </div>
+    </div>
+
+    <p class="footer-url" id="qr-url"></p>
+  </div>
+
+  <script>
+    /* ── Background lines ── */
+    (function(){
+      const c = document.getElementById('bg-canvas');
+      const ctx = c.getContext('2d');
+      function resize(){ c.width = innerWidth; c.height = innerHeight; draw(); }
+      function draw(){
+        ctx.clearRect(0,0,c.width,c.height);
+        ctx.strokeStyle = 'rgba(184,149,90,0.06)';
+        ctx.lineWidth = 1;
+        const gap = 90;
+        for(let x = gap; x < c.width; x += gap){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,c.height); ctx.stroke(); }
+        for(let y = gap; y < c.height; y += gap){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(c.width,y); ctx.stroke(); }
+      }
+      addEventListener('resize', resize); resize();
+    })();
+
+    /* ── QR Code ── */
+    (function() {
+      const url = window.location.origin + '/qa.html';
+      document.getElementById('qr-url').textContent = url;
+      document.getElementById('qr-img').src =
+        'https://api.qrserver.com/v1/create-qr-code/?size=460x460&color=b8955a&bgcolor=0d0c0b&data=' +
+        encodeURIComponent(url);
+    })();
+  </script>
+</body>
+</html>

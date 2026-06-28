@@ -52,7 +52,7 @@
     /* ── Layout ── */
     .page {
       position: relative; z-index: 1;
-      max-width: 780px; margin: 0 auto;
+      max-width: 880px; margin: 0 auto;
       padding: 3rem 2rem 4rem;
       display: flex; flex-direction: column; align-items: center; gap: 2rem;
     }
@@ -86,7 +86,7 @@
 
     /* ── Video ── */
     .video-frame {
-      width: 100%; max-width: 640px;
+      width: 100%; max-width: 940px;
       position: relative;
       border-radius: 4px;
       overflow: hidden;
@@ -265,15 +265,14 @@
 
   <div class="page">
     <header>
-      <p class="eyebrow">IANLP 2026 · Rabat</p>
+      <p class="eyebrow">IANLP 2026 · FSBM Casablanca</p>
       <h1>Conférence Internationale sur<br>l'Intelligence Artificielle<br>et le TALN</h1>
       <p class="subtitle">Modérateur virtuel — Modrex</p>
       <div class="rule"></div>
     </header>
 
     <div class="video-frame">
-      <video id="persona-video" autoplay playsinline style="display:none;"></video>
-      <img id="frozen-avatar" src="/aida-idle.jpg" alt="Aida" style="display:block; width:100%; height:100%; object-fit:cover;">
+      <video id="persona-video" autoplay playsinline></video>
       <div class="corner-br"></div>
     </div>
 
@@ -344,7 +343,6 @@
     const startBtn  = document.getElementById('start-button');
     const stopBtn   = document.getElementById('stop-button');
     const video     = document.getElementById('persona-video');
-    const frozenImg = document.getElementById('frozen-avatar');
     const statusTxt = document.getElementById('status-text');
     const statusDot = document.getElementById('status-dot');
     const history   = document.getElementById('chat-history');
@@ -388,8 +386,6 @@
         anamClient.addListener(AnamEvent.SESSION_READY, () => {
           setStatus('Session active — en attente de l\'opérateur.', true);
           startBtn.disabled = true; stopBtn.disabled = false;
-          frozenImg.style.display = 'none';
-          video.style.display = 'block';
           socket.emit('register-public');
         });
         anamClient.addListener(AnamEvent.MESSAGE_HISTORY_UPDATED, updateHistory);
@@ -408,12 +404,9 @@
 
     function stopChat(){
       if(anamClient){ anamClient.stopStreaming(); anamClient = null; video.srcObject = null; }
-      // Affiche l'image statique d'Aida au lieu d'un ecran noir
-      video.style.display = 'none';
-      frozenImg.style.display = 'block';
       updateHistory([]);
       transcript.textContent = '';
-      setStatus('Session en pause — Aida visible, hors ligne.');
+      setStatus('Session arrêtée.');
       startBtn.disabled = false; stopBtn.disabled = true;
     }
 
