@@ -395,7 +395,7 @@ console.log('[Research] llmId   :', process.env.RESEARCH_LLM_ID    ? process.env
 
 app.post('/api/research-session-token', async (req, res) => {
   try {
-    const personaConfig = {
+   /* const personaConfig = {
       name: "Conférencier IA",
       avatarId: process.env.RESEARCH_AVATAR_ID,
       voiceId:  process.env.RESEARCH_VOICE_ID,
@@ -403,6 +403,10 @@ app.post('/api/research-session-token', async (req, res) => {
       skipGreeting: false,
        languageCode: "fr" 
           };
+          */
+         const personaConfig = {
+  personaId: process.env.RESEARCH_PERSONA_ID
+};
 
     const response = await fetch("https://api.anam.ai/v1/auth/session-token", {
       method: "POST",
