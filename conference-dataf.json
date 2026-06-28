@@ -83,7 +83,7 @@
     "responsable_organisation": "Pr. Omar Zahour — omar.zahour@univh2c.ma / orzahour@gmail.com"
   },
   "moderateur_virtuel": {
-    "nom": "AIDA",
+    "nom": "Modrex",
     "description": "Avatar IA conçu par le Pr. El Habib Benlahmar pour animer la conférence IANLP 2026"
   },
   "intervenants": [
@@ -94,7 +94,7 @@
       "type": "Speaker",
       "biographie": {
         "en": "Prof. Jaouad Dabounou has been a Professor at Hassan First University, FST of Settat, Morocco, since 1994. He holds a doctorate in the modeling of solids and structures from UTC, France. His research focuses on applied mathematics and artificial intelligence, with particular interest in AI applications across multiple domains. He is Director of the Artificial Intelligence Research and Applications Laboratory (AIRA), coordinates projects related to territorial information systems, and is a member of the Iconomy Institute in Paris. He is also an AI expert for OneUp and ArcelorMittal. Prof. Jaouad Dabounou is President of the Association for the Development of Artificial Intelligence in Africa (AAIDA) and Chair of the International Conference on Artificial Intelligence Advanced Topics and Societal Innovation (AIATSI).",
-        "fr": "Prof. Jaouad Dabounou est Professeur à l'Université Hassan premier, FST de Settat, Maroc, depuis 1994. Il est titulaire d'un doctorat en modélisation des solides et des structures obtenu à l'UTC, France. Ses travaux de recherche portent sur les mathématiques appliquées et l'intelligence artificielle, avec un intérêt particulier pour les applications de l'IA dans plusieurs domaines. Il est Directeur du Laboratoire de Recherche et Applications en Intelligence Artificielle (AIRA), coordonne des projets liés aux systèmes d'information territoriaux, et est membre de l'Institut Iconomy à Paris. Il est également expert en intelligence artificielle auprès de OneUp et ArcelorMittal. Prof. Jaouad Dabounou est Président de l'Association du Développement de l'Intelligence Artificielle en Afrique (AAIDA) et Chair de la Conférence Internationale sur les Thématiques Avancées de l'Intelligence Artificielle et l'Innovation Sociétale (AIATSI)."
+        "fr": "Prof. Jaouad Dabounou est Professeur à l'Université Hassan I, FST de Settat, Maroc, depuis 1994. Il est titulaire d'un doctorat en modélisation des solides et des structures obtenu à l'UTC, France. Ses travaux de recherche portent sur les mathématiques appliquées et l'intelligence artificielle, avec un intérêt particulier pour les applications de l'IA dans plusieurs domaines. Il est Directeur du Laboratoire de Recherche et Applications en Intelligence Artificielle (AIRA), coordonne des projets liés aux systèmes d'information territoriaux, et est membre de l'Institut Iconomy à Paris. Il est également expert en intelligence artificielle auprès de OneUp et ArcelorMittal. Prof. Jaouad Dabounou est Président de l'Association du Développement de l'Intelligence Artificielle en Afrique (AAIDA) et Chair de la Conférence Internationale sur les Thématiques Avancées de l'Intelligence Artificielle et l'Innovation Sociétale (AIATSI)."
       }
     },
     {
@@ -110,7 +110,7 @@
     {
       "order":3,
       "nom": "Pr. Omar Tanane",
-      "affiliation": "Université Hassan deux de Casablanca, Morocco",
+      "affiliation": "Université Hassan II de Casablanca, Morocco",
       "type": "Speaker",
       "biographie": {
         "en": "Professor Omar Tanane is a researcher and lecturer at Hassan II University in Casablanca, specializing in electrochemistry, chemical engineering, and environmental chemistry. Holding a Ph.D. in electrochemistry and a management degree from ISCAE Business School, he has contributed significantly to innovation, securing six patents related to corrosion inhibition, environmental protection, and materials recycling. His research spans artificial intelligence in materials science, exploring machine learning for material discovery and robotics, notably co-developing a robotic system for scorpion venom extraction. With twenty-four scientific publications, he was awarded the Best Paper Award in 2013. Since 1992, he has been a faculty member at Hassan II University, leading Technology and Innovation Support Centers (TISC) at the Moroccan Industrial and Commercial Property Office, with certifications from WIPO and GIPA. His work bridges academic research, intellectual property, and technological innovation.",
@@ -120,7 +120,7 @@
     {
       "order":4,
       "nom": "Pr. Khadija Achtaich",
-      "affiliation": "Université Hassan deux de Casablanca, Morocco",
+      "affiliation": "Université Hassan II de Casablanca, Morocco",
       "type": "Speaker",
       "biographie": {
         "en": "Prof. Khadija Achtaich is a researcher specializing in the application of artificial intelligence to heritage preservation and healthcare. Her work focuses on the development of intelligent solutions for medical diagnosis and the optimization of care pathways. She is actively committed to technological innovation and science communication, with a particular focus on improving health literacy and promoting digital inclusion.",

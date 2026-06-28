@@ -204,31 +204,28 @@
       <span class="progress-current" id="progress-current">Phase 1</span>
     </div>
 
-    <!-- ════════ JOUR 1 — LUNDI 29 JUIN ════════ -->
-    <p class="section-note" style="font-family:'DM Mono',monospace;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;font-size:.62rem;margin:1.5rem 0 .75rem;">— Jour 1 · Lundi 29 juin 2026 —</p>
-
     <!-- PHASE 1 : Ouverture -->
     <div class="phase-block open" data-phase="0">
       <div class="phase-header" onclick="togglePhase(this)">
-        <span class="phase-time">09:00 – 09:45</span>
-        <span class="phase-name">Phase 1 — Ouverture officielle</span>
-        <span class="phase-toggle">&#9662;</span>
+        <span class="phase-time">09:00 – 09:40</span>
+        <span class="phase-name">Phase 1 — Ouverture officielle & Protocole</span>
+        <span class="phase-toggle">▾</span>
       </div>
       <div class="phase-body">
-        <p class="phase-desc">Accueil 08:30-09:00 (Master's classroom), puis ceremonie d'ouverture en Amphitheater 8.</p>
+        <p class="phase-desc">Respect de la hierarchie academique. L'avatar ouvre la conference et invite chaque officiel a la tribune.</p>
         <div class="section">
-          <div class="section-title">CMD_INTRO — Ouverture</div>
+          <div class="section-title">09:00 — Ouverture & Accueil</div>
           <div class="btn-grid">
-            <button class="cmd-btn primary" onclick="cmdStep(0, ' Commence la séquence d\'ouverture : mots de bienvenue, annonce du thème IANLP 2026 (Artificial Intelligence, Intelligent Computing and Digital Transformation for a Smarter Future), rappel des consignes pour le public en ligne.')">Lancer l'ouverture</button>
+            <button class="cmd-btn primary" onclick="cmdStep(0, 'Commence la séquence d\'ouverture : mots de bienvenue, annonce du thème de la conférence IANLP 2026, rappel des consignes pour le public en ligne.')">CMD_INTRO — Lancer l'ouverture</button>
           </div>
         </div>
 
         <div class="section">
-          <div class="section-title">CMD_INVIT_OFFICIEL — Invitations protocolaires</div>
+          <div class="section-title">09:05 – 09:30 — Invitations officielles</div>
           <div class="btn-grid">
-            <button class="cmd-btn" onclick="cmdStep(0, 'Invite Pr. Abdessalam El Bouari, Doyen de la Faculté des Sciences Ben M\'Sick, à rejoindre la tribune pour son allocution.')">Doyen</button>
-            <button class="cmd-btn" onclick="cmdStep(0, 'Remercie le Doyen pour son allocution. Invite maintenant Pr. Mohamed Azzouazi, Directeur du Laboratoire LTIM, à s\'exprimer.')">Dir. LTIM</button>
-            <button class="cmd-btn" onclick="cmdStep(0, 'Remercie Pr. Mohamed Azzouazi. Invite maintenant Pr. Omar ZAHOUR, General Chair de la conférence IANLP 2026, à prendre la parole.')">Chair</button>
+            <button class="cmd-btn" onclick="cmdStep(0, 'Invite Pr. Abdessalam El Bouari, Doyen de la Faculté des Sciences Ben M\'Sick, à rejoindre la tribune pour son allocution.')">CMD_INVIT — Doyen</button>
+            <button class="cmd-btn" onclick="cmdStep(0, 'Remercie chaleureusement le Doyen pour son allocution. Invite maintenant Pr. Mohamed Azzouazi, Directeur du Laboratoire LTIM, à s\'exprimer.')">CMD_INVIT — Dir. LTIM</button>
+            <button class="cmd-btn" onclick="cmdStep(0, 'Remercie le Directeur du Laboratoire LTIM. Invite maintenant Pr. Omar ZAHOUR , General Chair de la conférence IANLP 2026, à prendre la parole.')">CMD_INVIT — Chair</button>
           </div>
         </div>
 
@@ -257,234 +254,160 @@
         </div>
 
         <div class="section">
-          <div class="section-title">09:40 — Transition vers Keynote 1</div>
+          <div class="section-title">09:35 — Transition vers sessions scientifiques</div>
           <div class="btn-grid">
-            <button class="cmd-btn primary" onclick="cmdStep(1, 'Remercie l\'ensemble des officiels. Rappelle brievement le programme de la matinee et annonce le lancement de la premiere keynote.')">CMD_TRANSITION_SCIENTIFIQUE</button>
+            <button class="cmd-btn primary" onclick="cmdStep(1, 'Remercie l\'ensemble des officiels.  annonce le lancement de la premiere session scientifique.')">CMD_TRANSITION_SCIENTIFIQUE</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- PHASE 2 : Keynotes 1 & 2 -->
+    <!-- PHASE 2 : Session scientifique -->
     <div class="phase-block" data-phase="1">
       <div class="phase-header" onclick="togglePhase(this)">
-        <span class="phase-time">09:45 – 12:00</span>
-        <span class="phase-name">Phase 2 — Keynotes 1 & 2 + Posters + Pause</span>
-        <span class="phase-toggle">&#9662;</span>
+        <span class="phase-time">09:40 – 10:30</span>
+        <span class="phase-name">Phase 2 — Premiere session scientifique</span>
+        <span class="phase-toggle">▾</span>
       </div>
       <div class="phase-body">
-        <p class="phase-desc">09:45-10:25 Keynote 1 · 10:30-11:15 Posters · 11:15-11:30 Pause · 11:30-12:00 Keynote 2.</p>
+        <p class="phase-desc">Introduction de l'intervenant, suivi de la presentation, synthese Groq, session Q&A.</p>
 
         <div class="section">
-          <div class="section-title">CMD_INTRO_SPEAKER — Keynotes</div>
+          <div class="section-title">Intervenant — Presentation</div>
           <div class="btn-grid">
-            <button class="cmd-btn primary" onclick="cmdStep(1, 'Présente le conférencier plénier 1 : Prof. Jaouad Dabounou, Professeur à l\'Université Hassan premier, FST de Settat, Maroc. Intègre naturellement son parcours académique dans la présentation, sans jamais dire les mots \'biographie\' ou \'parcours académique\' — raconte simplement qui il est comme dans un discours d\'introduction fluide. Termine par l\'annonce du titre de sa présentation et donne-lui la parole.')">CMD_INTRO_SPEAKER — Dabounou</button>
-            <button class="cmd-btn primary" onclick="cmdStep(1, 'Présente le conférencier plénier 2 : Prof. Tawhid Chtioui, Founding President of aivancity, President and Group CEO of EDVANTIS, France. Intègre naturellement son parcours académique dans la présentation, sans jamais dire les mots \'biographie\' ou \'parcours académique\' — raconte simplement qui il est comme dans un discours d\'introduction fluide. Termine par l\'annonce du titre de sa présentation et donne-lui la parole.')">CMD_INTRO_SPEAKER — Chtioui</button>
+            <button class="cmd-btn primary" onclick="cmdStep(1, 'Présente le conférencier plénier 1 : Prof. Jaouad Dabounou, Professeur à l\'Université Hassan I, FST de Settat, Maroc.Annonce son biographie, apres Annonce le titre de sa presentation.')">CMD_INTRO_SPEAKER — Intervenant 1</button>
+            <button class="cmd-btn primary" onclick="cmdStep(1, 'Présente le conférencier plénier 2 : Prof. Tawhid Chtioui, Aivancity, France.Annonce son biographie, en suite Annonce le titre de sa presentation.')">CMD_INTRO_SPEAKER — Intervenant 2</button>
+            <button class="cmd-btn primary" onclick="cmdStep(1, 'Présente le conférencier plénier 3 : Prof. Omar Tanane, Professeur à l\'Université Hassan II de Casablanca.Annonce son biographie, en suite Annonce le titre de sa presentation.')">CMD_INTRO_SPEAKER — Intervenant 3</button>
+            <button class="cmd-btn primary" onclick="cmdStep(1, 'Présente le conférencier plénier 4 : Prof. Khadija Achtaich, Professeur à l\'Université Hassan II de Casablanca. Annonce son biographie , en suite Annonce le titre de sa presentation.')">CMD_INTRO_SPEAKER — Intervenant 4</button>
+
+          </div>
+        </div>
+
+        <!-- Intervenant dynamique -->
+        <div class="section">
+          <div class="section-title">Presenter un intervenant non prevu</div>
+          <div class="officiel-form">
+            <div class="officiel-field">
+              <label class="field-lbl">Nom complet</label>
+              <input class="field-inp" id="spk-nom" type="text" placeholder="Ex: Dr. Sara Benali">
+            </div>
+            <div class="officiel-field">
+              <label class="field-lbl">Affiliation</label>
+              <input class="field-inp" id="spk-affil" type="text" placeholder="Ex: MIT, USA">
+            </div>
+          </div>
+          <div class="officiel-field" style="margin-bottom:.6rem;">
+            <label class="field-lbl">Sujet / Bio / Infos</label>
+            <textarea class="field-inp field-textarea" id="spk-bio" placeholder="Titre de la presentation, biographie, domaine de recherche..."></textarea>
+          </div>
+          <div class="officiel-actions">
+            <button class="cmd-btn primary" onclick="presenterIntervenant()">Presenter cet intervenant</button>
+            <button class="cmd-btn warning" onclick="clearIntervenant()">Effacer</button>
           </div>
         </div>
 
         <div class="section">
           <div class="section-title">En cours de presentation</div>
           <div class="btn-grid">
-            <button class="cmd-btn warning" onclick="envoyer('Annonce poliment qu\'il reste 5 minutes à l\'intervenant pour conclure sa présentation.')">CMD_WARN_TIME — 5 min</button>
+            <button class="cmd-btn warning" onclick="envoyer('Annonce poliment qu\'il reste 5 minutes à l\'intervenant pour conclure sa présentation.')">CMD_WARN_TIME — 5 min restantes</button>
             <button class="cmd-btn warning" onclick="envoyer('Annonce poliment qu\'il reste 2 minutes à l\'intervenant pour conclure.')">2 min restantes</button>
+            <button class="cmd-btn" onclick="envoyer('Demande poliment a l\'intervenant de conclure sa presentation.')">Conclure SVP</button>
           </div>
         </div>
 
         <div class="section">
-          <div class="section-title">Fin de keynote</div>
+          <div class="section-title">Fin de presentation</div>
           <div class="btn-grid">
-            <button class="cmd-btn primary" onclick="cmdSummary()">CMD_SUMMARY_SPEAKER — Synthese</button>
-            <button class="cmd-btn" onclick="envoyer('Lance la session de questions pour cet intervenant.')">CMD_START_QA</button>
-            <button class="cmd-btn" onclick="envoyer('Cloture la session de questions et remercie le public.')">Clore Q&amp;A</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">10:30 — Session Posters & Pause</div>
-          <div class="btn-grid">
-            <button class="cmd-btn" onclick="envoyer('Remercie l\'intervenant. Invite le public a se diriger vers le hall pour la session posters, demonstrations et exhibition.')">Session Posters</button>
-            <button class="cmd-btn" onclick="envoyer('Annonce une pause cafe de 15 minutes et indique le lieu de rafraichissement.')">Pause cafe (15 min)</button>
-            <button class="cmd-btn" onclick="envoyer('Annonce la reprise de la conference apres la pause.')">Annoncer reprise</button>
+            <button class="cmd-btn primary" onclick="cmdSummary()">CMD_SUMMARY_SPEAKER — Synthese + Remerciements</button>
+            <button class="cmd-btn" onclick="envoyer('Remercie chaleureusement l\'intervenant pour sa presentation.')">Remercier l'intervenant</button>
+            <button class="cmd-btn" onclick="envoyer('Lance la session de questions pour cet intervenant.')">CMD_START_QA — Ouvrir Q&A</button>
+            <button class="cmd-btn" onclick="envoyer('Cloture la session de questions et remercie le public.')">Clore Q&A</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- PHASE 3 : Workshop A + Keynotes 3-4 -->
+    <!-- PHASE 3 : Pause -->
     <div class="phase-block" data-phase="2">
       <div class="phase-header" onclick="togglePhase(this)">
-        <span class="phase-time">12:00 – 16:45</span>
-        <span class="phase-name">Phase 3 — Workshop A, Dejeuner, Keynotes 3-4, Sessions paralleles</span>
-        <span class="phase-toggle">&#9662;</span>
+        <span class="phase-time">10:30 – 11:00</span>
+        <span class="phase-name">Phase 3 — Pause cafe</span>
+        <span class="phase-toggle">▾</span>
       </div>
       <div class="phase-body">
-        <p class="phase-desc">12:00-13:30 Workshops A · 13:30-14:00 Dejeuner · 14:15 Keynote 3 · 15:00 Keynote 4 · 15:45 Sessions 1-6.</p>
-
-        <div class="section">
-          <div class="section-title">Transitions Workshop / Dejeuner</div>
-          <div class="btn-grid">
-            <button class="cmd-btn" onclick="envoyer('Annonce le debut du Workshop Block A : 5 ateliers paralleles pendant 1h30. Indique aux participants de se diriger vers leur salle respective.')">Lancer Workshop Block A</button>
-            <button class="cmd-btn" onclick="envoyer('Annonce la pause dejeuner et indique le lieu du repas.')">Pause dejeuner</button>
-            <button class="cmd-btn" onclick="envoyer('Annonce la reprise de l\'apres-midi et invite le public a rejoindre l\'amphitheatre.')">Reprise apres-midi</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">CMD_INTRO_SPEAKER — Keynotes 3 & 4</div>
-          <div class="btn-grid">
-            <button class="cmd-btn primary" onclick="cmdStep(2, 'Présente la Keynote 3 : Prof. Omar Tanane, Hassan deux University of Casablanca, Morocco. Intègre naturellement son parcours académique dans la présentation, sans jamais dire les mots \'biographie\' ou \'parcours académique\' — raconte simplement qui il est comme dans un discours d\'introduction fluide. Termine par l\'annonce du titre de sa présentation et donne-lui la parole.')">CMD_INTRO_SPEAKER — Tanane</button>
-            <button class="cmd-btn primary" onclick="cmdStep(2, 'Présente la Keynote 4 : Prof. Khadija Achtaich, Hassan deux University of Casablanca, Morocco. Intègre naturellement son parcours académique dans la présentation, sans jamais dire les mots \'biographie\' ou \'parcours académique\' — raconte simplement qui il est comme dans un discours d\'introduction fluide. Termine par l\'annonce du titre de sa présentation et donne-lui la parole.')">CMD_INTRO_SPEAKER — Achtaich</button>
-            <button class="cmd-btn warning" onclick="envoyer('Annonce qu\'il reste 5 minutes a l\'intervenant.')">5 min restantes</button>
-            <button class="cmd-btn" onclick="cmdSummary()">Synthese</button>
-            <button class="cmd-btn" onclick="envoyer('Lance la session de questions.')">Ouvrir Q&amp;A</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">15:45 — Sessions paralleles 1 a 6</div>
-          <div class="btn-grid">
-            <button class="cmd-btn" onclick="envoyer('Annonce le debut des sessions paralleles de l\'apres-midi : Session 1 Conversational AI, Session 2 Trustworthy Generative AI, Session 3 AI Employability en salle classroom ; Session 4 Smart Cities, Session 5 Financial NLP, Session 6 Arabic-Darija NLP en Amphi 8. Invite chaque participant a rejoindre sa session.')">Lancer Sessions 1-6</button>
-            <button class="cmd-btn" onclick="envoyer('Annonce une pause cafe et networking de 15 minutes.')">Pause cafe (16:45)</button>
-          </div>
+        <p class="phase-desc">Annonce de la pause, indication du lieu, reprise prevue.</p>
+        <div class="btn-grid">
+          <button class="cmd-btn primary" onclick="cmdStep(2, 'Remercie l\'intervenant. Annonce la pause café de 30 minutes et indique le lieu de rafraichissement. Precise l\'heure de reprise.')">CMD_PAUSE_CAFE</button>
+          <button class="cmd-btn" onclick="cmdStep(2, 'Annonce la reprise de la conference et invite le public a rejoindre la salle.')">Annoncer la reprise</button>
         </div>
       </div>
     </div>
 
-    <!-- PHASE 4 : Cloture Jour 1 -->
+    <!-- PHASE 4 : Session 2 -->
     <div class="phase-block" data-phase="3">
       <div class="phase-header" onclick="togglePhase(this)">
-        <span class="phase-time">17:00</span>
-        <span class="phase-name">Phase 4 — Cloture de la journee 1</span>
-        <span class="phase-toggle">&#9662;</span>
+        <span class="phase-time">11:00 – 11:50</span>
+        <span class="phase-name">Phase 4 — Deuxieme session scientifique</span>
+        <span class="phase-toggle">▾</span>
       </div>
       <div class="phase-body">
-        <p class="phase-desc">Remerciements et annonce du programme du Jour 2.</p>
+        <p class="phase-desc">Meme structure que la phase 2 — utiliser les memes boutons d'intervenant.</p>
         <div class="btn-grid">
-          <button class="cmd-btn primary" onclick="cmdStep(3, 'Remercie l\'ensemble des intervenants, organisateurs et participants de cette premiere journee. Annonce le programme du lendemain : ouverture a 9h avec la Keynote 5, et invite chacun a une bonne soiree.')">Cloture Jour 1</button>
+          <button class="cmd-btn primary" onclick="cmdStep(3, 'Annonce la reprise de la conference et presente le deuxieme intervenant de la matinee.')">Reprise & Intro Intervenant 2</button>
+          <button class="cmd-btn warning" onclick="envoyer('Annonce qu\'il reste 5 minutes a l\'intervenant pour conclure.')">5 min restantes</button>
+          <button class="cmd-btn" onclick="cmdSummary()">Synthese + Remerciements</button>
+          <button class="cmd-btn" onclick="envoyer('Lance la session de questions.')">Ouvrir Q&A</button>
         </div>
       </div>
     </div>
 
-    <!-- ════════ JOUR 2 — MARDI 30 JUIN ════════ -->
-    <p class="section-note" style="font-family:'DM Mono',monospace;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;font-size:.62rem;margin:1.5rem 0 .75rem;">— Jour 2 · Mardi 30 juin 2026 —</p>
-
-    <!-- PHASE 5 : Ouverture Jour 2 + Keynotes 5-6 -->
+    <!-- PHASE 5 : Cloture matinee -->
     <div class="phase-block" data-phase="4">
       <div class="phase-header" onclick="togglePhase(this)">
-        <span class="phase-time">09:00 – 10:45</span>
-        <span class="phase-name">Phase 5 — Ouverture Jour 2 + Keynotes 5 & 6</span>
-        <span class="phase-toggle">&#9662;</span>
+        <span class="phase-time">11:50 – 12:00</span>
+        <span class="phase-name">Phase 5 — Cloture matinee & Session posters</span>
+        <span class="phase-toggle">▾</span>
       </div>
       <div class="phase-body">
-        <p class="phase-desc">09:00 Accueil · 09:15 Keynote 5 · 10:00 Keynote 6 · 10:45 Pause.</p>
-
-        <div class="section">
-          <div class="section-title">Ouverture Jour 2</div>
-          <div class="btn-grid">
-            <button class="cmd-btn primary" onclick="cmdStep(4, 'Souhaite la bienvenue au public pour cette deuxieme journee de la conference IANLP 2026. Fais les annonces et l\'orientation technique necessaires. Annonce le programme de la journee.')">CMD_OUVERTURE_J2</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">CMD_INTRO_SPEAKER — Keynotes 5 & 6</div>
-          <div class="btn-grid">
-            <button class="cmd-btn primary" onclick="cmdStep(4, 'Présente la Keynote 5 : Prof. Ernesto Exposito, University of Pau and the Adour Region (UPPA), France. Intègre naturellement son parcours académique dans la présentation, sans jamais dire les mots \'biographie\' ou \'parcours académique\' — raconte simplement qui il est comme dans un discours d\'introduction fluide. Termine par l\'annonce du titre de sa présentation et donne-lui la parole.')">Keynote 5 — Exposito</button>
-            <button class="cmd-btn primary" onclick="cmdStep(4, 'Présente la Keynote 6 : Prof. Pepa Kostadinova Atanasova, University of Copenhagen, DIKU, Denmark. Intègre naturellement son parcours académique dans la présentation, sans jamais dire les mots \'biographie\' ou \'parcours académique\' — raconte simplement qui il est comme dans un discours d\'introduction fluide. Termine par l\'annonce du titre de sa présentation et donne-lui la parole.')">Keynote 6 — Atanasova</button>
-            <button class="cmd-btn warning" onclick="envoyer('Annonce qu\'il reste 5 minutes a l\'intervenant.')">5 min restantes</button>
-            <button class="cmd-btn" onclick="cmdSummary()">Synthese</button>
-            <button class="cmd-btn" onclick="envoyer('Lance la session de questions.')">Ouvrir Q&amp;A</button>
-            <button class="cmd-btn" onclick="envoyer('Annonce une pause cafe et networking de 15 minutes.')">Pause cafe (10:45)</button>
-          </div>
+        <p class="phase-desc">Remerciements, invitation au hall des posters, indication du programme de l'apres-midi.</p>
+        <div class="btn-grid">
+          <button class="cmd-btn primary" onclick="cmdStep(4, 'Remercie l\'ensemble des intervenants et du public de cette premiere matinee. Invite le public a decouvrir les travaux exposes dans la session posters dans le hall principal et a echanger avec leurs auteurs autour du dejeuner. Indique l\'heure de reprise de l\'apres-midi.')">CMD_CLOTURE_MATIN</button>
         </div>
       </div>
     </div>
 
-    <!-- PHASE 6 : Workshop UPPA + Block B + Keynote 7 -->
+    <!-- PHASE 6 : Apres-midi / Jour 2 -->
     <div class="phase-block" data-phase="5">
       <div class="phase-header" onclick="togglePhase(this)">
-        <span class="phase-time">11:00 – 14:40</span>
-        <span class="phase-name">Phase 6 — Workshops, Dejeuner, Keynote 7</span>
-        <span class="phase-toggle">&#9662;</span>
+        <span class="phase-time">Apres-midi / Jour 2</span>
+        <span class="phase-name">Phase 6 — Sessions apres-midi & Jour suivant</span>
+        <span class="phase-toggle">▾</span>
       </div>
       <div class="phase-body">
-        <p class="phase-desc">11:00-13:00 Workshop Dr. Evain (Amphi 8) + Workshop Block B (Classroom) · 13:00 Dejeuner · 14:00 Keynote 7.</p>
-
-        <div class="section">
-          <div class="section-title">Workshop & Pause</div>
-          <div class="btn-grid">
-            <button class="cmd-btn" onclick="envoyer('Présente le workshop de Dr. Nicolas Evain, chercheur a l\'Universite de Pau et des Pays de l\'Adour, France, intitule : \'Adaptive Management of Cyber-Physical Systems (CPS): An Application to Educational Systems\'. Donne-lui la parole. Annonce egalement le Workshop Block B avec 5 ateliers paralleles.')">Lancer Workshops</button>
-            <button class="cmd-btn" onclick="envoyer('Annonce la pause dejeuner.')">Pause dejeuner</button>
-            <button class="cmd-btn" onclick="envoyer('Annonce la reprise de l\'apres-midi.')">Reprise apres-midi</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">CMD_INTRO_SPEAKER — Keynote 7</div>
-          <div class="btn-grid">
-            <button class="cmd-btn primary" onclick="cmdStep(5, 'Présente la Keynote 7 : Prof. Rada Mihalcea, University of Michigan, United States of America. Intègre naturellement son parcours académique dans la présentation, sans jamais dire les mots \'biographie\' ou \'parcours académique\' — raconte simplement qui il est comme dans un discours d\'introduction fluide. Termine par l\'annonce du titre de sa présentation et donne-lui la parole.')">CMD_INTRO_SPEAKER — Mihalcea</button>
-            <button class="cmd-btn warning" onclick="envoyer('Annonce qu\'il reste 5 minutes a l\'intervenant.')">5 min restantes</button>
-            <button class="cmd-btn" onclick="cmdSummary()">Synthese</button>
-            <button class="cmd-btn" onclick="envoyer('Lance la session de questions.')">Ouvrir Q&amp;A</button>
-          </div>
+        <p class="phase-desc">Meme deroulement que les phases 2-4. Utiliser les boutons d'intervenant dynamique si besoin.</p>
+        <div class="btn-grid">
+          <button class="cmd-btn primary" onclick="cmdStep(5, 'Annonce la reprise de la conference pour la session de l\'apres-midi et presente le programme.')">Reprise apres-midi</button>
+          <button class="cmd-btn primary" onclick="cmdStep(5, 'Annonce l\'ouverture de la deuxieme journee de la conference IANLP 2026 et presente le programme du jour.')">Ouverture Jour 2</button>
+          <button class="cmd-btn warning" onclick="envoyer('Annonce qu\'il reste 5 minutes a l\'intervenant pour conclure.')">5 min restantes</button>
+          <button class="cmd-btn" onclick="cmdSummary()">Synthese + Remerciements</button>
+          <button class="cmd-btn" onclick="envoyer('Lance la session de questions.')">Ouvrir Q&A</button>
         </div>
       </div>
     </div>
 
-    <!-- Intervenant dynamique (utilise pour les sessions parallèles / workshops imprévus) -->
+    <!-- PHASE 7 : Cloture finale -->
     <div class="phase-block" data-phase="6">
       <div class="phase-header" onclick="togglePhase(this)">
-        <span class="phase-time">—</span>
-        <span class="phase-name">Presenter un intervenant non prevu</span>
-        <span class="phase-toggle">&#9662;</span>
+        <span class="phase-time">Cloture</span>
+        <span class="phase-name">Phase 7 — Ceremonie de cloture finale</span>
+        <span class="phase-toggle">▾</span>
       </div>
       <div class="phase-body">
-        <div class="officiel-form">
-          <div class="officiel-field">
-            <label class="field-lbl">Nom complet</label>
-            <input class="field-inp" id="spk-nom" type="text" placeholder="Ex: Dr. Sara Benali">
-          </div>
-          <div class="officiel-field">
-            <label class="field-lbl">Affiliation</label>
-            <input class="field-inp" id="spk-affil" type="text" placeholder="Ex: MIT, USA">
-          </div>
-        </div>
-        <div class="officiel-field" style="margin-bottom:.6rem;">
-          <label class="field-lbl">Sujet / Bio / Infos</label>
-          <textarea class="field-inp field-textarea" id="spk-bio" placeholder="Titre de la presentation, biographie, domaine de recherche..."></textarea>
-        </div>
-        <div class="officiel-actions">
-          <button class="cmd-btn primary" onclick="presenterIntervenant()">Presenter cet intervenant</button>
-          <button class="cmd-btn warning" onclick="clearIntervenant()">Effacer</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PHASE 7 : Sessions paralleles + Cloture -->
-    <div class="phase-block" data-phase="6">
-      <div class="phase-header" onclick="togglePhase(this)">
-        <span class="phase-time">14:45 – 17:00</span>
-        <span class="phase-name">Phase 7 — Sessions 7-10 & Ceremonie de cloture</span>
-        <span class="phase-toggle">&#9662;</span>
-      </div>
-      <div class="phase-body">
-        <p class="phase-desc">14:45-16:00 Sessions paralleles 7-10 · 16:00 Pause · 16:15 Cloture et remise des prix.</p>
-
-        <div class="section">
-          <div class="section-title">Sessions paralleles</div>
-          <div class="btn-grid">
-            <button class="cmd-btn" onclick="envoyer('Annonce le debut des sessions paralleles : Session 7 Educational AI, Session 8 Healthcare AI en Master\'s classroom ; Session 9 Medical Imaging en Room 15 ; Session 10 Cybersecurity en Amphi 8. Invite chaque participant a rejoindre sa session.')">Lancer Sessions 7-10</button>
-            <button class="cmd-btn" onclick="envoyer('Annonce une pause cafe et networking de 15 minutes.')">Pause cafe (16:00)</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">CMD_CLOTURE_FINALE — Ceremonie de cloture</div>
-          <div class="btn-grid">
-            <button class="cmd-btn primary" onclick="cmdStep(6, 'Lance la ceremonie de cloture de la conference IANLP 2026. Remercie tous les keynote speakers, auteurs, reviewers, session chairs, facilitateurs de workshops, sponsors, partenaires, volontaires et participants pour leur contribution au succes de cette premiere edition. Annonce la remise des prix.')">Lancer Cloture</button>
-            <button class="cmd-btn" onclick="envoyer('Annonce la remise du prix Best Paper et invite les laureats a recevoir leur prix.')">Remise prix Best Paper</button>
-            <button class="cmd-btn" onclick="envoyer('Conclus la conference sur une note chaleureuse, evoque les perspectives pour IANLP 2027 et invite les participants au moment de convivialite final.')">Mot final & IANLP 2027</button>
-          </div>
+        <p class="phase-desc">Remise des prix Best Paper, mot de cloture, perspectives IANLP 2027.</p>
+        <div class="btn-grid">
+          <button class="cmd-btn primary" onclick="cmdStep(6, 'Lance la ceremonie de cloture de la conference IANLP 2026. Remercie tous les participants, intervenants et organisateurs. Annonce la remise des prix Best Paper. Conclus sur une note positive et evoque les perspectives pour IANLP 2027.')">CMD_CLOTURE_FINALE</button>
+          <button class="cmd-btn" onclick="envoyer('Annonce la remise du prix Best Paper et invite les laureats a recevoir leur prix.')">Remise prix Best Paper</button>
+          <button class="cmd-btn" onclick="envoyer('Conclus la conference sur une note chaleureuse et invite les participants au cocktail de cloture.')">Mot final & Cocktail</button>
         </div>
       </div>
     </div>
