@@ -401,6 +401,7 @@ app.post('/api/research-session-token', async (req, res) => {
       voiceId:  process.env.RESEARCH_VOICE_ID,
       llmId:    process.env.RESEARCH_LLM_ID,
       skipGreeting: false,
+       languageCode: "fr" 
           };
 
     const response = await fetch("https://api.anam.ai/v1/auth/session-token", {
